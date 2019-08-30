@@ -15,8 +15,7 @@
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 	
 */
-<link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Tangerine">
+<link href="https://fonts.googleapis.com/css?family=Chilanka&display=swap" rel="stylesheet">
 
 
 var stylesheet="/*\
@@ -59,7 +58,7 @@ var stylesheet="/*\
     --lightblue:rgba(25,130,237,var(--t))      /*#1982ed*/;\
     --turquoise:rgba(59,248,222,var(--t))      /*#3bf8de*/;\
     --lightyellow:rgba(255,249,201,var(--t))   /*#fff9c9*/;\
-  --font:tangerine, serif;\
+  --font:'Chilanka', cursive;\
   --duration:1s;\
     --scaling:2;\
     --basis-width:calc(1vw);\
