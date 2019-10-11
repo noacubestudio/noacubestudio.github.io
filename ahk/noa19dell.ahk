@@ -6,6 +6,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode, 2
 #InstallKeybdHook
 
+device := "desktop"
 img := "none"
 
 SC056 & a::send ä
@@ -22,11 +23,16 @@ SC056 & 9::send «
 SC056 & 0::send »
 SC056 & b::send •
 SC056 & m::send {Volume_Mute}
+SC056 & w::Tooltip, %A_ScreenWidth%,,
 
 #If (img = "none")
 SC056::
+    if (A_ScreenWidth  > 1920) 
+    {
+    device := "dell"
+    }
     ; SINGLE PRESS
-    SplashImage, C:\Users\Noa\Programs\keyboard\autohotkey scripts\replace.png, b y 2064
+    show("replace", 1032)
     img := "replace"
 return
 
@@ -48,8 +54,8 @@ InputID :=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt") ; (0x4070407 D)
 if (InputID = 0xF0C12000)
     {
     if WinActive("ahk_exe Figma.exe") 
-        SplashImage, C:\Users\Noa\Programs\keyboard\autohotkey scripts\Figma.png, b y 1430
-    else SplashImage, C:\Users\Noa\Programs\keyboard\autohotkey scripts\main.png, b y 1430
+        show("figma", 715)
+    else show("main", 715)
     img := "help"
     }
 else ; wrong language
@@ -108,7 +114,7 @@ return
 :?*:id::
 switch("InDesign", "C:\Program Files\Adobe\Adobe InDesign CC 2019\InDesign.exe")
 return
-:?*:mute::Send {Volume_Mute}
+:?*:mu::{Volume_Mute}
 
 :?*:lorem::
 (
@@ -148,14 +154,25 @@ switch(name, path)
 {
     global img
     if (img = "help")
-        {
+    {
         SplashImage, Off
         img := "none"
-        }
+    }
     IfWinNotExist ahk_exe %name%.exe
     run, "%path%"
     WinWait, ahk_exe %name%.exe
     winactivate, ahk_exe %name%.exe
+}
+
+show(name, ypos)
+{
+    global device
+    if (device := "dell") 
+    {
+        ypos *= 2
+        SplashImage, %A_ScriptDir%/%name%2.png, b y %ypos%
+    }
+    else SplashImage, %A_ScriptDir%/%name%.png, b y %ypos%
 }
 
 ; Dell fix for middle mouse button
@@ -188,3 +205,7 @@ return
 #IfWinActive ahk_exe Firefox.exe
 ; Click on bookmark icon
 ^d::MouseClick,, 3175, 105,, 0.1
+
+
+#IfWinActive noa19dell.ahk
+~^s::Run, noa19dell.ahk
