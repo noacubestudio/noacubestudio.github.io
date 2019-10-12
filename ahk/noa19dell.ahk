@@ -8,6 +8,7 @@ SetTitleMatchMode, 2
 
 device := "desktop"
 img := "none"
+correctInputID := 0x4090409
 
 ; FUNCTION TO CLOSE AND SWITCH
 switch(name, path)
@@ -56,7 +57,9 @@ SC056 & w::Tooltip, %A_ScreenWidth%,,
 SC056::
     if (A_ScreenWidth  > 1920) 
     {
+    ; First setup, if Dell
     device := "dell"
+    correctInputID := 0xF0C12000>
     }
     ; SINGLE PRESS
     show("replace", 1032)
@@ -79,7 +82,7 @@ WinGet, WinID,, A
 ThreadID := DllCall("GetWindowThreadProcessId", "UInt", WinID, "UInt", 0)
 InputID :=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt") ; (0x4070407 D) (0xF0C02000 E)
 SetFormat, Integer, D
-if (InputID = 0xF0C12000)
+if (InputID = correctInputID)
     {
     if WinActive("ahk_exe Figma.exe") 
         show("figma", 715)
@@ -91,11 +94,12 @@ else ; wrong language
     send > 
     CoordMode, ToolTip
     ToolTip, Sprache ist gerade:`n%InputID%, 16, 16
-    Sleep, 1000
+    Sleep, 2500
     ToolTip,
     }
 }
 return
+
 :?*:up::↑
 :?*:down::↓
 :?*:left::←
