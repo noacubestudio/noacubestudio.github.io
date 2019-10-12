@@ -14,18 +14,20 @@ device := "desktop"
 img := "none"
 scale := 1
 correctInputID := 0x4090409
+setupdone := false
 
 setup(width) ; Called on first SC056 press
 {
-    global device, global correctInputID, global scale
+    global device, global correctInputID, global scale, global setupdone
     if (width = 3840) 
     {
         device := "dell"
-        correctInputID := 0xF0C12000>
+        correctInputID := 0xF0C12000
         scale := 2
     }
     else if (width != 1920)
         cornermsg("Weird res detected!", 1500)
+    setupdone := true
 }
 
 
@@ -33,10 +35,9 @@ setup(width) ; Called on first SC056 press
 show(name, h)
 {
     global scale
-    ypos := 1080 - h
-    SplashImage, %A_ScriptDir%/%name%%scale%.png, b y%ypos%*%scale%
+    ypos := (1080 - h) * scale
+    SplashImage, %A_ScriptDir%/%name%%scale%.png, b y%ypos%
 }
-
 
 ; MESSAGE
 cornermsg(string, duration)
@@ -84,7 +85,8 @@ SC056 & w::cornermsg(A_ScreenWidth, 1500)
 ; ONLY WHEN THERE IS NO REPLACE MODE, OR HELP VISIBLE  -------------------------------------------------
 #If (img = "none")
 SC056::
-    setup(A_ScreenWidth)
+    if (setupdone = false)
+        setup(A_ScreenWidth)
     show("replace", 48)
     img := "replace"
 return
@@ -93,7 +95,6 @@ return
 ; IN REPLACE MODE --------------------------------------------------------------------------------------
 #If (img = "replace")
 SC056::
-
 if (A_PriorHotkey <> "SC056" or A_TimeSincePriorHotkey > 400)
 {   
     ; Hide if the second press was not fast enough
@@ -123,8 +124,6 @@ else
         cornermsg("Sprache ist gerade:`n%InputID%", 2500)
     }
 }
-
-
 return
 
 :?*:up::↑
@@ -146,7 +145,6 @@ return
     FormatTime, date,, LongDate
     Send {raw}%date%
 return
-
 
 
 :?*:fig::
