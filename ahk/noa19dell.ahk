@@ -9,6 +9,33 @@ SetTitleMatchMode, 2
 device := "desktop"
 img := "none"
 
+; FUNCTION TO CLOSE AND SWITCH
+switch(name, path)
+{
+    global img
+    if (img = "help")
+    {
+        SplashImage, Off
+        img := "none"
+    }
+    IfWinNotExist ahk_exe %name%.exe
+    run, "%path%"
+    WinWait, ahk_exe %name%.exe
+    winactivate, ahk_exe %name%.exe
+}
+
+show(name, ypos)
+{
+    global device
+    if (device = "dell") 
+    {
+        ypos *= 2
+        SplashImage, %A_ScriptDir%/%name%2.png, b y%ypos%
+    }
+    else 
+        SplashImage, %A_ScriptDir%/%name%.png, b y%ypos%
+}
+
 SC056 & a::send ä
 SC056 & o::send ö
 SC056 & u::send ü
@@ -51,6 +78,7 @@ SetFormat, Integer, H
 WinGet, WinID,, A
 ThreadID := DllCall("GetWindowThreadProcessId", "UInt", WinID, "UInt", 0)
 InputID :=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt") ; (0x4070407 D) (0xF0C02000 E)
+SetFormat, Integer, D
 if (InputID = 0xF0C12000)
     {
     if WinActive("ahk_exe Figma.exe") 
@@ -149,31 +177,7 @@ return
 
 
 #If
-; FUNCTION TO CLOSE AND SWITCH
-switch(name, path)
-{
-    global img
-    if (img = "help")
-    {
-        SplashImage, Off
-        img := "none"
-    }
-    IfWinNotExist ahk_exe %name%.exe
-    run, "%path%"
-    WinWait, ahk_exe %name%.exe
-    winactivate, ahk_exe %name%.exe
-}
 
-show(name, ypos)
-{
-    global device
-    if (device := "dell") 
-    {
-        ypos *= 2
-        SplashImage, %A_ScriptDir%/%name%2.png, b y %ypos%
-    }
-    else SplashImage, %A_ScriptDir%/%name%.png, b y %ypos%
-}
 
 ; Dell fix for middle mouse button
 <#<^<+F22::Send {Mbutton}
