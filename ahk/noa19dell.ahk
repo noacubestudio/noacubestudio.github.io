@@ -1,16 +1,53 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-#Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+﻿#NoEnv  ; performance and compatibility
+#Warn  ; detecting common errors
+SendMode Input  ; speed and reliability
+SetWorkingDir %A_ScriptDir%
 #SingleInstance, force
+
 SetTitleMatchMode, 2
 #InstallKeybdHook
 
+
+
+; SETUP
 device := "desktop"
 img := "none"
+scale := 1
 correctInputID := 0x4090409
 
-; FUNCTION TO CLOSE AND SWITCH
+setup(width) ; Called on first SC056 press
+{
+    global device, global correctInputID, global scale
+    if (width = 3840) 
+    {
+        device := "dell"
+        correctInputID := 0xF0C12000>
+        scale := 2
+    }
+    else if (width != 1920)
+        cornermsg("Weird res detected!", 1500)
+}
+
+
+; SHOW IMAGE centered x
+show(name, h)
+{
+    global scale
+    ypos := 1080 - h
+    SplashImage, %A_ScriptDir%/%name%%scale%.png, b y%ypos%*%scale%
+}
+
+
+; MESSAGE
+cornermsg(string, duration)
+{
+    CoordMode, ToolTip
+    ToolTip, %string%, 8, 8
+    Sleep, %duration%
+    ToolTip,
+}
+
+; OPEN OR SWITCH TO APP
 switch(name, path)
 {
     global img
@@ -25,18 +62,8 @@ switch(name, path)
     winactivate, ahk_exe %name%.exe
 }
 
-show(name, ypos)
-{
-    global device
-    if (device = "dell") 
-    {
-        ypos *= 2
-        SplashImage, %A_ScriptDir%/%name%2.png, b y%ypos%
-    }
-    else 
-        SplashImage, %A_ScriptDir%/%name%.png, b y%ypos%
-}
 
+; ALWAYS  ---------------------------------------------------------------------------------------------
 SC056 & a::send ä
 SC056 & o::send ö
 SC056 & u::send ü
@@ -51,53 +78,53 @@ SC056 & 9::send «
 SC056 & 0::send »
 SC056 & b::send •
 SC056 & m::send {Volume_Mute}
-SC056 & w::Tooltip, %A_ScreenWidth%,,
+SC056 & w::cornermsg(A_ScreenWidth, 1500)
 
+
+; ONLY WHEN THERE IS NO REPLACE MODE, OR HELP VISIBLE  -------------------------------------------------
 #If (img = "none")
 SC056::
-    if (A_ScreenWidth  > 1920) 
-    {
-    ; First setup, if Dell
-    device := "dell"
-    correctInputID := 0xF0C12000>
-    }
-    ; SINGLE PRESS
-    show("replace", 1032)
+    setup(A_ScreenWidth)
+    show("replace", 48)
     img := "replace"
 return
 
+
+; IN REPLACE MODE --------------------------------------------------------------------------------------
 #If (img = "replace")
 SC056::
+
 if (A_PriorHotkey <> "SC056" or A_TimeSincePriorHotkey > 400)
-{
-    ; SINGLE PRESS
+{   
+    ; Hide if the second press was not fast enough
     KeyWait, SC056
     SplashImage, Off
     img := "none"
-    return
 }
-{ ; DOUBLE PRESS
-SetFormat, Integer, H
-WinGet, WinID,, A
-ThreadID := DllCall("GetWindowThreadProcessId", "UInt", WinID, "UInt", 0)
-InputID :=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt") ; (0x4070407 D) (0xF0C02000 E)
-SetFormat, Integer, D
-if (InputID = correctInputID)
+else
+{
+    ; Double press happened, get InputID
+    SetFormat, Integer, H
+    WinGet, WinID,, A
+    ThreadID := DllCall("GetWindowThreadProcessId", "UInt", WinID, "UInt", 0)
+    InputID :=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt") ; (0x4070407 D) (0xF0C02000 E)
+    SetFormat, Integer, D
+
+    if (InputID = correctInputID)
     {
-    if WinActive("ahk_exe Figma.exe") 
-        show("figma", 715)
-    else show("main", 715)
-    img := "help"
+        if WinActive("ahk_exe Figma.exe") 
+        show("figma", 365)
+        else show("main", 365)
+        img := "help"
     }
-else ; wrong language
+    else
     {
-    send > 
-    CoordMode, ToolTip
-    ToolTip, Sprache ist gerade:`n%InputID%, 16, 16
-    Sleep, 2500
-    ToolTip,
+        send > 
+        cornermsg("Sprache ist gerade:`n%InputID%", 2500)
     }
 }
+
+
 return
 
 :?*:up::↑
@@ -119,6 +146,9 @@ return
     FormatTime, date,, LongDate
     Send {raw}%date%
 return
+
+
+
 :?*:fig::
 switch("Figma", "C:\Users\Noa\AppData\Local\Figma\Figma.exe")
 return
@@ -180,15 +210,14 @@ return
 return
 
 
-#If
-
-
-; Dell fix for middle mouse button
+#If (device = "Dell")
+;fix for middle mouse button
 <#<^<+F22::Send {Mbutton}
 return
 
-; Adjust volume by scrolling the mouse wheel over the taskbar.
+
 #If MouseIsOver("ahk_class Shell_TrayWnd")
+; Adjust volume by scrolling the mouse wheel over the taskbar.
 WheelUp::Send {Volume_Up 2}
 WheelDown::Send {Volume_Down 2}
 
@@ -198,7 +227,6 @@ MouseIsOver(WinTitle) {
 }
 
 
-;FIGMA
 #IfWinActive ahk_exe Figma.exe
 F3::
     send ^'
@@ -209,7 +237,6 @@ F4::
 return
 
 
-;FIREFOX
 #IfWinActive ahk_exe Firefox.exe
 ; Click on bookmark icon
 ^d::MouseClick,, 3175, 105,, 0.1
