@@ -190,15 +190,15 @@ Das hier ist der nützlichste und klügste Blindtext der ganzen Welt, weil er di
 
 #If (img = "help")
 ; Launch
-f::switch("Figma", "C:\Users\Noa\AppData\Local\Figma\Figma.exe")
-c::switch("Code", "C:\Users\Noa\AppData\Local\Programs\Microsoft VS Code\Code.exe")
-b::switch("Firefox", "C:\ProgramData\TileIconify\Firefox\Firefox.vbs")
-s::switch("Spotify", "C:\Users\Noa\AppData\Roaming\Spotify\Spotify.exe")
-d::switch("Discord", "C:\Users\Noa\AppData\Local\Discord\Update.exe")
-l::switch("Left", "C:\Users\Noa\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Left.lnk")
+f::switch("Figma",       "C:\Users\Noa\AppData\Local\Figma\Figma.exe")
+c::switch("Code",        "C:\Users\Noa\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+b::switch("Firefox",     "C:\ProgramData\TileIconify\Firefox\Firefox.vbs")
+s::switch("Spotify",     "C:\Users\Noa\AppData\Roaming\Spotify\Spotify.exe")
+d::switch("Discord",     "C:\Users\Noa\AppData\Local\Discord\Update.exe")
+l::switch("Left",        "C:\Users\Noa\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Left.lnk")
 a::switch("Illustrator", "C:\Program Files\Adobe\Adobe Illustrator CC 2019\Support Files\Contents\Windows\Illustrator.exe")
-p::switch("Photoshop", "C:\Program Files\Adobe\Adobe Photoshop CC 2019\Photoshop.exe")
-i::switch("InDesign", "C:\Program Files\Adobe\Adobe InDesign CC 2019\InDesign.exe")
+p::switch("Photoshop",   "C:\Program Files\Adobe\Adobe Photoshop CC 2019\Photoshop.exe")
+i::switch("InDesign",    "C:\Program Files\Adobe\Adobe InDesign CC 2019\InDesign.exe")
 
 SC056::
     SplashImage, Off
