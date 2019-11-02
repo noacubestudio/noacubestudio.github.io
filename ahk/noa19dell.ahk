@@ -120,8 +120,8 @@ else
     }
     else
     {
-        send > 
-        cornermsg("Sprache ist gerade:`n%InputID%", 2500)
+        message := "Sprache ist gerade:`n" + InputID
+        cornermsg(message, 2500)
     }
 }
 return
@@ -240,7 +240,7 @@ return
 
 #IfWinActive ahk_exe Firefox.exe
 ; Click on bookmark icon
-^d::MouseClick,, 3175, 105,, 0.1
+^d::MouseClick,, 1587 * scale, 52 * scale,, 0.1
 
 
 #IfWinActive noa19dell.ahk
