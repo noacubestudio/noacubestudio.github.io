@@ -4,3 +4,24 @@ When you collect multiple heart pieces in a single generated maze, you can gain 
 Move over tiles with no neighbour walls to spawn heart pieces there in the next turn.
 You can push walls, even over heart pieces, as long as there are no other walls in the way.
 Bonus challenge: have as many heart pieces as possible left over when winning the level :)
+
+level 2
+Moving onto a finish tile without collecting any heart pieces will cost you one heart, indicated in brown.
+When you collect multiple heart pieces in a single generated maze, you can gain an extra heart and refill them all!
+Move over tiles with no neighbour walls to spawn heart pieces there in the next turn.
+You can push walls, even over heart pieces, as long as there are no other walls in the way.
+Bonus challenge: have as many heart pieces as possible left over when winning the level :)
+
+level 3
+Moving onto a finish tile without collecting any heart pieces will cost you one heart, indicated in brown.
+When you collect multiple heart pieces in a single generated maze, you can gain an extra heart and refill them all!
+Move over tiles with no neighbour walls to spawn heart pieces there in the next turn.
+You can push walls, even over heart pieces, as long as there are no other walls in the way.
+Bonus challenge: have as many heart pieces as possible left over when winning the level :)
+
+level 4
+Moving onto a finish tile without collecting any heart pieces will cost you one heart, indicated in brown.
+When you collect multiple heart pieces in a single generated maze, you can gain an extra heart and refill them all!
+Move over tiles with no neighbour walls to spawn heart pieces there in the next turn.
+You can push walls, even over heart pieces, as long as there are no other walls in the way.
+Bonus challenge: have as many heart pieces as possible left over when winning the level :)
