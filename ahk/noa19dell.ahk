@@ -238,9 +238,9 @@ F4::
 return
 
 
-#IfWinActive ahk_exe Firefox.exe
-; Click on bookmark icon
-^d::MouseClick,, 1587 * scale, 52 * scale,, 0.1
+; #IfWinActive ahk_exe Firefox.exe
+; ; Click on bookmark icon
+; ^d::MouseClick,, 1587 * scale, 52 * scale,, 0.1
 
 
 #IfWinActive noa19dell.ahk

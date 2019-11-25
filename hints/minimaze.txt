@@ -1,9 +1,8 @@
 level 1
-Moving onto the tile at the other side will generate the maze, but cost you one heart. 
+Moving onto the tile at the other side of the room will generate a new maze, but that also costs you one heart. 
 You can move through the maze on the normal path or push walls around, even with other things behind them.
 Collect heart pieces to not lose a heart in the next room, and refill lost hearts. When you collect multiple heart pieces in a single generated maze, you can gain an extra heart and refill them all!
-Move over tiles with no neighbour walls to spawn heart pieces there in the next turn. Collecting those will in turn spawn something at the last one...
-...a box that can be pushed around but might be in your way! So think about where you would not want that to appear beforehand.
+Move over tiles with no neighbour walls to spawn heart pieces there in the next turn. Collecting those will in turn spawn a box that can be pushed around but might be in your way! So think about where you would not want that to appear beforehand.
 Bonus challenge: have as many heart pieces as possible left over when winning the level :)
 
 level 2
