@@ -126,6 +126,26 @@ else
 }
 return
 
+#If (img = "replace") and (WinActive("ahk_class CabinetWClass")) ; Works in explorer
+; view modes
+1::send ^+1 send {SC056}
+2::send ^+2
+3::send ^+3
+4::send ^+6
+5::send ^+7
+6::send ^+8
+7::send ^+4
+8::send ^+5
+; new
+f::send ^+f
+t::send ^+t
+; copy paste
+p::send ^+c
+c::send ^+x
+; misc
+k::send ^+p
+
+#If (img = "replace")
 :?*:.a::Ä
 :?*:.o::Ö
 :?*:.u::Ü
@@ -245,3 +265,6 @@ return
 
 #IfWinActive noa19dell.ahk
 ~^s::Run, noa19dell.ahk
+
+
+
