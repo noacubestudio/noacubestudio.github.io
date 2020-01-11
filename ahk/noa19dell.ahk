@@ -149,6 +149,9 @@ k::send ^+p
 :?*:.a::Ä
 :?*:.o::Ö
 :?*:.u::Ü
+:?*:aa::Ä
+:?*:oo::Ö
+:?*:uu::Ü
 :?*:up::↑
 :?*:down::↓
 :?*:left::←
@@ -156,8 +159,18 @@ k::send ^+p
 :?*:sharp::ẞ
 :?*:emdash::—
 :?*:longdash::―
+:?*:degree::°
+:?*:degrees::°
+:?*:trademark::™
+:?*:tm::™
+:?*:copyright::©
+:?*:(c))::©
+:?*:registered::®
+:?*:(r)::®
 :?*:...::…
 :?*:shrug::¯\_(ツ)_/¯
+:?*:lenny::( ͡° ͜ʖ ͡°)
+:?*:run::browser-sync start --server -f -w
 :?*:time::
     time := A_now
     FormatTime, time,, Time
