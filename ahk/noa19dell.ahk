@@ -81,6 +81,10 @@ SC056 & b::send •
 SC056 & m::send {Volume_Mute}
 SC056 & w::cornermsg(A_ScreenWidth, 1500)
 
+:?*:ää::Ä
+:?*:üü::Ü
+:?*:öö::Ö
+:?*:ßß::ẞ
 
 ; ONLY WHEN THERE IS NO REPLACE MODE, OR HELP VISIBLE  -------------------------------------------------
 #If (img = "none")
