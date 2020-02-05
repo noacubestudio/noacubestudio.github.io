@@ -174,6 +174,7 @@ k::send ^+p
 :?*:...::…
 :?*:shrug::¯\_(ツ)_/¯
 :?*:lenny::( ͡° ͜ʖ ͡°)
+:?*:4k::3840 x 2160
 :?*:run::browser-sync start --server -f -w
 :?*:time::
     time := A_now
