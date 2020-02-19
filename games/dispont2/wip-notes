@@ -1,0 +1,51 @@
+DISPONTIBUS2IDS
+
+FLOOR
+• Shapes
+  • Get color from boxes
+  • Connected to energy: won't sink
+  • Players and boxes can't move off them
+• Geysir
+  • Energy source keeping everything connected afloat
+  • Swimming players turn into regular players on this
+  • Single floor piece and player spawn, doesn't move
+• Walls?
+  • On top of shapes
+  • Solid, but move with shapes
+• Glue
+  • ???
+
+BOXES
+• Can move multiple in a row?
+• Move box
+  • whole shape moves
+• Rotate box
+  • rotate around box 
+  • when in holder, gets handle
+  • if handle has to be turned, but can't rotate
+    still turn handle)
+• Snake box
+  • if snake shape: move in direction
+• Shift box
+  • moves just a row
+  • useful for disconnecting/ splitting/ sinking as well
+• Mirror box?
+  • mirror in move axis, across box point
+• Mistake box (combination)
+  • after you pushed multiple boxes into same shape,
+  • they all turn into these
+
+OBJECTS
+• Holders
+  • sometimes with objects in them already
+  • grab boxes, so you can have multiple per shape
+  • pushing won't move boxes out, but activate them
+  • move into goals to empty holders again
+• Fish powerup
+  • if you were on a sinking platform, you can start swimming
+  • push shapes from the sides, activates their box type
+
+
+GOALS
+• all box types
+

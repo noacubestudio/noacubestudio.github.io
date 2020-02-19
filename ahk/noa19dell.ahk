@@ -65,6 +65,7 @@ switch(name, path)
 
 
 ; ALWAYS  ---------------------------------------------------------------------------------------------
+SC056 & n::send :noa
 SC056 & a::send ä
 SC056 & o::send ö
 SC056 & u::send ü
@@ -172,6 +173,7 @@ k::send ^+p
 :?*:registered::®
 :?*:(r)::®
 :?*:...::…
+:?*:nsh::`:noaleftshrug`:`:noashrug`:`:noarightshrug`:
 :?*:shrug::¯\_(ツ)_/¯
 :?*:lenny::( ͡° ͜ʖ ͡°)
 :?*:4k::3840 x 2160

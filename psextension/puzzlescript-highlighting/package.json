@@ -1,0 +1,25 @@
+{
+    "name": "puzzlescript-highlighting",
+    "displayName": "PuzzleScript Highlighting",
+    "description": "Colors for Puzzlescript in VSCode",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.42.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "psscript",
+            "aliases": ["puzzlescript", "psscript"],
+            "extensions": [".txt"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "psscript",
+            "scopeName": "source.puzzlescript",
+            "path": "./syntaxes/psscript.tmLanguage.json"
+        }]
+    }
+}
