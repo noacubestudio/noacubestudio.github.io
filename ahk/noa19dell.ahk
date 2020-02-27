@@ -1,5 +1,5 @@
-﻿#NoEnv  ; performance and compatibility
-#Warn  ; detecting common errors
+﻿#NoEnv          ; performance and compatibility
+#Warn           ; detecting common errors
 SendMode Input  ; speed and reliability
 SetWorkingDir %A_ScriptDir%
 #SingleInstance, force
@@ -8,8 +8,7 @@ SetTitleMatchMode, 2
 #InstallKeybdHook
 
 
-
-; SETUP
+; SETUP, start with these defaults for desktop
 device := "desktop"
 img := "none"
 scale := 1
@@ -26,7 +25,7 @@ setup(width) ; Called on first SC056 press
         scale := 2
     }
     else if (width != 1920)
-        cornermsg("Weird res detected!", 1500)
+        cornermsg("Screen width was %width%, must be 3840 or 1920", 1500)
     setupdone := true
 }
 
@@ -36,7 +35,7 @@ show(name, h)
 {
     global scale
     ypos := (1080 - h) * scale
-    SplashImage, %A_ScriptDir%/%name%%scale%.png, b y%ypos%
+    SplashImage, %A_ScriptDir%/images/%name%%scale%.png, b y%ypos%
 }
 
 ; MESSAGE
@@ -82,12 +81,7 @@ SC056 & b::send •
 SC056 & m::send {Volume_Mute}
 SC056 & w::cornermsg(A_ScreenWidth, 1500)
 
-:?*:ää::Ä
-:?*:üü::Ü
-:?*:öö::Ö
-:?*:ßß::ẞ
-
-; ONLY WHEN THERE IS NO REPLACE MODE, OR HELP VISIBLE  -------------------------------------------------
+; NO OPEN IMAGE  -------------------------------------------------
 #If (img = "none")
 SC056::
     if (setupdone = false)
