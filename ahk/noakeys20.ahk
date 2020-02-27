@@ -30,10 +30,13 @@ else if (A_ScreenWidth == 1920)
     scale := 1
     ; cursorMessage("Device: Desktop", 1500)
 }
-else 
-    cursorMessage("Screen width was %width%, must be 3840 or 1920", 1500)
-setupdone := true
+else cursorMessage("Screen width was %width%, must be 3840 or 1920", 1500)
 
+; Store long strings in variables
+FileRead, loremText, %A_ScriptDir%/text/loremipsum.txt
+RegWrite, REG_SZ, HKEY_CURRENT_USER, software\KeyHintText,value1,%loremText%
+
+setupdone := true
 
 ; FUNCTIONS -------------------------------------------------------------
 ; SHOW IMAGE centered horizontally
@@ -82,6 +85,7 @@ switch(name)
 }
 
 ; HOTKEYS -----------------------------------------------------------
+
 ; While holding SC056 (next to shift)
 SC056::
     ; Show image
@@ -93,9 +97,11 @@ SC056::
     }
 
     ; Use string input
-    Input, typed
+    Input, typed, C, {enter}
     switch typed
     {
+        default:    cursorMessage(typed, 1200)
+
         ; Apps
         case "1":   switch("Firefox")
         case "2":   switch("Figma")
@@ -120,12 +126,12 @@ SC056::
         case "ss":  Send, {U+1E9E} ; ẞ
 
         ; Punctuation
-        case "b":   Send, {U+2022} ; bullet
+        case "b":   Send, {U+2022}{Space} ; bullet
         case "-":   Send, {U+2013} ; en dash
         case "--":  Send, {U+2014} ; 1em dash
         case "---": Send, {U+2E3A} ; 2em dash
         case "...": Send, {U+2026} ; ellipsis
-        case "i":  Send, {U+203D} ; interrobang
+        case "i":   Send, {U+203D} ; interrobang
         
         case "=":   Send, {U+2011} ; non breaking hyphen
         case "==":  Send, {U+00A0} ; non breaking space
@@ -147,7 +153,7 @@ SC056::
         case "e":   Send, {U+20AC} ; euro
         case "r":   Send, {U+00AE} ; registered
         case "tm":  Send, {U+2122} ; trademark
-        case "c":   Send, {U+00A9} ; copyright
+        case "c":   Send, {U+00A9}{Space} ; copyright
 
         ; Arrows
         case "ll":  Send, {U+2190} ; ← leftwards arrow
@@ -163,17 +169,30 @@ SC056::
 
         ; Emoji & Chat
         case "n":   Send, :noa
-        ; ¯\_(ツ)_/¯ ; ಠ_ಠ ; (͡° ͜ʖ ͡°)
-        case "idk":  Send, {U+00AF}{U+005C}_{U+0028}{U+30C4}{U+0029}_/{U+00AF} 
-        case "duh":  Send, {U+0CA0}_{U+0CA0}
-        case "len":  Send, {U+0028}{U+0361}{U+00B0}{U+0020}{U+035C}{U+0296}{U+0020}{U+0361}{U+00B0}{U+0029}
+        case "idk": Send, {U+00AF}{U+005C}_{U+0028}{U+30C4}{U+0029}_/{U+00AF}  ; ¯\_(ツ)_/¯
+        case "duh": Send, {U+0CA0}_{U+0CA0} ; ಠ_ಠ
+        case "len": Send, {U+0028}{U+0361}{U+00B0}{U+0020}{U+035C}{U+0296}{U+0020}{U+0361}{U+00B0}{U+0029} ; (͡° ͜ʖ ͡°)
+
+        case "bb":  Send, {Home}{Delete 2}:noanew:{Space}{End}
+        case "nn":  Send, {Home}{Delete 2}:noanext:{Space}{End}
+        case "\":   Send, {Home}{Delete 2}:noatodo:{Space}{End}
+        case "ww":  Send, {Home}{Delete 2}:noawip:{Space}{End}
+        case "\\":  Send, {Home}{Delete 2}:noadone:{Space}{End}
+        case "\\\": Send, {Home}{Delete 2}:noacancel:{Space}{End}
+        case "v": Send, {End}{Shift down}{Enter}{Shift up}:noaempty:{Space}
+
+        ; Text
+        case "lp":
+            Clipboard := loremText
+            Send ^v
+        return
 
         ; Technical
-        case "run":  Send, browser-sync start --server -f -w
-        case "w":    cursorMessage(A_ScreenWidth, 1500)
+        case "run": Send, browser-sync start --server -f -w
+        case "w":   cursorMessage(A_ScreenWidth, 1500)
         
         ; Actions
-        case "m":    Send, {Volume_Mute}
+        case "m":   Send, {Volume_Mute}
         case "t":   
             time := A_now
             FormatTime, time,, Time
@@ -199,10 +218,10 @@ SC056::
         case "a4":  cursorMessage("210 x 297 mm`n2480 x 3508 px", 2500)
         case "a5":  cursorMessage("148 x 210 mm`n1748 x 2480 px", 2500)
         case "a6":  cursorMessage("105 x 148 mm`n1240 x 1748 px", 2500)
-
     }
 return
 
+; After pressed (again), hide images and tooltips, reset input
 *SC056 UP::
     Input,
     SplashImage, Off
@@ -210,7 +229,7 @@ return
     ToolTip,
 return
 
-; OTHER USEFUL STUFF -------------------------------------------------
+; OTHER USEFUL STUFF -------------------------------------------------------
 
 ; Fix for middle mouse on XPS.
 #If (device = "xps")
@@ -227,7 +246,7 @@ MouseIsOver(WinTitle) {
     return WinExist(WinTitle . " ahk_id " . Win)
 }
 
-; Custom shortcuts for FIGMA
+; Custom shortcuts for Figma.
 #IfWinActive ahk_exe Figma.exe
 F3::
     send ^'
