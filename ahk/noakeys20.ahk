@@ -9,10 +9,18 @@ SetTitleMatchMode, 2
 
 ; Startup folder is in Win+R shell:startup
 
+; #Persistent
+; CoordMode, Mouse, Screen
+; SetTimer, MousePos, On
+; Exit
+; 
+; MousePos:
+; 	MouseGetPos, x, y
+; 	ToolTip, % "x: " x "`ny: " y
+; return
 
 ; SETUP -----------------------------------------------------------------
 img := false
-setupdone := false
 scale := 1
 correctInputID := 0
 
@@ -36,15 +44,25 @@ else cursorMessage("Screen width was %width%, must be 3840 or 1920", 1500)
 FileRead, loremText, %A_ScriptDir%/text/loremipsum.txt
 RegWrite, REG_SZ, HKEY_CURRENT_USER, software\KeyHintText,value1,%loremText%
 
-setupdone := true
 
 ; FUNCTIONS -------------------------------------------------------------
 ; SHOW IMAGE centered horizontally
 bottomImage(name, h)
 {
+    winHandle := WinExist("A") ; The window to operate on
+    VarSetCapacity(monitorInfo, 40), NumPut(40, monitorInfo)
+    monitorHandle := DllCall("MonitorFromWindow", "Ptr", winHandle, "UInt", 0x2)
+    DllCall("GetMonitorInfo", "Ptr", monitorHandle, "Ptr", &monitorInfo)
+
+    workLeft      := NumGet(monitorInfo, 20, "Int") ; Left
+    workTop       := NumGet(monitorInfo, 24, "Int") ; Top
+    workRight     := NumGet(monitorInfo, 28, "Int") ; Right
+    workBottom    := NumGet(monitorInfo, 32, "Int") ; Bottom
+
     global scale
+    xpos := workLeft
     ypos := (1080 - h) * scale
-    SplashImage, %A_ScriptDir%/images/%name%%scale%.png, b y%ypos%
+    SplashImage, %A_ScriptDir%/images/%name%%scale%.png, b x%xpos% y%ypos%
 }
 
 topImage(name)
@@ -81,23 +99,23 @@ switch(name)
     IfWinNotExist ahk_exe %name%.exe
     run, "%path%"
     WinWait, ahk_exe %name%.exe
-    winactivate, ahk_exe %name%.exe
+    if WinActive("ahk_exe %name%.exe")
+        ToolTip, ALREADY ACTIVE
+    Else
+        winactivate, ahk_exe %name%.exe
 }
 
 ; HOTKEYS -----------------------------------------------------------
 
 ; While holding SC056 (next to shift)
 SC056::
-    ; Show image
-    ; topImage("replace")
+    ; Show ToolTip
     global img
     if (img = false)
-    {
         ToolTip, REPLACE MODE
-    }
 
     ; Use string input
-    Input, typed, C, {enter}
+    Input, typed, C
     switch typed
     {
         default:    cursorMessage(typed, 1200)
@@ -156,9 +174,9 @@ SC056::
         case "c":   Send, {U+00A9}{Space} ; copyright
 
         ; Arrows
-        case "ll":  Send, {U+2190} ; ← leftwards arrow
+        case "l":   Send, {U+2190} ; ← leftwards arrow
         case "up":  Send, {U+2191} ; ↑ upwards arrow
-        case "rr":  Send, {U+2192} ; rightwards arrow
+        case "r":   Send, {U+2192} ; rightwards arrow
         case "do":  Send, {U+2193} ; downwards arrow
         case "lr":  Send, {U+2194} ; left right arrow
         case "ud":  Send, {U+2195} ; up down arrow
@@ -167,19 +185,10 @@ SC056::
         case "dr":  Send, {U+2198} ; down left arrow
         case "dl":  Send, {U+2199} ; down right arrow
 
-        ; Emoji & Chat
-        case "n":   Send, :noa
+        ; Emoticons
         case "idk": Send, {U+00AF}{U+005C}_{U+0028}{U+30C4}{U+0029}_/{U+00AF}  ; ¯\_(ツ)_/¯
         case "duh": Send, {U+0CA0}_{U+0CA0} ; ಠ_ಠ
         case "len": Send, {U+0028}{U+0361}{U+00B0}{U+0020}{U+035C}{U+0296}{U+0020}{U+0361}{U+00B0}{U+0029} ; (͡° ͜ʖ ͡°)
-
-        case "bb":  Send, {Home}{Delete 2}:noanew:{Space}{End}
-        case "nn":  Send, {Home}{Delete 2}:noanext:{Space}{End}
-        case "\":   Send, {Home}{Delete 2}:noatodo:{Space}{End}
-        case "ww":  Send, {Home}{Delete 2}:noawip:{Space}{End}
-        case "\\":  Send, {Home}{Delete 2}:noadone:{Space}{End}
-        case "\\\": Send, {Home}{Delete 2}:noacancel:{Space}{End}
-        case "v": Send, {End}{Shift down}{Enter}{Shift up}:noaempty:{Space}
 
         ; Text
         case "lp":
@@ -193,6 +202,12 @@ SC056::
         
         ; Actions
         case "m":   Send, {Volume_Mute}
+        case "ll":                ; Toggle Caps Lock
+            if GetKeyState("Capslock", "T") = 1
+                SetCapsLockState, Off
+            else
+                SetCapsLockState, On
+        case "p":   Send, #+S     ; Start Snipping Tool
         case "t":   
             time := A_now
             FormatTime, time,, Time
@@ -206,7 +221,7 @@ SC056::
 
         ; Cheatsheet
         case "h":
-            bottomImage("cheat-red", 300)
+            bottomImage("cheat-home", 300)
             img := true
         return
 
@@ -223,6 +238,100 @@ return
 
 ; After pressed (again), hide images and tooltips, reset input
 *SC056 UP::
+    Input,
+    SplashImage, Off
+    img := false
+    ToolTip,
+return
+
+; PROGRAM SPECIFIC ---------------------------------------------------------
+
+#IfWinActive ahk_exe Discord.exe
+SC055::
+    global img
+    if (img = false)
+    {
+        ToolTip, DISCORD
+    }
+
+    ; Use string input
+    Input, typed, C
+
+    ; Any emoji
+    if (SubStr(typed, 1, 1) = "n") 
+    {
+        typed := LTrim(typed, OmitChars := "n")
+        Send, :noa%typed%:
+        return
+    }
+
+    ; Switch to look for letters
+    switch typed
+    {
+        default:   cursorMessage(typed, 1200)
+
+        ; Structure
+        case "b":  Send, {End}+{Enter}:noabullet:{Space}
+        case "bb": Send, {Home}{Delete 2}:noabullet:{Space}{End}
+        case "e":  Send, {End}+{Enter}:noaempty:{Space}
+        case "ee": Send, {Home}{Delete 2}:noaempty:{Space}{End}
+        case "r":  Send, {End}+{Enter}:noaright:{Space}
+        case "rr": Send, {Home}{Delete 2}:noaright:{Space}{End}
+        case "p":  Send, {End}+{Enter}:noaplus:{Space}
+        case "pp": Send, {Home}{Delete 2}:noaplus:{Space}{End}
+
+        ; Todo
+        case "t":  Send, {End}+{Enter}:noatodo:{Space}
+        case "tt": Send, {Home}{Delete 2}:noatodo:{Space}{End}
+        case "w":  Send, {End}+{Enter}:noawip:{Space}
+        case "ww": Send, {Home}{Delete 2}:noawip:{Space}{End}
+        case "d":  Send, {End}+{Enter}:noadone:{Space}
+        case "dd": Send, {Home}{Delete 2}:noadone:{Space}{End}
+        case "c":  Send, {End}+{Enter}:noacancelled:{Space}
+        case "cc": Send, {Home}{Delete 2}:noacancelled:{Space}{End}
+
+        ; Emoji
+        case "s":  Send, :noaleftshrug::noarightshrug:{Space}
+
+        ; Cheatsheet
+        case "h":
+            bottomImage("cheat-discord", 300)
+            img := true
+        return
+    }
+return
+
+#IfWinActive ahk_exe Figma.exe
+SC055::
+    global img
+    if (img = false)
+    {
+        ToolTip, FIGMA
+    }
+
+    ; Use string input
+    Input, typed, C
+    switch typed
+    {
+        default:   cursorMessage(typed, 1200)
+
+        case "s":  
+            Send, +x
+            sleep 50
+            Send, i
+            sleep 200
+            Send, {Click}
+            sleep 50
+            Send, +x
+        case "g": send ^+4
+        case "p":
+            send ^'
+            send ^+'
+    }
+return
+
+#If
+*SC055 UP::
     Input,
     SplashImage, Off
     img := false
