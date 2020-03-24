@@ -70,6 +70,10 @@ active
 transparent
 local
 transparent
+nosink
+transparent
+raftdead
+transparent
 
 selectedraft
 transparent
@@ -78,7 +82,7 @@ transparent
 
 boxindiv
 transparent
-onebox
+frombox
 transparent
 
 (shapes move)
@@ -107,6 +111,8 @@ testraft
 transparent
 testplayer
 transparent
+testpush
+transparent
 testmove
 transparent
 testrota
@@ -117,12 +123,6 @@ testbomb
 transparent
 testland
 transparent
-testspotmove
-transparent
-testspotrota
-transparent
-testspotsnek
-transparent
 testhstick
 transparent
 testvstick
@@ -130,6 +130,8 @@ transparent
 testglue
 transparent
 testwall
+transparent
+testholder
 transparent
 
 (MOVE)
@@ -260,16 +262,14 @@ rsnek
 transparent
 lsnek
 transparent
-vsegment
+vsneksegment
 transparent
-hsegment
+hsneksegment
 transparent
 
 prev
 transparent
 
-nosnake
-transparent
 
 (bomb)
 vcut
@@ -781,16 +781,6 @@ transparent
 .....
 .....
 
-(raft colors)
-
-raftdead
-#692c38
-.....
-.0.0.
-..0..
-.0.0.
-.....
-
 (player, boxes)
 
 player 
@@ -909,16 +899,18 @@ rwyel
 0....
 1....
 
+(BOXES)
+
+boxpush
+#8f4d57 #bd6a62 #52333f
+00000
+00220
+02020
+12201
+11111
+
 (move boxes will make shapes movable with a push)
 boxmove
-#cf752b #f0b541
-11011
-10001
-00000
-10001
-11011
-
-boxmoveon
 #cf752b #f0b541
 11011
 10001
@@ -935,24 +927,8 @@ boxrota
 10000
 11100
 
-boxrotaon
-#e64539 #ff8933
-00111
-00001
-10101
-10000
-11100
-
 (snake boxes will make linear shapes move like a snake, starting from the box)
 boxsnek
-#63ab3f #c8d45d
-00000
-00000
-11011
-00000
-00000
-
-boxsnekon
 #63ab3f #c8d45d
 00000
 10001
@@ -960,60 +936,38 @@ boxsnekon
 01010
 00000
 
+sleepysnek
+#63ab3f #c8d45d
+00000
+00000
+11011
+00000
+00000
+
 (sticks)
 hstick
-#a47e57 #3c1a1a
+#8f4d57 #14182e
 .....
-00000
-00000
+11111
+10001
 11111
 .....
 
 vstick
-#a47e57 #3c1a1a
-.001.
-.001.
-.001.
-.001.
-.001.
+#bd6a62 #14182e #52333f
+.111.
+.101.
+.101.
+.101.
+.121.
 
-ustick
-#925b39
-.....
-.....
-.....
-.....
-.00..
 dstick
-#3c1a1a
+#14182e
 .000.
 .....
 .....
 .....
 .....
-lstick
-#925b39 #3c1a1a
-.....
-....0
-....0
-....1
-.....
-rstick
-#925b39 #3c1a1a
-.....
-0....
-0....
-1....
-.....
-
-(overlay for boxes that can't be used)
-boxdead
-#33111170
-00000
-00000
-00000
-00000
-00000
 
 (collision happened! Show the cross to show where exactly.)
 cross
@@ -1026,9 +980,6 @@ cross
 
 sink
 #14182e90
-
-nosink
-transparent
 
 (win)
 goalplayer
@@ -1068,15 +1019,15 @@ goalwin
 .0...
 
 glue
-#925b39 #642D1F
-00100
-00100
-00100
-00100
-00100
+#8f4d57 #bd6a62 #14182e
+22222
+11011
+11011
+11011
+22222
 
 glueside
-#3c1a1a #05081930
+#14182e #14182e50
 10001
 11.11
 .....
@@ -1084,12 +1035,22 @@ glueside
 .....
 
 gluewide
-#925b39 #642D1F
-00000
-00000
-11111
-00000
-00000
+#8f4d57 #bd6a62 #14182e
+21112
+21112
+20002
+21112
+21112
+
+holder
+#14182e
+.....
+.000.
+.0.0.
+.000.
+.....
+
+
 
 =======
 LEGEND
@@ -1104,23 +1065,27 @@ s = land
 m = boxmove and raft
 r = boxrota and raft
 n = boxsnek and raft
+o = boxpush and land
+p = holder and raft
+q = boxpush and holder and raft
 f = goalplayer
 h = goalmove
 i = goalrota
 j = goalsnek
-a = hstick and raft
-b = vstick and raft
+a = hstick and land
+b = vstick and land
 c = glue
 
 (BASICS)
 floor = raft or land
 fullraft = floor or glue
 
-box = boxmove or boxrota or boxsnek 
+box = boxmove or boxrota or boxsnek or boxpush
 stick = hstick or vstick
 colorbox = boxmove or boxrota or boxsnek
 
-part = box or stick
+part = box or stick(ADD NEW ITEMS HERE SO THEY CAN BE SOLID)
+onfloor = part or holder
 goal = goalplayer or goalmove or goalrota or goalsnek
 
 (DECO)
@@ -1128,7 +1093,7 @@ goal = goalplayer or goalmove or goalrota or goalsnek
 braft =   uraft or   draft or   lraft or   rraft (raft shape border)
 craft =  ruraft or  rdraft or  luraft or  ldraft (corner)
 iraft = iruraft or irdraft or iluraft or ildraft (inner)
-likeraft = raft or fillraft                      (looks raft)
+likeraft = raft or fillraft                      (looks like raft)
 
 braftmove =   uraftmove or   draftmove or   lraftmove or   rraftmove (raft shape border)
 craftmove =  ruraftmove or  rdraftmove or  luraftmove or  ldraftmove (corner)
@@ -1153,19 +1118,17 @@ lookmarker = ulookmarker or dlookmarker or rlookmarker or llookmarker
 lookplayer = ulookplayer or dlookplayer or rlookplayer or llookplayer or rlookeye or llookeye
 
 (around objects)
-bbox = ubox or rbox or lbox or dbox           (player and boxes)
-bwyel = dwyel or rwyel or lwyel               (water player)
+bbox = ubox or rbox or lbox or dbox (player and boxes)
+bwyel = dwyel or rwyel or lwyel     (water player)
 face = wplayer
-bstick = ustick or dstick or lstick or rstick (sticks)
+bstick = dstick (sticks)
 (floor)
-wcolor = raftdead or raftmove or raftrota or raftsnek              (shape fill color with boxes)
-
-boxon = boxrotaon or boxsnekon	or boxmoveon	                    (boxes that are enabled)
+rafttype = raftdead or raftmove or raftrota or raftsnek (shape fill color with boxes)
 (shadow)
 castshadow = braft or craft or iraft or bland or cland or iland or goal
 
 (show this art from current level at the end of turn, also includes sinking etc.)
-VISUALS = braft or bbox or fillraft or craft or iraft or shadow or bland or cland or iland or fillland or hide or boxon or onebox or snekhead or bstick or nosnake or glueside or gluewide or face or bwyel or lookplayer or braftmove or craftmove or iraftmove or braftrota or craftrota or iraftrota or craftsnek or iraftsnek or braftsnek
+VISUALS = braft or bbox or fillraft or craft or iraft or shadow or bland or cland or iland or fillland or hide or bstick or glueside or gluewide or face or bwyel or lookplayer or braftmove or craftmove or iraftmove or braftrota or craftrota or iraftrota or craftsnek or iraftsnek or braftsnek
 
 (LOGIC)
 (player move)
@@ -1175,10 +1138,9 @@ hplay = rplay or lplay
 
 (move shape)
 push = rpush or upush or dpush or lpush     (this ground will move)
-testbox = testmove or testrota or testsnek or testbomb
+testbox = testmove or testrota or testsnek or testbomb or testpush
 teststick = testhstick or testvstick
-testspot = testspotmove or testspotsnek or testspotrota
-test = testbox or testraft or testland or teststick or testspot or testglue or testplayer or testwall
+test = testbox or testraft or testland or teststick or testglue or testplayer or testwall or testholder
 
 (rotation push)
 canmov = rcan or ucan or dcan or lcan
@@ -1206,7 +1168,7 @@ oldstuff = fullraft or part or player
 snekmov = usnek or dsnek or rsnek or lsnek
 hsnek = rsnek or lsnek
 vsnek = usnek or dsnek
-segment = vsegment or hsegment
+sneksegment = vsneksegment or hsneksegment
 
 (bomb)
 cut = hcut or vcut
@@ -1270,7 +1232,7 @@ ildraft
 iruraft
 irdraft
 fillraft
-wcolor
+rafttype
 
  luraftmove
  ldraftmove
@@ -1321,15 +1283,14 @@ glue
 gluewide
 
 box, stick
-boxon
+holder
 
 lookmarker
 player, lowplayer
 wplayer
 
-boxdead
 boxindiv
-onebox
+frombox
 
 ubox
 dbox
@@ -1341,10 +1302,7 @@ lwyel
 
 lookplayer
 
-ustick
 dstick
-rstick
-lstick
 
 goal
 goalwin
@@ -1354,7 +1312,7 @@ collided
 testraft, testland, testglue
 testplayer
 testbox, teststick, testwall
-testspot
+testholder
 
 (move)
 push
@@ -1397,9 +1355,9 @@ between
 snekneck
 snekhead
 snekmov
-segment
+sneksegment
 prev
-nosnake
+sleepysnek
 
 (bomb)
 cut
@@ -1428,7 +1386,7 @@ RULES
 [> player sink] -> cancel
 (other shapes sink)
 [> player no sink] [sink] -> [> player no sink] [no raft] sfx9
-[part no floor] -> []
+[onfloor no floor] -> []
 (hide collision crosses and get rid of collision markers after next move)
 [> player] [cross]      -> [> player] []
 [> player] [collided]   -> [> player] []
@@ -1455,19 +1413,18 @@ RULES
 
 (PUSH)
 (push part to floor)
-[> player floor || boxmove  || floor no part] -> [floor || player || floor boxmove ] sfx0
-[> player floor || boxrota  || floor no part] -> [floor || player || floor boxrota ] sfx0
-[> player floor || boxsnek || floor no part] -> [floor || player || floor boxsnek] sfx0
-(sticks)
-[> player floor || hstick | floor | floor no part] -> [floor || player | floor | floor hstick] sfx0
-[> player floor || vstick | floor | floor no part] -> [floor || player | floor | floor vstick] sfx0
+[> player floor || box holder] -> [stationary player floor || box holder] sfx1
+[> player floor || box || floor no part] -> [floor || player || floor box] sfx0
+(oush sticks)
+[> player floor || stick | floor | floor no part] -> [floor || player | floor | floor stick] sfx0
+
 horizontal [> player floor || hstick | no floor | floor] -> [floor || player || floor hstick] sfx0
 vertical   [> player floor || vstick | no floor | floor] -> [floor || player || floor vstick] sfx0
-horizontal [> player floor || vstick | no floor | floor] -> [floor || player | glue | floor] sfx0 sfx8
-vertical   [> player floor || hstick | no floor | floor] -> [floor || player | glue | floor] sfx0 sfx8
+horizontal [> player floor || vstick | no floor | floor] -> [floor || player |  glue | floor] sfx0 sfx8
+vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  glue | floor] sfx0 sfx8
 
 (push part to part)
-[> player floor || box || part]     -> [player floor || box || part] sfx1
+[> player floor || box || part] -> [player floor || box || part] sfx1
 
 (push part to empty)
 [> player floor || part || no floor] -> [stationary player floor || part || ] sfx1
@@ -1487,9 +1444,9 @@ left  [> player no floor || raft] -> [stationary player || lplay active local ra
 down  [> player no floor || raft] -> [stationary player || dplay active local raft]
 
 (stop shape move! no color or dead)
-[play raft  no wcolor] -> [raft] sfx1
-[play land]            -> [land] sfx1
-[play raftdead]        -> [] sfx1
+[play raft no rafttype] -> [raft] sfx1
+[play land]             -> [land] sfx1
+[play raftdead]         -> [] sfx1
 (start tide)
 [play] -> [play tide]
 
@@ -1553,8 +1510,11 @@ right [rpush boxsnek || ] -> [rpush || testsnek]
 left  [lpush boxsnek || ] -> [lpush || testsnek]
 up    [upush boxsnek || ] -> [upush || testsnek]
 down  [dpush boxsnek || ] -> [dpush || testsnek]
-
-(stick moved two tiles)
+right [rpush boxpush || ] -> [rpush || testpush]
+left  [lpush boxpush || ] -> [lpush || testpush]
+up    [upush boxpush || ] -> [upush || testpush]
+down  [dpush boxpush || ] -> [dpush || testpush]
+(stick)
 right [rpush hstick || ] -> [rpush || testhstick]
 left  [lpush hstick || ] -> [lpush || testhstick]
 up    [upush hstick || ] -> [upush || testhstick]
@@ -1563,8 +1523,12 @@ right [rpush vstick || ] -> [rpush || testvstick]
 left  [lpush vstick || ] -> [lpush || testvstick]
 up    [upush vstick || ] -> [upush || testvstick]
 down  [dpush vstick || ] -> [dpush || testvstick]
-
-(player moved two tiles)
+(holder)
+right [rpush holder || ] -> [rpush || testholder]
+left  [lpush holder || ] -> [lpush || testholder]
+up    [upush holder || ] -> [upush || testholder]
+down  [dpush holder || ] -> [dpush || testholder]
+(player)
 right [rplay push no collided] [player || ] -> [rplay] [ || testplayer]
 left  [lplay push no collided] [player || ] -> [lplay] [ || testplayer]
 up    [uplay push no collided] [player || ] -> [uplay] [ || testplayer]
@@ -1576,11 +1540,13 @@ down  [dplay push no collided] [player || ] -> [dplay] [ || testplayer]
 [testglue] -> [glue]
 
 [testplayer] -> [player ]
+[testpush  ] -> [boxpush]
 [testmove  ] -> [boxmove]
 [testrota  ] -> [boxrota]
 [testsnek  ] -> [boxsnek]
 [testhstick] -> [hstick ]
 [testvstick] -> [vstick ]
+[testholder] -> [holder ]
 
 [removeAfterMove] -> []
 
@@ -1676,11 +1642,13 @@ random [center newrun] [unpicked] -> [center newrun] [picked]
 
 (remember type of this pick in the center)
 [center newrun] [picked player ] -> [center newrun testplayer] [picked player ]
+[center newrun] [picked boxpush] -> [center newrun testpush  ] [picked boxpush]
 [center newrun] [picked boxmove] -> [center newrun testmove  ] [picked boxmove]
 [center newrun] [picked boxrota] -> [center newrun testrota  ] [picked boxrota]
 [center newrun] [picked boxsnek] -> [center newrun testsnek  ] [picked boxsnek]
 [center newrun] [picked hstick ] -> [center newrun testhstick] [picked hstick ]
 [center newrun] [picked vstick ] -> [center newrun testvstick] [picked vstick ]
+[center newrun] [picked holder ] -> [center newrun testholder] [picked holder ]
 (this should stack with all the above)
 [center newrun] [picked raft] -> [center newrun testraft] [picked raft]
 [center newrun] [picked land] -> [center newrun testland] [picked land]
@@ -1752,21 +1720,9 @@ right [rcheck | no between] -> [rcheck | rcheck]
 [center newrun] [find   ] -> [center newrun] []
 
 (where will the new player, etc go?)
-[center newrun testplayer  ] [newtile] -> [center newrun] [newtile testplayer  ]
-[center newrun testmove    ] [newtile] -> [center newrun] [newtile testmove    ]
-[center newrun testrota    ] [newtile] -> [center newrun] [newtile testrota    ]
-[center newrun testsnek    ] [newtile] -> [center newrun] [newtile testsnek    ]
-[center newrun testspotmove] [newtile] -> [center newrun] [newtile testspotmove]
-[center newrun testspotrota] [newtile] -> [center newrun] [newtile testspotrota]
-[center newrun testspotsnek] [newtile] -> [center newrun] [newtile testspotsnek]
-[center newrun testbomb    ] [newtile] -> [center newrun] [newtile testbomb    ]
-[center newrun testwall    ] [newtile] -> [center newrun] [newtile testwall    ]
-[center newrun testvstick  ] [newtile] -> [center newrun] [newtile testhstick  ] (swap)
-[center newrun testhstick  ] [newtile] -> [center newrun] [newtile testvstick  ] (swap)
-(stack)   
-[center newrun testraft    ] [newtile] -> [center newrun] [newtile testraft]
-[center newrun testland    ] [newtile] -> [center newrun] [newtile testland]
-[center newrun testglue    ] [newtile] -> [center newrun] [newtile testglue]
+[center newrun testvstick] [newtile] -> [center newrun] [newtile testhstick  ] (swap)
+[center newrun testhstick] [newtile] -> [center newrun] [newtile testvstick  ] (swap)
+[center newrun test] [newtile] -> [center newrun] [newtile test]
 
 (done tiles ready to replace)
 [center newrun] [newtile] -> [center newrun] [newdone]
@@ -1820,11 +1776,13 @@ right [rplay] [lowplayer || obstacle] -> [rplay] [stationary player || obstacle]
 
 (move player and stuff)
 [testplayer] -> [player ]
+[testpush  ] -> [boxpush]
 [testmove  ] -> [boxmove]
 [testrota  ] -> [boxrota]
 [testsnek  ] -> [boxsnek]
 [testhstick] -> [hstick ]
 [testvstick] -> [vstick ]
+[testholder] -> [holder ]
 
 (done!)
 [center no collided] -> [] sfx4
@@ -1842,11 +1800,11 @@ right [rplay] [lowplayer || obstacle] -> [rplay] [stationary player || obstacle]
 ============================
 (WIP)
 
-(start at snek active box)
-[rplay raftsnek] [local boxsnek snekhead] -> [rplay raftsnek] [local boxsnek snekhead rsnek prev]
-[lplay raftsnek] [local boxsnek snekhead] -> [lplay raftsnek] [local boxsnek snekhead lsnek prev]
-[uplay raftsnek] [local boxsnek snekhead] -> [uplay raftsnek] [local boxsnek snekhead usnek prev]
-[dplay raftsnek] [local boxsnek snekhead] -> [dplay raftsnek] [local boxsnek snekhead dsnek prev]
+(start at snek active box, re-assign that it is the head of the snake)
+[rplay raftsnek] [local boxsnek no sleepysnek] -> [rplay raftsnek] [local boxsnek rsnek snekhead prev]
+[lplay raftsnek] [local boxsnek no sleepysnek] -> [lplay raftsnek] [local boxsnek lsnek snekhead prev]
+[uplay raftsnek] [local boxsnek no sleepysnek] -> [uplay raftsnek] [local boxsnek usnek snekhead prev]
+[dplay raftsnek] [local boxsnek no sleepysnek] -> [dplay raftsnek] [local boxsnek dsnek snekhead prev]
 
 (check for collision)
 up    [usnek || obstacle] -> [collided || obstacle cross] sfx1
@@ -1892,6 +1850,10 @@ up    [usnek boxsnek || ] -> [usnek || testsnek]
 down  [dsnek boxsnek || ] -> [dsnek || testsnek]
 left  [lsnek boxsnek || ] -> [lsnek || testsnek]
 right [rsnek boxsnek || ] -> [rsnek || testsnek]
+up    [usnek boxpush || ] -> [usnek || testpush]
+down  [dsnek boxpush || ] -> [dsnek || testpush]
+left  [lsnek boxpush || ] -> [lsnek || testpush]
+right [rsnek boxpush || ] -> [rsnek || testpush]
 up    [usnek hstick || no hsnek] -> [usnek || testhstick]
 down  [dsnek hstick || no hsnek] -> [dsnek || testhstick]
 left  [lsnek hstick || no vsnek] -> [lsnek || testhstick]
@@ -1908,6 +1870,10 @@ up    [usnek vstick || hsnek] -> [usnek || hsnek testhstick]
 down  [dsnek vstick || hsnek] -> [dsnek || hsnek testhstick]
 left  [lsnek vstick || vsnek] -> [lsnek || vsnek testhstick]
 right [rsnek vstick || vsnek] -> [rsnek || vsnek testhstick]
+up    [usnek holder || ] -> [usnek || testholder]
+down  [dsnek holder || ] -> [dsnek || testholder]
+left  [lsnek holder || ] -> [lsnek || testholder]
+right [rsnek holder || ] -> [rsnek || testholder]
 
 (single move, these appear on off tiles)
 up    [usnek raft | ] -> [usnek | testraft]
@@ -1943,27 +1909,15 @@ right [rsnek testglue | ] -> [ | glue]
 [lowplayer] -> [] sfx1 (ALWAYS make a sound when pushing into side)
 
 [testplayer] -> [player ]
+[testpush  ] -> [boxpush]
 [testmove  ] -> [boxmove]
 [testrota  ] -> [boxrota]
 [testhstick] -> [hstick ]
 [testvstick] -> [vstick ]
+[testholder] -> [holder ]
 [testsnek  ] -> [boxsnek] sfx5
 
 [collided] [tide] -> [collided] []
-[removeAfterMove] -> []
-
-
-=======================
-(        BOMB         )
-=======================
-
-(line)
-horizontal [hcut || ] -> [hcut || hcut]
-vertical   [vcut || ] -> [vcut || vcut]
-
-(delete ground)
-[fullraft cut] -> []
-
 [removeAfterMove] -> []
 
 =======================
@@ -1979,14 +1933,15 @@ vertical   [vcut || ] -> [vcut || vcut]
 (        MISC         )
 =======================
 
-[removeAfterMove   ] -> []
+[removeAfterMove] -> []
 [play    ] -> []
 [active  ] -> []
 [local   ] -> []
-[wcolor  ] -> []
+[rafttype  ] -> []
 [boxindiv] -> []
-[boxdead ] -> []
 [sink    ] -> []
+[snekhead] -> []
+[sleepysnek ] -> []
 
 [player  goalplayer] -> [goalwin] sfx2
 [boxmove goalmove  ] -> [goalwin] sfx2
@@ -2051,7 +2006,7 @@ right[player | ] -> [player | rbox]
 [player] [llookmarker] -> [player llookplayer] []
 
 right [rlookplayer | ] -> [rlookplayer | rlookeye]
-left  [llookplayer |] -> [llookplayer | llookeye]
+left  [llookplayer | ] -> [llookplayer | llookeye]
 
 left [player no floor| ] -> [player | lwyel]
 down [player no floor| ] -> [player | dwyel]
@@ -2065,10 +2020,7 @@ left [box | ] -> [box | lbox]
 down [box | ] -> [box | dbox]
 right[box | ] -> [box | rbox]
 
-up   [vstick | ] -> [vstick | ustick]
-left [hstick | ] -> [hstick | lstick]
 down [vstick | ] -> [vstick | dstick]
-right[hstick | ] -> [hstick | rstick]
 
 (glue)
 down     [glue | no fullraft no obstacle] -> [glue | glueside]
@@ -2096,23 +2048,22 @@ vertical [glue | fullraft] -> [glue gluewide | fullraft]
 ( #    #    #  #  ##### #  # #    ##### )
 ( #    #### #  #  #   # #  # #### #   # )
 =========================================
+(this is where the color of rafts gets determined)
 
 startloop
-(select next shape)
-random [floor no selecteddone no selectedraft] -> [floor selectedraft]
-[floor selectedraft | floor] -> [floor selectedraft | floor selectedraft]
+(select next raft)
+random [raft no selecteddone no selectedraft] -> [raft selectedraft]
+[raft selectedraft | raft] -> [raft selectedraft | raft selectedraft]
 
-(nosink)
-[selectedraft raft || land] -> [selectedraft raft nosink || land]
-[nosink || raft] -> [nosink || raft nosink]
-[nosink | raft] -> [nosink | raft nosink]
-
-(raft with color starting from one box, fill later)
-random [selectedraft raft box] -> [selectedraft raft box onebox]
-[onebox boxmove  raft] -> [onebox boxmove  raft raftmove ]
-[onebox boxrota  raft] -> [onebox boxrota  raft raftrota ]
-random [selectedraft onebox boxsnek no snekhead] [selectedraft boxsnek snekhead] -> [selectedraft boxsnek] [selectedraft boxsnek onebox snekhead]
-[onebox boxsnek snekhead raft] -> [onebox boxsnek snekhead raft raftsnek]
+(raft with color starting from one color box that's not on a holder, fill later)
+random [selectedraft raft colorbox no holder] -> [selectedraft raft colorbox frombox]
+[frombox boxmove raft] -> [frombox boxmove raft raftmove]
+[frombox boxrota raft] -> [frombox boxrota raft raftrota]
+(always use snake in head position if avaliable)
+random [selectedraft frombox boxsnek no snekhead] [selectedraft boxsnek snekhead] -> [selectedraft boxsnek] [selectedraft boxsnek frombox snekhead]
+[frombox boxsnek raft] -> [frombox boxsnek raft raftsnek]
+(oh no!)
+[frombox boxsnek no snekhead raft] -> [frombox boxsnek sleepysnek raft]
 
 (next)
 [selectedraft] -> [selecteddone]
@@ -2120,36 +2071,59 @@ random [selectedraft onebox boxsnek no snekhead] [selectedraft boxsnek snekhead]
 endloop
 
 [selecteddone] -> []
+[frombox] -> []
 
 (SPREAD ACTIVE AND LOCAL TILES)
 (player)
-[floor player] -> [floor player active local]
+[raft player] -> [raft player active local]
 [fullraft active | fullraft] -> [fullraft active | fullraft active]
-[floor local | floor] -> [floor local | floor local]
+[raft local | raft] -> [raft local | raft local]
 
 ===========================================
-
 
 
 (raft==================================================================)
 
 startloop
 (spread color)
-[likeraft raftmove | likeraft no box] -> [likeraft raftmove | likeraft raftmove]
-[likeraft raftrota | likeraft no box] -> [likeraft raftrota | likeraft raftrota]
-[likeraft raftsnek | likeraft no box] -> [likeraft raftsnek | likeraft raftsnek]
+[likeraft raftmove | likeraft no colorbox] -> [likeraft raftmove | likeraft raftmove]
+[likeraft raftrota | likeraft no colorbox] -> [likeraft raftrota | likeraft raftrota]
+[likeraft raftsnek | likeraft no colorbox] -> [likeraft raftsnek | likeraft raftsnek]
 
 (when multiple are allowed)
-[likeraft raftmove  | likeraft boxmove ] -> [likeraft raftmove  | likeraft raftmove  boxmove]
-[likeraft raftsnek | likeraft boxsnek no snekhead] -> [likeraft raftsnek | likeraft raftsnek boxsnek]
+[likeraft raftmove | likeraft boxmove            ] -> [likeraft raftmove | likeraft raftmove boxmove]
+[likeraft raftsnek | likeraft boxsnek no snekhead] -> [likeraft raftsnek | likeraft raftsnek boxsnek sleepysnek]
 endloop
 
 (sinking raft)
+(nosink)
+[land   || raft] -> [land   || raft nosink]
+[nosink || raft] -> [nosink || raft nosink]
+[nosink |  raft] -> [nosink |  raft nosink]
+
 [raft no nosink]         -> [raft sink] sfx9
 [raft sink | castshadow] -> [raft sink | castshadow sink]
 [nosink] -> []
 
-(color rafts)
+(DEAD OR ON===============================================================)
+
+(start dead: raft boxes still without color? must be mixed or too many!)
+[colorbox raft no rafttype no holder] -> [colorbox raft raftdead]
+
+(snake makes no sense!)
+horizontal [fullraft | fullraft | fullraft] -> [fullraft | fullraft hsneksegment | fullraft]
+vertical   [fullraft | fullraft | fullraft] -> [fullraft | fullraft vsneksegment | fullraft]
+horizontal [fullraft | vsneksegment]  -> [fullraft | sleepysnek] 
+vertical   [fullraft | hsneksegment]  -> [fullraft | sleepysnek] 
+[sleepysnek | fullraft no boxsnek] -> [sleepysnek | sleepysnek fullraft]
+[sleepysnek no boxsnek] -> []
+[sneksegment] -> []
+
+(fill dead)
+[raftdead | likeraft] -> [raftdead | likeraft raftdead]
+[raftdead colorbox]   -> [raftdead boxpush]
+
+(color raft borders)
 up   [raftmove | no raftmove] -> [raftmove | uraftmove]
 left [raftmove | no raftmove] -> [raftmove | lraftmove]
 down [raftmove | no raftmove] -> [raftmove | draftmove]
@@ -2197,36 +2171,13 @@ down [lraftsnek | no raftsnek] -> [lraftsnek | ldraftsnek]
 [lraftsnek uraftsnek] -> [lraftsnek uraftsnek iluraftsnek]
 [lraftsnek draftsnek] -> [lraftsnek draftsnek ildraftsnek]
 
-
-(DEAD OR ON===============================================================)
-
-(start dead: raft boxes still without color? must be mixed or too many!)
-[box raft no wcolor] -> [box raft raftdead]
-
-(snake makes no sense!)
-horizontal [fullraft | fullraft | fullraft] -> [fullraft | fullraft hsegment | fullraft]
-vertical   [fullraft | fullraft | fullraft] -> [fullraft | fullraft vsegment | fullraft]
-horizontal [fullraft | vsegment]  -> [fullraft | nosnake] 
-vertical   [fullraft | hsegment]  -> [fullraft | nosnake] 
-[segment] -> []
-[nosnake | fullraft] -> [nosnake | fullraft nosnake]
-[nosnake   raftsnek] -> [raftdead]
-
-(fill dead)
-[raftdead | likeraft] -> [raftdead | likeraft raftdead]
-[raftdead box] ->        [raftdead box boxdead]
-
-(box indicators)
-[boxmove local raftmove] ->          [boxmove local raftmove boxmoveon]
-[boxrota local raftrota] ->          [boxrota local raftrota boxrotaon]
-[boxsnek local raftsnek snekhead] -> [boxsnek local raftsnek boxsnekon snekhead]
+[onfloor no floor] -> []
 
 ==============
 WINCONDITIONS
 ==============
 
 no goal
-no boxdead
 no sink
 
 =======     
@@ -2237,13 +2188,13 @@ LEVELS
 #.............#
 #.i.*.m.r.n...#
 #...s.g.g.g...#
-#.sss.g.g.g...#
+#.sss.p.gcg...#
 #.s.s.........#
-#.sss.........#
-#.............#
-#.....f.......#
-#.............#
-#.............#
+#.ssb.........#
+#.s.s.........#
+#.sss.f.......#
+#.s.s.........#
+#.oss.........#
 #.............#
 #.............#
 #.............#
