@@ -1,0 +1,2251 @@
+title dis pontibus II remix
+homepage by noa, date ver. 01-14-a
+background_color #14182e
+text_color #ff8933
+
+run_rules_on_level_start
+
+(
+CURRENT TODO
+
+- test for weird bugs, maybe not allow huge shapes?
+- maybe something to switch box color/ switch with box
+
+FLOOR
+• Shapes
+  • Get color from boxes
+  • fullraft to energy: won't sink
+  • Players and boxes can't move off them
+• Geysir
+  • Energy source keeping everything fullraft afloat
+  • Swimming players turn into regular players on this
+  • Single floor piece and player spawn, doesn't move
+• Walls?
+  • On top of shapes
+  • Solid, but move with shapes
+• Glue
+  • ???
+
+BOXES
+• Can move multiple in a row?
+• Move box
+  • whole shape moves
+• Rotate box
+  • rotate around box 
+  • when in holder, gets handle
+  • if handle has to be turned, but can't rotate
+    still turn handle
+• Snake box
+  • if snake shape: move in direction
+• Shift box
+  • moves just a row
+  • useful for disconnecting/ splitting/ sinking as well
+• Mirror box?
+  • mirror in move axis, across box point
+• Mistake box (combination)
+  • after you pushed multiple boxes into same shape,
+  • they all turn into these
+
+OBJECTS
+• Holders
+  • sometimes with objects in them already
+  • grab boxes, so you can have multiple per shape
+  • pushing won't move boxes out, but activate them
+  • move into goals to empty holders again
+• Fish powerup
+  • if you were on a sinking platform, you can start swimming
+  • push shapes from the sides, activates their box type
+
+GOALS
+• all box types
+)
+
+
+========
+OBJECTS
+========
+
+(markers)
+active
+transparent
+local
+transparent
+
+selectedraft
+transparent
+selecteddone
+transparent
+
+boxindiv
+transparent
+onebox
+transparent
+
+(shapes move)
+rplay
+transparent
+lplay
+transparent
+uplay
+transparent
+dplay
+transparent
+
+lowplayer
+transparent
+
+ulookmarker
+transparent
+dlookmarker
+transparent
+rlookmarker
+transparent
+llookmarker
+transparent
+
+testraft
+transparent
+testplayer
+transparent
+testmove
+transparent
+testrota
+transparent
+testsnek
+transparent
+testbomb
+transparent
+testland
+transparent
+testspotmove
+transparent
+testspotrota
+transparent
+testspotsnek
+transparent
+testhstick
+transparent
+testvstick
+transparent
+testglue
+transparent
+testwall
+transparent
+
+(MOVE)
+rpush
+transparent
+lpush
+transparent
+upush
+transparent
+dpush
+transparent
+
+
+(ROTATE)
+rotate
+transparent
+norotate
+transparent
+
+rcan
+transparent
+lcan
+transparent
+ucan
+transparent
+dcan
+transparent
+center
+transparent
+clockdir
+transparent
+counterdir
+transparent
+
+uline
+transparent
+dline
+transparent
+rline
+transparent
+lline
+transparent
+
+unpicked
+transparent
+picked
+transparent
+newtile
+transparent
+newdone
+black
+newfill
+transparent
+
+un
+transparent
+rn
+transparent
+ln
+transparent
+dn
+transparent
+
+ruq
+transparent
+luq
+transparent
+rdq
+transparent
+ldq
+transparent
+
+collided
+transparent
+overlap
+transparent
+
+once
+transparent
+newrun
+transparent
+
+dia
+transparent
+newdia
+transparent
+udia
+transparent
+ddia
+transparent
+rdia
+transparent
+ldia
+transparent
+
+hfind
+transparent
+vfind
+transparent
+bfind
+transparent
+
+checkhere
+transparent
+ucheck
+transparent
+dcheck
+transparent
+rcheck
+transparent
+lcheck
+transparent
+
+between
+transparent
+
+(snake)
+snekneck
+transparent
+snekhead
+transparent
+
+usnek
+transparent
+dsnek
+transparent
+rsnek
+transparent
+lsnek
+transparent
+vsegment
+transparent
+hsegment
+transparent
+
+prev
+transparent
+
+nosnake
+transparent
+
+(bomb)
+vcut
+transparent
+hcut
+transparent
+
+(waves)
+tide
+transparent
+
+(HEY!)
+hey
+red
+
+(---------------------------------------------)
+
+background
+#2c354d
+.....
+.0...
+.....
+...0.
+.....
+
+wave
+#14182e #2c354d
+00000
+00010
+00000
+01000
+00000
+
+shadow
+#14182e
+
+levelbarrier
+black
+
+hide
+#14182e
+
+(REGULAR RAFT)
+raft
+#52333f
+
+uraft 
+#52333f #8f4d57
+.....
+.....
+.....
+00000
+11111
+lraft
+#52333f #8f4d57
+...01
+...01
+...01
+...01
+...01
+draft
+#52333f #8f4d57
+11111
+00000
+.....
+.....
+.....
+rraft
+#52333f #8f4d57
+10...
+10...
+10...
+10...
+10...
+
+fillraft
+#52333f
+
+ruraft
+#3d2936
+.....
+.....
+.....
+0....
+00...
+luraft
+#3d2936
+.....
+.....
+.....
+....0
+...00
+rdraft
+#3d2936
+00...
+0....
+.....
+.....
+.....
+ldraft
+#3d2936
+...00
+....0
+.....
+.....
+.....
+
+iruraft
+#52333f #8f4d57
+.....
+.....
+.....
+10...
+11...
+iluraft
+#52333f #8f4d57
+.....
+.....
+.....
+...01
+...11
+irdraft
+#52333f #8f4d57
+11...
+10...
+.....
+.....
+.....
+ildraft
+#52333f #8f4d57
+...11
+...01
+.....
+.....
+.....
+
+raftmove
+#ab5130
+
+uraftmove 
+#ab5130 #cf752b
+.....
+.....
+.....
+00000
+11111
+lraftmove
+#ab5130 #cf752b
+...01
+...01
+...01
+...01
+...01
+draftmove
+#ab5130 #cf752b
+11111
+00000
+.....
+.....
+.....
+rraftmove
+#ab5130 #cf752b
+10...
+10...
+10...
+10...
+10...
+
+ruraftmove
+#7d3833
+.....
+.....
+.....
+0....
+00...
+luraftmove
+#7d3833
+.....
+.....
+.....
+....0
+...00
+rdraftmove
+#7d3833
+00...
+0....
+.....
+.....
+.....
+ldraftmove
+#7d3833
+...00
+....0
+.....
+.....
+.....
+
+iruraftmove
+#ab5130 #cf752b
+.....
+.....
+.....
+10...
+11...
+iluraftmove
+#ab5130 #cf752b
+.....
+.....
+.....
+...01
+...11
+irdraftmove
+#ab5130 #cf752b
+11...
+10...
+.....
+.....
+.....
+ildraftmove
+#ab5130 #cf752b
+...11
+...01
+.....
+.....
+.....
+
+raftrota
+#ad2f45
+
+uraftrota 
+#ad2f45 #c64539
+.....
+.....
+.....
+00000
+11111
+lraftrota
+#ad2f45 #c64539
+...01
+...01
+...01
+...01
+...01
+draftrota
+#ad2f45 #c64539
+11111
+00000
+.....
+.....
+.....
+rraftrota
+#ad2f45 #c64539
+10...
+10...
+10...
+10...
+10...
+
+ruraftrota
+#781d4f
+.....
+.....
+.....
+0....
+00...
+luraftrota
+#781d4f
+.....
+.....
+.....
+....0
+...00
+rdraftrota
+#781d4f
+00...
+0....
+.....
+.....
+.....
+ldraftrota
+#781d4f
+...00
+....0
+.....
+.....
+.....
+
+iruraftrota
+#ad2f45 #c64539
+.....
+.....
+.....
+10...
+11...
+iluraftrota
+#ad2f45 #c64539
+.....
+.....
+.....
+...01
+...11
+irdraftrota
+#ad2f45 #c64539
+11...
+10...
+.....
+.....
+.....
+ildraftrota
+#ad2f45 #c64539
+...11
+...01
+.....
+.....
+.....
+
+raftsnek
+#3b7d4f
+
+uraftsnek 
+#3b7d4f #63ab3f
+.....
+.....
+.....
+00000
+11111
+lraftsnek
+#3b7d4f #63ab3f
+...01
+...01
+...01
+...01
+...01
+draftsnek
+#3b7d4f #63ab3f
+11111
+00000
+.....
+.....
+.....
+rraftsnek
+#3b7d4f #63ab3f
+10...
+10...
+10...
+10...
+10...
+
+ruraftsnek
+#2f5753
+.....
+.....
+.....
+0....
+00...
+luraftsnek
+#2f5753
+.....
+.....
+.....
+....0
+...00
+rdraftsnek
+#2f5753
+00...
+0....
+.....
+.....
+.....
+ldraftsnek
+#2f5753
+...00
+....0
+.....
+.....
+.....
+
+iruraftsnek
+#3b7d4f #63ab3f
+.....
+.....
+.....
+10...
+11...
+iluraftsnek
+#3b7d4f #63ab3f
+.....
+.....
+.....
+...01
+...11
+irdraftsnek
+#3b7d4f #63ab3f
+11...
+10...
+.....
+.....
+.....
+ildraftsnek
+#3b7d4f #63ab3f
+...11
+...01
+.....
+.....
+.....
+
+(LAND)
+
+land
+#404973 #686F99
+10111
+00000
+11011
+11011
+00000
+
+uland
+#404973
+.....
+.....
+.....
+00000
+00000
+lland
+#404973
+...00
+...00
+...00
+...00
+...00
+dland
+#404973
+00000
+00000
+.....
+.....
+.....
+rland
+#404973
+00...
+00...
+00...
+00...
+00...
+
+fillland
+#404973 #686F99
+10111
+00000
+11011
+11011
+00000
+
+ruland
+#404973
+.....
+.....
+.....
+0....
+00...
+luland
+#404973
+.....
+.....
+.....
+....0
+...00
+rdland
+#404973
+00...
+0....
+.....
+.....
+.....
+ldland
+#404973
+...00
+....0
+.....
+.....
+.....
+
+iruland
+transparent
+.....
+.....
+.....
+00...
+00...
+iluland
+transparent
+.....
+.....
+.....
+...00
+...00
+irdland
+transparent
+00...
+00...
+.....
+.....
+.....
+ildland
+transparent
+...00
+...00
+.....
+.....
+.....
+
+(raft colors)
+
+raftdead
+#692c38
+.....
+.0.0.
+..0..
+.0.0.
+.....
+
+(player, boxes)
+
+player 
+#ff8933 #e64539 #f5ffe8 #3b7d4f
+00000
+22022
+23032
+23132
+11111
+
+ulookplayer
+#ff8933 #e64539 #f5ffe8 #3b7d4f
+23032
+22022
+11000
+11100
+11111
+
+dlookplayer
+#ff8933 #e64539 #f5ffe8 #3b7d4f
+00000
+10000
+22022
+23132
+11111
+
+rlookplayer
+#ff8933 #e64539 #f5ffe8 #3b7d4f
+00000
+10000
+11220
+11230
+11111
+
+llookplayer
+#ff8933 #e64539 #f5ffe8 #3b7d4f
+00000
+10000
+12200
+13200
+11111
+
+rlookeye
+#f5ffe8 #3b7d4f
+.....
+.....
+0....
+1....
+.....
+
+llookeye
+#f5ffe8 #3b7d4f
+.....
+.....
+....0
+....1
+.....
+
+ubox
+#14182e
+.....
+.....
+.....
+.....
+00000
+lbox
+#14182e
+....0
+....0
+....0
+....0
+....0
+dbox
+#14182e
+00000
+.....
+.....
+.....
+.....
+rbox
+#14182e
+0....
+0....
+0....
+0....
+0....
+
+(in water)
+wplayer 
+#e19e10 #050819
+01001
+01001
+00000
+00000
+00000
+
+lwyel
+#eedd60 #1a2055
+....0
+....0
+....0
+....0
+....1
+dwyel
+#1a2055
+00000
+00000
+.....
+.....
+.....
+rwyel
+#c85b0e #1a2055
+0....
+0....
+0....
+0....
+1....
+
+(move boxes will make shapes movable with a push)
+boxmove
+#cf752b #f0b541
+11011
+10001
+00000
+10001
+11011
+
+boxmoveon
+#cf752b #f0b541
+11011
+10001
+00000
+10001
+11011
+
+(rotate boxes will make shapes rotatable around them clockwise or counterclockwise)
+boxrota
+#e64539 #ff8933
+00111
+00001
+10101
+10000
+11100
+
+boxrotaon
+#e64539 #ff8933
+00111
+00001
+10101
+10000
+11100
+
+(snake boxes will make linear shapes move like a snake, starting from the box)
+boxsnek
+#63ab3f #c8d45d
+00000
+00000
+11011
+00000
+00000
+
+boxsnekon
+#63ab3f #c8d45d
+00000
+10001
+11011
+01010
+00000
+
+(sticks)
+hstick
+#a47e57 #3c1a1a
+.....
+00000
+00000
+11111
+.....
+
+vstick
+#a47e57 #3c1a1a
+.001.
+.001.
+.001.
+.001.
+.001.
+
+ustick
+#925b39
+.....
+.....
+.....
+.....
+.00..
+dstick
+#3c1a1a
+.000.
+.....
+.....
+.....
+.....
+lstick
+#925b39 #3c1a1a
+.....
+....0
+....0
+....1
+.....
+rstick
+#925b39 #3c1a1a
+.....
+0....
+0....
+1....
+.....
+
+(overlay for boxes that can't be used)
+boxdead
+#33111170
+00000
+00000
+00000
+00000
+00000
+
+(collision happened! Show the cross to show where exactly.)
+cross
+#f5ffe8
+0...0
+00.00
+.000.
+00.00
+0...0
+
+sink
+#14182e90
+
+nosink
+transparent
+
+(win)
+goalplayer
+#f5ffe8
+....0
+...00
+0.00.
+000..
+.0...
+goalmove
+#ab5130 #cf752b
+....0
+...00
+1.00.
+110..
+.1...
+goalrota
+#ad2f45 #c64539
+....0
+...00
+1.00.
+110..
+.1...
+goalsnek
+#3b7d4f #63ab3f
+....0
+...00
+1.00.
+110..
+.1...
+goalwin
+#ffffff
+....0
+...00
+0.00.
+000..
+.0...
+
+glue
+#925b39 #642D1F
+00100
+00100
+00100
+00100
+00100
+
+glueside
+#3c1a1a #05081930
+10001
+11.11
+.....
+.....
+.....
+
+gluewide
+#925b39 #642D1F
+00000
+00000
+11111
+00000
+00000
+
+=======
+LEGEND
+=======
+
+(levels)
+. = background
+# = levelbarrier
+g = raft
+s = land
+* = player and land
+m = boxmove and raft
+r = boxrota and raft
+n = boxsnek and raft
+f = goalplayer
+h = goalmove
+i = goalrota
+j = goalsnek
+a = hstick and raft
+b = vstick and raft
+c = glue
+
+(BASICS)
+floor = raft or land
+fullraft = floor or glue
+
+box = boxmove or boxrota or boxsnek 
+stick = hstick or vstick
+colorbox = boxmove or boxrota or boxsnek
+
+part = box or stick
+goal = goalplayer or goalmove or goalrota or goalsnek
+
+(DECO)
+(around raft shapes:)
+braft =   uraft or   draft or   lraft or   rraft (raft shape border)
+craft =  ruraft or  rdraft or  luraft or  ldraft (corner)
+iraft = iruraft or irdraft or iluraft or ildraft (inner)
+likeraft = raft or fillraft                      (looks raft)
+
+braftmove =   uraftmove or   draftmove or   lraftmove or   rraftmove (raft shape border)
+craftmove =  ruraftmove or  rdraftmove or  luraftmove or  ldraftmove (corner)
+iraftmove = iruraftmove or irdraftmove or iluraftmove or ildraftmove (inner)
+
+braftrota =   uraftrota or   draftrota or   lraftrota or   rraftrota (raft shape border)
+craftrota =  ruraftrota or  rdraftrota or  luraftrota or  ldraftrota (corner)
+iraftrota = iruraftrota or irdraftrota or iluraftrota or ildraftrota (inner)
+
+braftsnek =   uraftsnek or   draftsnek or   lraftsnek or   rraftsnek (raft shape border)
+craftsnek =  ruraftsnek or  rdraftsnek or  luraftsnek or  ldraftsnek (corner)
+iraftsnek = iruraftsnek or irdraftsnek or iluraftsnek or ildraftsnek (inner)
+
+(around land shapes)
+bland = uland or dland or lland or rland         (land ground border)
+cland = ruland or rdland or luland or ldland     (corner)
+iland = iruland or irdland or iluland or ildland (inner)
+visibles = land or fillland                      (looks land)
+
+(face)
+lookmarker = ulookmarker or dlookmarker or rlookmarker or llookmarker
+lookplayer = ulookplayer or dlookplayer or rlookplayer or llookplayer or rlookeye or llookeye
+
+(around objects)
+bbox = ubox or rbox or lbox or dbox           (player and boxes)
+bwyel = dwyel or rwyel or lwyel               (water player)
+face = wplayer
+bstick = ustick or dstick or lstick or rstick (sticks)
+(floor)
+wcolor = raftdead or raftmove or raftrota or raftsnek              (shape fill color with boxes)
+
+boxon = boxrotaon or boxsnekon	or boxmoveon	                    (boxes that are enabled)
+(shadow)
+castshadow = braft or craft or iraft or bland or cland or iland or goal
+
+(show this art from current level at the end of turn, also includes sinking etc.)
+VISUALS = braft or bbox or fillraft or craft or iraft or shadow or bland or cland or iland or fillland or hide or boxon or onebox or snekhead or bstick or nosnake or glueside or gluewide or face or bwyel or lookplayer or braftmove or craftmove or iraftmove or braftrota or craftrota or iraftrota or craftsnek or iraftsnek or braftsnek
+
+(LOGIC)
+(player move)
+play = rplay or uplay or dplay or lplay     (player moved here)
+vplay = uplay or dplay
+hplay = rplay or lplay
+
+(move shape)
+push = rpush or upush or dpush or lpush     (this ground will move)
+testbox = testmove or testrota or testsnek or testbomb
+teststick = testhstick or testvstick
+testspot = testspotmove or testspotsnek or testspotrota
+test = testbox or testraft or testland or teststick or testspot or testglue or testplayer or testwall
+
+(rotation push)
+canmov = rcan or ucan or dcan or lcan
+rotdir = clockdir or counterdir
+vcan = ucan or dcan
+hcan = rcan or lcan
+newmove = un or rn or dn or ln
+(quadrant markers)
+quad = ruq or luq or rdq or ldq
+line = uline or dline or rline or lline
+vline = uline or dline
+hline = rline or lline
+
+diaquad = udia or ldia or rdia or ddia
+vdia = udia or ddia
+hdia = ldia or rdia
+(collision)
+check = ucheck or dcheck or lcheck or rcheck
+find = vfind or hfind or bfind
+obstacle = floor or levelbarrier or player
+(old pieces)
+oldstuff = fullraft or part or player
+
+(snake push)
+snekmov = usnek or dsnek or rsnek or lsnek
+hsnek = rsnek or lsnek
+vsnek = usnek or dsnek
+segment = vsegment or hsegment
+
+(bomb)
+cut = hcut or vcut
+
+(get rid of these after each colors' rules)
+removeAfterMove = push or test or snekmov or cut or check or checkhere or overlap or prev or rotate or center or norotate or canmov or rotdir or quad or line or dia or diaquad
+
+=======
+SOUNDS
+=======
+
+sfx0 63417907 (push)
+sfx1 65329507 (nope)
+sfx2 56853700 (yay)
+sfx3 78569907 (boat move)
+sfx4 59716309 (boat turn)
+sfx5 34042503 (boat snek)
+sfx6 47626902 (explosion)
+sfx7 94713705 (up hole)
+sfx8 90055904 (into hole)
+sfx9 72788709 (sinking)
+
+================
+COLLISIONLAYERS
+================
+
+background
+wave
+levelbarrier
+shadow
+tide
+
+land
+luland
+ldland
+ruland
+rdland
+uland
+dland
+lland
+rland
+iluland
+ildland
+iruland
+irdland
+fillland
+
+hide
+
+raft
+luraft
+ldraft
+ruraft
+rdraft
+uraft
+draft
+lraft
+rraft
+iluraft
+ildraft
+iruraft
+irdraft
+fillraft
+wcolor
+
+ luraftmove
+ ldraftmove
+ ruraftmove
+ rdraftmove
+  uraftmove
+  draftmove
+  lraftmove
+  rraftmove
+iluraftmove
+ildraftmove
+iruraftmove
+irdraftmove
+
+ luraftrota
+ ldraftrota
+ ruraftrota
+ rdraftrota
+  uraftrota
+  draftrota
+  lraftrota
+  rraftrota
+iluraftrota
+ildraftrota
+iruraftrota
+irdraftrota
+
+ luraftsnek
+ ldraftsnek
+ ruraftsnek
+ rdraftsnek
+  uraftsnek
+  draftsnek
+  lraftsnek
+  rraftsnek
+iluraftsnek
+ildraftsnek
+iruraftsnek
+irdraftsnek
+
+glueside
+
+active
+local
+selectedraft, selecteddone
+
+glue
+gluewide
+
+box, stick
+boxon
+
+lookmarker
+player, lowplayer
+wplayer
+
+boxdead
+boxindiv
+onebox
+
+ubox
+dbox
+rbox
+lbox
+dwyel
+rwyel
+lwyel
+
+lookplayer
+
+ustick
+dstick
+rstick
+lstick
+
+goal
+goalwin
+
+play
+collided
+testraft, testland, testglue
+testplayer
+testbox, teststick, testwall
+testspot
+
+(move)
+push
+
+(rotation)
+rotate
+norotate
+center
+rotdir
+ucan
+dcan
+rcan
+lcan
+line
+quad
+diaquad
+un
+dn
+rn
+ln
+unpicked
+picked
+newtile
+newdone, newfill
+once
+newrun
+overlap
+dia, newdia
+hfind
+vfind
+bfind
+checkhere
+ucheck
+lcheck
+rcheck
+dcheck
+between
+
+(snake)
+snekneck
+snekhead
+snekmov
+segment
+prev
+nosnake
+
+(bomb)
+cut
+
+(show on top of everything)
+nosink, sink
+hey
+
+cross
+
+======
+RULES     
+======     
+
+========================
+( #   # #### #  # #### )
+( ## ## #  # #  # #    )
+( # # # #  # #  # ###  )
+( #   # #  # #  # #    )
+( #   # ####  ##  #### )
+========================
+
+[VISUALS] -> []
+
+(player tries to move on sinking shape)
+[> player sink] -> cancel
+(other shapes sink)
+[> player no sink] [sink] -> [> player no sink] [no raft] sfx9
+[part no floor] -> []
+(hide collision crosses and get rid of collision markers after next move)
+[> player] [cross]      -> [> player] []
+[> player] [collided]   -> [> player] []
+
+(reorient player)
+[up    player] -> [up    player ulookmarker]
+[down  player] -> [down  player dlookmarker]
+[right player] -> [right player rlookmarker]
+[left  player] -> [left  player llookmarker]
+
+(after this point, movement is always getting deleted on the right side of rules.)
+
+(MOVE)
+(move into levelbarrier)
+[> player || levelbarrier] -> [stationary player || levelbarrier] sfx1
+
+(move floor to floor)
+[> player floor || floor no part] -> [floor || player floor] nosave
+
+(move empty to empty)
+[> player no floor || no obstacle]  -> [ || player] sfx9 nosave
+(...to land)
+[> player no floor || land] -> [stationary player || land] sfx1
+
+(PUSH)
+(push part to floor)
+[> player floor || boxmove  || floor no part] -> [floor || player || floor boxmove ] sfx0
+[> player floor || boxrota  || floor no part] -> [floor || player || floor boxrota ] sfx0
+[> player floor || boxsnek || floor no part] -> [floor || player || floor boxsnek] sfx0
+(sticks)
+[> player floor || hstick | floor | floor no part] -> [floor || player | floor | floor hstick] sfx0
+[> player floor || vstick | floor | floor no part] -> [floor || player | floor | floor vstick] sfx0
+horizontal [> player floor || hstick | no floor | floor] -> [floor || player || floor hstick] sfx0
+vertical   [> player floor || vstick | no floor | floor] -> [floor || player || floor vstick] sfx0
+horizontal [> player floor || vstick | no floor | floor] -> [floor || player | glue | floor] sfx0 sfx8
+vertical   [> player floor || hstick | no floor | floor] -> [floor || player | glue | floor] sfx0 sfx8
+
+(push part to part)
+[> player floor || box || part]     -> [player floor || box || part] sfx1
+
+(push part to empty)
+[> player floor || part || no floor] -> [stationary player floor || part || ] sfx1
+
+
+(SHAPE)
+(move empty from ground)
+right [> player floor || no floor] -> [floor stationary player rplay || ]
+up    [> player floor || no floor] -> [floor stationary player uplay || ]
+left  [> player floor || no floor] -> [floor stationary player lplay || ]
+down  [> player floor || no floor] -> [floor stationary player dplay || ]
+
+(move empty into raft)
+right [> player no floor || raft] -> [stationary player || rplay active local raft]
+up    [> player no floor || raft] -> [stationary player || uplay active local raft]
+left  [> player no floor || raft] -> [stationary player || lplay active local raft]
+down  [> player no floor || raft] -> [stationary player || dplay active local raft]
+
+(stop shape move! no color or dead)
+[play raft  no wcolor] -> [raft] sfx1
+[play land]            -> [land] sfx1
+[play raftdead]        -> [] sfx1
+(start tide)
+[play] -> [play tide]
+
+(TRANSFORM)
+(winning)
+[goalwin goal] -> []
+
+(spread local and active if player is in void)
+[player no floor] [local  | floor   ] -> [player] [local  | floor    local ]
+[player no floor] [active | fullraft] -> [player] [active | fullraft active]
+
+======================
+( #### ### #  # #  # )
+( #  #  #  ## # # #  )
+( #  #  #  # ## ###  )
+( ####  #  #  # #  # )
+( #    ### #  # #  # )
+======================
+
+(give whole shape push markers)
+[rplay raftmove] [active] -> [rplay raftmove rpush] [active rpush]
+[lplay raftmove] [active] -> [lplay raftmove lpush] [active lpush]
+[uplay raftmove] [active] -> [uplay raftmove upush] [active upush]
+[dplay raftmove] [active] -> [dplay raftmove dpush] [active dpush]
+
+(ground moved two tiles)
+right [rpush raft || ] -> [rpush raft || testraft]
+left  [lpush raft || ] -> [lpush raft || testraft]
+up    [upush raft || ] -> [upush raft || testraft]
+down  [dpush raft || ] -> [dpush raft || testraft]
+right [rpush land || ] -> [rpush land || testland]
+left  [lpush land || ] -> [lpush land || testland]
+up    [upush land || ] -> [upush land || testland]
+down  [dpush land || ] -> [dpush land || testland]
+right [rpush glue || ] -> [rpush glue || testglue]
+left  [lpush glue || ] -> [lpush glue || testglue]
+up    [upush glue || ] -> [upush glue || testglue]
+down  [dpush glue || ] -> [dpush glue || testglue]
+
+(check collision)
+[play] [test obstacle no active] -> [play collided] [obstacle] sfx1
+
+(get rid of all push markers if collision)
+[play collided] [push fullraft] -> [play collided] [fullraft]
+[play collided] [test]          -> [play collided] []
+
+(NO COLLISION)
+(kill old tiles)
+[play no collided] [push fullraft] -> [play] [push]
+
+(box moved two tiles)
+right [rpush boxmove || ] -> [rpush || testmove]
+left  [lpush boxmove || ] -> [lpush || testmove]
+up    [upush boxmove || ] -> [upush || testmove]
+down  [dpush boxmove || ] -> [dpush || testmove]
+right [rpush boxrota || ] -> [rpush || testrota]
+left  [lpush boxrota || ] -> [lpush || testrota]
+up    [upush boxrota || ] -> [upush || testrota]
+down  [dpush boxrota || ] -> [dpush || testrota]
+right [rpush boxsnek || ] -> [rpush || testsnek]
+left  [lpush boxsnek || ] -> [lpush || testsnek]
+up    [upush boxsnek || ] -> [upush || testsnek]
+down  [dpush boxsnek || ] -> [dpush || testsnek]
+
+(stick moved two tiles)
+right [rpush hstick || ] -> [rpush || testhstick]
+left  [lpush hstick || ] -> [lpush || testhstick]
+up    [upush hstick || ] -> [upush || testhstick]
+down  [dpush hstick || ] -> [dpush || testhstick]
+right [rpush vstick || ] -> [rpush || testvstick]
+left  [lpush vstick || ] -> [lpush || testvstick]
+up    [upush vstick || ] -> [upush || testvstick]
+down  [dpush vstick || ] -> [dpush || testvstick]
+
+(player moved two tiles)
+right [rplay push no collided] [player || ] -> [rplay] [ || testplayer]
+left  [lplay push no collided] [player || ] -> [lplay] [ || testplayer]
+up    [uplay push no collided] [player || ] -> [uplay] [ || testplayer]
+down  [dplay push no collided] [player || ] -> [dplay] [ || testplayer]
+
+(place moved tiles)
+[testraft] -> [raft] sfx3
+[testland] -> [land] sfx3 
+[testglue] -> [glue]
+
+[testplayer] -> [player ]
+[testmove  ] -> [boxmove]
+[testrota  ] -> [boxrota]
+[testsnek  ] -> [boxsnek]
+[testhstick] -> [hstick ]
+[testvstick] -> [vstick ]
+
+[removeAfterMove] -> []
+
+
+=======================
+( ###  #    #  # #### )
+( # #  #    #  # #    )
+( #### #    #  # ###  )
+( #  # #    #  # #    )
+( #### #### #### #### )
+=======================
+
+(find the center of rotation in the local active area)
+[play raftrota] [local boxrota no land] -> [play raftrota] [local boxrota  center]
+(stop of the move is useless)
+horizontal [hplay raftrota | ... | center] -> [raftrota no tide| ... | ] sfx1
+vertical   [vplay raftrota | ... | center] -> [raftrota no tide| ... | ] sfx1
+
+(find all active floor)
+[center] [no center active fullraft] -> [center] [active fullraft rotate]
+(find every obstacle outside the rotating area)
+[center] [obstacle no rotate] -> [center] [obstacle norotate]
+
+
+(clockwise or counterclockwise? ============================================)
+
+[center] -> [center ucan rcan dcan lcan]
+
+(how to move in each quarter around center for clockwise)
+up    [rcan | ] -> [rcan | rcan uline]
+down  [lcan | ] -> [lcan | lcan dline]
+left  [ucan | ] -> [ucan | ucan lline]
+right [dcan | ] -> [dcan | dcan rline]
+horizontal [rcan no center | ] -> [rcan | rcan]
+horizontal [lcan no center | ] -> [lcan | lcan]
+vertical   [ucan no center | ] -> [ucan | ucan]
+vertical   [dcan no center | ] -> [dcan | dcan]
+
+(play direction -> rotation direction)
+[rplay rcan] [center] -> [rplay rcan] [center clockdir]
+[lplay lcan] [center] -> [lplay lcan] [center clockdir]
+[uplay ucan] [center] -> [uplay ucan] [center clockdir]
+[dplay dcan] [center] -> [dplay dcan] [center clockdir]
+
+[rplay lcan] [center] -> [rplay lcan] [center counterdir]
+[lplay rcan] [center] -> [lplay rcan] [center counterdir]
+[uplay dcan] [center] -> [uplay dcan] [center counterdir]
+[dplay ucan] [center] -> [dplay ucan] [center counterdir]
+
+[center canmov] -> [center]
+
+
+(setup quadrants, diagonal quadrants =======================================)
+[rcan dcan] -> [ruq]
+[lcan dcan] -> [rdq]
+[lcan ucan] -> [ldq]
+[rcan ucan] -> [luq]
+
+vertical   [ | center | ] -> [newdia | center | newdia]
+horizontal [ | newdia | ] -> [dia | | dia]
+
+startloop
+up    [luq dia | ] -> [luq dia | newdia] 
+up    [ruq dia | ] -> [ruq dia | newdia] 
+down  [ldq dia | ] -> [ldq dia | newdia] 
+down  [rdq dia | ] -> [rdq dia | newdia] 
+left  [luq newdia | ] -> [luq newdia | dia] 
+left  [ldq newdia | ] -> [ldq newdia | dia] 
+right [ruq newdia | ] -> [ruq newdia | dia] 
+right [rdq newdia | ] -> [rdq newdia | dia] 
+endloop
+
+[newdia] -> []
+
+(fill)
+[rline] -> [rline rdia]
+[lline] -> [lline ldia]
+[uline] -> [uline udia]
+[dline] -> [dline ddia]
+[rdia | quad no dia] -> [rdia | quad rdia]
+[ldia | quad no dia] -> [ldia | quad ldia]
+[udia | quad no dia] -> [udia | quad udia]
+[ddia | quad no dia] -> [ddia | quad ddia]
+
+
+(MOVE TILES=========================================================================)
+[rotate] -> [rotate unpicked]
+
+startloop
+
+(new pick)
+random [center newrun] [unpicked] -> [center newrun] [picked] 
+
+(remember type of this pick in the center)
+[center newrun] [picked player ] -> [center newrun testplayer] [picked player ]
+[center newrun] [picked boxmove] -> [center newrun testmove  ] [picked boxmove]
+[center newrun] [picked boxrota] -> [center newrun testrota  ] [picked boxrota]
+[center newrun] [picked boxsnek] -> [center newrun testsnek  ] [picked boxsnek]
+[center newrun] [picked hstick ] -> [center newrun testhstick] [picked hstick ]
+[center newrun] [picked vstick ] -> [center newrun testvstick] [picked vstick ]
+(this should stack with all the above)
+[center newrun] [picked raft] -> [center newrun testraft] [picked raft]
+[center newrun] [picked land] -> [center newrun testland] [picked land]
+[center newrun] [picked glue] -> [center newrun testglue] [picked glue]
+
+(mark collision find type on original tile pos)
+[center newrun] [picked vdia      ] -> [center newrun] [picked vdia hfind between] 
+[center newrun] [picked hdia      ] -> [center newrun] [picked hdia vfind between]
+[center newrun] [picked no diaquad] -> [center newrun] [picked bfind]
+
+(move to middle and count)
+up    [ldq picked | ] -> [ldq un | picked] 
+down  [ruq picked | ] -> [ruq dn | picked] 
+left  [rdq picked | ] -> [rdq ln | picked] 
+right [luq picked | ] -> [luq rn | picked] 
+
+up    [dline picked | ] -> [dline un | picked] 
+down  [uline picked | ] -> [uline dn | picked] 
+left  [rline picked | ] -> [rline ln | picked] 
+right [lline picked | ] -> [lline rn | picked] 
+
+(NEW TILE from middle, not during unfinished moving)
+[center newrun picked] -> [center newrun newtile] 
+
+(move to position based on count)
+random [un] [newtile]  -> [once] [newtile]
+ left  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
+ right [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
+random [dn] [newtile]  -> [once] [newtile] 
+ right [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
+ left  [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
+random [rn] [newtile]  -> [once] [newtile] 
+ up    [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
+ down  [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
+random [ln] [newtile]  -> [once] [newtile] 
+ down  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
+ up    [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
+
+(re-add keepgoing only if not done - directions left)
+[center] -> [center newrun]
+[newmove] [newrun] -> [newmove] []
+
+(collision find type in final position)
+[center newrun] [newtile vdia] ->       [center newrun] [newtile vdia hfind between]
+[center newrun] [newtile hdia] ->       [center newrun] [newtile hdia vfind between]
+[center newrun] [newtile no diaquad] -> [center newrun] [newtile bfind]
+
+(find overlap)
+horizontal [center newrun] [hfind | ] -> [center newrun] [hfind | hfind]
+vertical   [center newrun] [vfind | ] -> [center newrun] [vfind | vfind]
+[center newrun] [ldq vfind hfind] -> [center newrun] [ldq vfind hfind ucheck rcheck]
+[center newrun] [luq vfind hfind] -> [center newrun] [luq vfind hfind dcheck rcheck]
+[center newrun] [rdq vfind hfind] -> [center newrun] [rdq vfind hfind ucheck lcheck]
+[center newrun] [ruq vfind hfind] -> [center newrun] [ruq vfind hfind dcheck lcheck]
+
+(expand area that needs to be checked)
+up    [ucheck | no between] -> [ucheck | ucheck]
+down  [dcheck | no between] -> [dcheck | dcheck]
+left  [lcheck | no between] -> [lcheck | lcheck]
+right [rcheck | no between] -> [rcheck | rcheck]
+[check] -> [checkhere]
+
+(find between)
+[bfind | | bfind] -> [bfind | checkhere | bfind]
+[bfind | | ... | bfind] -> [bfind | checkhere | ... | bfind]
+
+(done)
+[center newrun] [between] -> [center newrun] []
+[center newrun] [find   ] -> [center newrun] []
+
+(where will the new player, etc go?)
+[center newrun testplayer  ] [newtile] -> [center newrun] [newtile testplayer  ]
+[center newrun testmove    ] [newtile] -> [center newrun] [newtile testmove    ]
+[center newrun testrota    ] [newtile] -> [center newrun] [newtile testrota    ]
+[center newrun testsnek    ] [newtile] -> [center newrun] [newtile testsnek    ]
+[center newrun testspotmove] [newtile] -> [center newrun] [newtile testspotmove]
+[center newrun testspotrota] [newtile] -> [center newrun] [newtile testspotrota]
+[center newrun testspotsnek] [newtile] -> [center newrun] [newtile testspotsnek]
+[center newrun testbomb    ] [newtile] -> [center newrun] [newtile testbomb    ]
+[center newrun testwall    ] [newtile] -> [center newrun] [newtile testwall    ]
+[center newrun testvstick  ] [newtile] -> [center newrun] [newtile testhstick  ] (swap)
+[center newrun testhstick  ] [newtile] -> [center newrun] [newtile testvstick  ] (swap)
+(stack)   
+[center newrun testraft    ] [newtile] -> [center newrun] [newtile testraft]
+[center newrun testland    ] [newtile] -> [center newrun] [newtile testland]
+[center newrun testglue    ] [newtile] -> [center newrun] [newtile testglue]
+
+(done tiles ready to replace)
+[center newrun] [newtile] -> [center newrun] [newdone]
+
+endloop
+
+
+(COLLISION=============================================================)
+
+[center] [newdone norotate] -> [center collided] [newdone norotate overlap] sfx1
+
+(tempcollision objects, are any left? then collision)
+[checkhere no norotate] -> []
+[checkhere rotate]   -> [rotate]
+[center] [checkhere] -> [center collided] [overlap] sfx1
+
+(spread crosses)
+[center collided] -> [center collided cross] sfx1
+[cross || ] -> [cross || cross]
+(delete unneccesary)
+[cross no overlap] -> []
+
+(stop everything after collision)
+[center collided] [newdone] -> [center collided] []
+[center collided] [play]    -> [center collided] []
+[center collided] [test]    -> [center collided] []
+[center collided] [rotate]  -> [center collided] []
+
+(PLACE==================================================================)
+
+(delete old ground and things on it)
+[rotate oldstuff] -> [rotate]
+
+(move ground)
+[newdone testraft] -> [raft]
+[newdone testland] -> [land]
+[newdone testglue] -> [glue]
+
+(move floor player)
+[center no collided] [player no rotate] -> [center] [lowplayer]
+
+up    [uplay] [lowplayer || no obstacle] -> [uplay] [ || player]
+down  [dplay] [lowplayer || no obstacle] -> [dplay] [ || player]
+left  [lplay] [lowplayer || no obstacle] -> [lplay] [ || player]
+right [rplay] [lowplayer || no obstacle] -> [rplay] [ || player]
+
+up    [uplay] [lowplayer || obstacle] -> [uplay] [stationary player || obstacle] sfx1
+down  [dplay] [lowplayer || obstacle] -> [dplay] [stationary player || obstacle] sfx1
+left  [lplay] [lowplayer || obstacle] -> [lplay] [stationary player || obstacle] sfx1
+right [rplay] [lowplayer || obstacle] -> [rplay] [stationary player || obstacle] sfx1
+
+(move player and stuff)
+[testplayer] -> [player ]
+[testmove  ] -> [boxmove]
+[testrota  ] -> [boxrota]
+[testsnek  ] -> [boxsnek]
+[testhstick] -> [hstick ]
+[testvstick] -> [vstick ]
+
+(done!)
+[center no collided] -> [] sfx4
+
+[collided] [tide] -> [collided] []
+[removeAfterMove] -> []
+
+
+============================
+( #### ###  #### #### #  # )
+( #    #  # #    #    ## # )
+( # ## ###  ###  ###  # ## )
+( #  # #  # #    #    #  # )
+( #### #  # #### #### #  # )
+============================
+(WIP)
+
+(start at snek active box)
+[rplay raftsnek] [local boxsnek snekhead] -> [rplay raftsnek] [local boxsnek snekhead rsnek prev]
+[lplay raftsnek] [local boxsnek snekhead] -> [lplay raftsnek] [local boxsnek snekhead lsnek prev]
+[uplay raftsnek] [local boxsnek snekhead] -> [uplay raftsnek] [local boxsnek snekhead usnek prev]
+[dplay raftsnek] [local boxsnek snekhead] -> [dplay raftsnek] [local boxsnek snekhead dsnek prev]
+
+(check for collision)
+up    [usnek || obstacle] -> [collided || obstacle cross] sfx1
+down  [dsnek || obstacle] -> [collided || obstacle cross] sfx1
+left  [lsnek || obstacle] -> [collided || obstacle cross] sfx1
+right [rsnek || obstacle] -> [collided || obstacle cross] sfx1
+
+(remember that the player is on floor and show possible spot)
+up    [usnek] [player no raftsnek || ] -> [usnek] [lowplayer || testplayer]
+down  [dsnek] [player no raftsnek || ] -> [dsnek] [lowplayer || testplayer]
+left  [lsnek] [player no raftsnek || ] -> [lsnek] [lowplayer || testplayer]
+right [rsnek] [player no raftsnek || ] -> [rsnek] [lowplayer || testplayer]
+
+(move markers every tile)
+startloop
+up    [active no snekmov | snekmov prev] -> [active usnek prev | snekmov]
+down  [active no snekmov | snekmov prev] -> [active dsnek prev | snekmov]
+left  [active no snekmov | snekmov prev] -> [active lsnek prev | snekmov]
+right [active no snekmov | snekmov prev] -> [active rsnek prev | snekmov]
+endloop 
+
+(add one more in front)
+up    [snekhead usnek | no snekmov] -> [snekhead usnek | usnek]
+down  [snekhead dsnek | no snekmov] -> [snekhead dsnek | dsnek]
+left  [snekhead lsnek | no snekmov] -> [snekhead lsnek | lsnek]
+right [snekhead rsnek | no snekmov] -> [snekhead rsnek | rsnek]
+
+(place test parts)
+up    [usnek player || ] -> [usnek || testplayer]
+down  [dsnek player || ] -> [dsnek || testplayer]
+left  [lsnek player || ] -> [lsnek || testplayer]
+right [rsnek player || ] -> [rsnek || testplayer]
+
+up    [usnek boxmove || ] -> [usnek || testmove]
+down  [dsnek boxmove || ] -> [dsnek || testmove]
+left  [lsnek boxmove || ] -> [lsnek || testmove]
+right [rsnek boxmove || ] -> [rsnek || testmove]
+up    [usnek boxrota || ] -> [usnek || testrota]
+down  [dsnek boxrota || ] -> [dsnek || testrota]
+left  [lsnek boxrota || ] -> [lsnek || testrota]
+right [rsnek boxrota || ] -> [rsnek || testrota]
+up    [usnek boxsnek || ] -> [usnek || testsnek]
+down  [dsnek boxsnek || ] -> [dsnek || testsnek]
+left  [lsnek boxsnek || ] -> [lsnek || testsnek]
+right [rsnek boxsnek || ] -> [rsnek || testsnek]
+up    [usnek hstick || no hsnek] -> [usnek || testhstick]
+down  [dsnek hstick || no hsnek] -> [dsnek || testhstick]
+left  [lsnek hstick || no vsnek] -> [lsnek || testhstick]
+right [rsnek hstick || no vsnek] -> [rsnek || testhstick]
+up    [usnek vstick || no hsnek] -> [usnek || testvstick]
+down  [dsnek vstick || no hsnek] -> [dsnek || testvstick]
+left  [lsnek vstick || no vsnek] -> [lsnek || testvstick]
+right [rsnek vstick || no vsnek] -> [rsnek || testvstick]
+up    [usnek hstick || hsnek] -> [usnek || hsnek testvstick]
+down  [dsnek hstick || hsnek] -> [dsnek || hsnek testvstick]
+left  [lsnek hstick || vsnek] -> [lsnek || vsnek testvstick]
+right [rsnek hstick || vsnek] -> [rsnek || vsnek testvstick]
+up    [usnek vstick || hsnek] -> [usnek || hsnek testhstick]
+down  [dsnek vstick || hsnek] -> [dsnek || hsnek testhstick]
+left  [lsnek vstick || vsnek] -> [lsnek || vsnek testhstick]
+right [rsnek vstick || vsnek] -> [rsnek || vsnek testhstick]
+
+(single move, these appear on off tiles)
+up    [usnek raft | ] -> [usnek | testraft]
+down  [dsnek raft | ] -> [dsnek | testraft]
+left  [lsnek raft | ] -> [lsnek | testraft]
+right [rsnek raft | ] -> [rsnek | testraft]
+up    [usnek land | ] -> [usnek | testland]
+down  [dsnek land | ] -> [dsnek | testland]
+left  [lsnek land | ] -> [lsnek | testland]
+right [rsnek land | ] -> [rsnek | testland]
+up    [usnek glue | ] -> [usnek | testglue]
+down  [dsnek glue | ] -> [dsnek | testglue]
+left  [lsnek glue | ] -> [lsnek | testglue]
+right [rsnek glue | ] -> [rsnek | testglue]
+
+(convert all back)
+[snekmov] [active fullraft] -> [snekmov] []
+(2nd move)
+up    [usnek testraft | ] -> [ | raft]
+down  [dsnek testraft | ] -> [ | raft]
+left  [lsnek testraft | ] -> [ | raft]
+right [rsnek testraft | ] -> [ | raft]
+up    [usnek testland | ] -> [ | land]
+down  [dsnek testland | ] -> [ | land]
+left  [lsnek testland | ] -> [ | land]
+right [rsnek testland | ] -> [ | land]
+up    [usnek testglue | ] -> [ | glue]
+down  [dsnek testglue | ] -> [ | glue]
+left  [lsnek testglue | ] -> [ | glue]
+right [rsnek testglue | ] -> [ | glue]
+
+[lowplayer || testplayer obstacle] -> [player || obstacle]
+[lowplayer] -> [] sfx1 (ALWAYS make a sound when pushing into side)
+
+[testplayer] -> [player ]
+[testmove  ] -> [boxmove]
+[testrota  ] -> [boxrota]
+[testhstick] -> [hstick ]
+[testvstick] -> [vstick ]
+[testsnek  ] -> [boxsnek] sfx5
+
+[collided] [tide] -> [collided] []
+[removeAfterMove] -> []
+
+
+=======================
+(        BOMB         )
+=======================
+
+(line)
+horizontal [hcut || ] -> [hcut || hcut]
+vertical   [vcut || ] -> [vcut || vcut]
+
+(delete ground)
+[fullraft cut] -> []
+
+[removeAfterMove] -> []
+
+=======================
+(        GLUE         )
+=======================
+
+(get rid of unneeded)
+[floor | glue | floor] -> [floor | testglue | floor]
+[glue] -> []
+[testglue] -> [glue]
+
+=======================
+(        MISC         )
+=======================
+
+[removeAfterMove   ] -> []
+[play    ] -> []
+[active  ] -> []
+[local   ] -> []
+[wcolor  ] -> []
+[boxindiv] -> []
+[boxdead ] -> []
+[sink    ] -> []
+
+[player  goalplayer] -> [goalwin] sfx2
+[boxmove goalmove  ] -> [goalwin] sfx2
+[boxrota goalrota  ] -> [goalwin] sfx2
+[boxsnek goalsnek  ] -> [goalwin] sfx2
+
+====================================
+( ###  #### ####  ###   ###  #   # )
+( #  # #    #   # #  # #   # #   # )
+( ###  ###  #   # ###  #   # # # # )
+( #  # #    #   # #  # ##### ## ## )
+( #  # #### ####  #  # #   # #   # )
+====================================
+
+(Borders, corners etc)
+
+(raft)
+up   [raft | no raft] -> [raft | uraft]
+left [raft | no raft] -> [raft | lraft]
+down [raft | no raft] -> [raft | draft]
+right[raft | no raft] -> [raft | rraft]
+
+up   [rraft | no raft] -> [rraft | ruraft]
+up   [lraft | no raft] -> [lraft | luraft]
+down [rraft | no raft] -> [rraft | rdraft]
+down [lraft | no raft] -> [lraft | ldraft]
+
+[rraft uraft] -> [rraft uraft iruraft]
+[rraft draft] -> [rraft draft irdraft]
+[lraft uraft] -> [lraft uraft iluraft]
+[lraft draft] -> [lraft draft ildraft]
+
+[uraft draft rraft lraft] -> [uraft draft rraft lraft fillraft]
+
+(land)
+up   [land | no land] -> [land | uland]
+left [land | no land] -> [land | lland]
+down [land | no land] -> [land | dland]
+right[land | no land] -> [land | rland]
+
+up   [rland | no land] -> [rland | ruland]
+up   [lland | no land] -> [lland | luland]
+down [rland | no land] -> [rland | rdland]
+down [lland | no land] -> [lland | ldland]
+
+[rland uland] -> [rland uland iruland]
+[rland dland] -> [rland dland irdland]
+[lland uland] -> [lland uland iluland]
+[lland dland] -> [lland dland ildland]
+
+[uland dland rland lland] -> [uland dland rland lland fillland]
+
+(player)
+up   [player | ] -> [player | ubox]
+left [player | ] -> [player | lbox]
+down [player | ] -> [player | dbox]
+right[player | ] -> [player | rbox]
+
+[player] [ulookmarker] -> [player ulookplayer] []
+[player] [dlookmarker] -> [player dlookplayer] []
+[player] [rlookmarker] -> [player rlookplayer] []
+[player] [llookmarker] -> [player llookplayer] []
+
+right [rlookplayer | ] -> [rlookplayer | rlookeye]
+left  [llookplayer |] -> [llookplayer | llookeye]
+
+left [player no floor| ] -> [player | lwyel]
+down [player no floor| ] -> [player | dwyel]
+right[player no floor| ] -> [player | rwyel]
+
+[player no floor] -> [player wplayer]
+
+(things)
+up   [box | ] -> [box | ubox]
+left [box | ] -> [box | lbox]
+down [box | ] -> [box | dbox]
+right[box | ] -> [box | rbox]
+
+up   [vstick | ] -> [vstick | ustick]
+left [hstick | ] -> [hstick | lstick]
+down [vstick | ] -> [vstick | dstick]
+right[hstick | ] -> [hstick | rstick]
+
+(glue)
+down     [glue | no fullraft no obstacle] -> [glue | glueside]
+vertical [glue | fullraft] -> [glue gluewide | fullraft]
+
+(shadow & levelbarrier)
+[castshadow] -> [castshadow shadow]
+[levelbarrier] -> [levelbarrier hide]
+
+(wave)
+[tide | ] -> [tide | tide]
+[wave tide] -> []
+[no wave tide] -> [wave]
+
+(preparation: find out where snakeheads are (correct snek placement))
+[floor boxsnek no snekhead | fullraft] ->             [floor boxsnek snekhead | fullraft snekneck]
+[floor boxsnek snekhead    | fullraft no snekneck] -> [floor boxsnek | fullraft]
+[snekneck] -> []  
+
+
+=========================================
+( ###  #### ###    ###  ###  ####  ###  )
+( #  # #    #  #  #   # #  # #    #   # )
+( ###  ###  ###   #   # ###  ###  #   # )
+( #    #    #  #  ##### #  # #    ##### )
+( #    #### #  #  #   # #  # #### #   # )
+=========================================
+
+startloop
+(select next shape)
+random [floor no selecteddone no selectedraft] -> [floor selectedraft]
+[floor selectedraft | floor] -> [floor selectedraft | floor selectedraft]
+
+(nosink)
+[selectedraft raft || land] -> [selectedraft raft nosink || land]
+[nosink || raft] -> [nosink || raft nosink]
+[nosink | raft] -> [nosink | raft nosink]
+
+(raft with color starting from one box, fill later)
+random [selectedraft raft box] -> [selectedraft raft box onebox]
+[onebox boxmove  raft] -> [onebox boxmove  raft raftmove ]
+[onebox boxrota  raft] -> [onebox boxrota  raft raftrota ]
+random [selectedraft onebox boxsnek no snekhead] [selectedraft boxsnek snekhead] -> [selectedraft boxsnek] [selectedraft boxsnek onebox snekhead]
+[onebox boxsnek snekhead raft] -> [onebox boxsnek snekhead raft raftsnek]
+
+(next)
+[selectedraft] -> [selecteddone]
+
+endloop
+
+[selecteddone] -> []
+
+(SPREAD ACTIVE AND LOCAL TILES)
+(player)
+[floor player] -> [floor player active local]
+[fullraft active | fullraft] -> [fullraft active | fullraft active]
+[floor local | floor] -> [floor local | floor local]
+
+===========================================
+
+
+
+(raft==================================================================)
+
+startloop
+(spread color)
+[likeraft raftmove | likeraft no box] -> [likeraft raftmove | likeraft raftmove]
+[likeraft raftrota | likeraft no box] -> [likeraft raftrota | likeraft raftrota]
+[likeraft raftsnek | likeraft no box] -> [likeraft raftsnek | likeraft raftsnek]
+
+(when multiple are allowed)
+[likeraft raftmove  | likeraft boxmove ] -> [likeraft raftmove  | likeraft raftmove  boxmove]
+[likeraft raftsnek | likeraft boxsnek no snekhead] -> [likeraft raftsnek | likeraft raftsnek boxsnek]
+endloop
+
+(sinking raft)
+[raft no nosink]         -> [raft sink] sfx9
+[raft sink | castshadow] -> [raft sink | castshadow sink]
+[nosink] -> []
+
+(color rafts)
+up   [raftmove | no raftmove] -> [raftmove | uraftmove]
+left [raftmove | no raftmove] -> [raftmove | lraftmove]
+down [raftmove | no raftmove] -> [raftmove | draftmove]
+right[raftmove | no raftmove] -> [raftmove | rraftmove]
+
+up   [rraftmove | no raftmove] -> [rraftmove | ruraftmove]
+up   [lraftmove | no raftmove] -> [lraftmove | luraftmove]
+down [rraftmove | no raftmove] -> [rraftmove | rdraftmove]
+down [lraftmove | no raftmove] -> [lraftmove | ldraftmove]
+
+[rraftmove uraftmove] -> [rraftmove uraftmove iruraftmove]
+[rraftmove draftmove] -> [rraftmove draftmove irdraftmove]
+[lraftmove uraftmove] -> [lraftmove uraftmove iluraftmove]
+[lraftmove draftmove] -> [lraftmove draftmove ildraftmove]
+
+
+up   [raftrota | no raftrota] -> [raftrota | uraftrota]
+left [raftrota | no raftrota] -> [raftrota | lraftrota]
+down [raftrota | no raftrota] -> [raftrota | draftrota]
+right[raftrota | no raftrota] -> [raftrota | rraftrota]
+
+up   [rraftrota | no raftrota] -> [rraftrota | ruraftrota]
+up   [lraftrota | no raftrota] -> [lraftrota | luraftrota]
+down [rraftrota | no raftrota] -> [rraftrota | rdraftrota]
+down [lraftrota | no raftrota] -> [lraftrota | ldraftrota]
+
+[rraftrota uraftrota] -> [rraftrota uraftrota iruraftrota]
+[rraftrota draftrota] -> [rraftrota draftrota irdraftrota]
+[lraftrota uraftrota] -> [lraftrota uraftrota iluraftrota]
+[lraftrota draftrota] -> [lraftrota draftrota ildraftrota]
+
+
+up   [raftsnek | no raftsnek] -> [raftsnek | uraftsnek]
+left [raftsnek | no raftsnek] -> [raftsnek | lraftsnek]
+down [raftsnek | no raftsnek] -> [raftsnek | draftsnek]
+right[raftsnek | no raftsnek] -> [raftsnek | rraftsnek]
+
+up   [rraftsnek | no raftsnek] -> [rraftsnek | ruraftsnek]
+up   [lraftsnek | no raftsnek] -> [lraftsnek | luraftsnek]
+down [rraftsnek | no raftsnek] -> [rraftsnek | rdraftsnek]
+down [lraftsnek | no raftsnek] -> [lraftsnek | ldraftsnek]
+
+[rraftsnek uraftsnek] -> [rraftsnek uraftsnek iruraftsnek]
+[rraftsnek draftsnek] -> [rraftsnek draftsnek irdraftsnek]
+[lraftsnek uraftsnek] -> [lraftsnek uraftsnek iluraftsnek]
+[lraftsnek draftsnek] -> [lraftsnek draftsnek ildraftsnek]
+
+
+(DEAD OR ON===============================================================)
+
+(start dead: raft boxes still without color? must be mixed or too many!)
+[box raft no wcolor] -> [box raft raftdead]
+
+(snake makes no sense!)
+horizontal [fullraft | fullraft | fullraft] -> [fullraft | fullraft hsegment | fullraft]
+vertical   [fullraft | fullraft | fullraft] -> [fullraft | fullraft vsegment | fullraft]
+horizontal [fullraft | vsegment]  -> [fullraft | nosnake] 
+vertical   [fullraft | hsegment]  -> [fullraft | nosnake] 
+[segment] -> []
+[nosnake | fullraft] -> [nosnake | fullraft nosnake]
+[nosnake   raftsnek] -> [raftdead]
+
+(fill dead)
+[raftdead | likeraft] -> [raftdead | likeraft raftdead]
+[raftdead box] ->        [raftdead box boxdead]
+
+(box indicators)
+[boxmove local raftmove] ->          [boxmove local raftmove boxmoveon]
+[boxrota local raftrota] ->          [boxrota local raftrota boxrotaon]
+[boxsnek local raftsnek snekhead] -> [boxsnek local raftsnek boxsnekon snekhead]
+
+==============
+WINCONDITIONS
+==============
+
+no goal
+no boxdead
+no sink
+
+=======     
+LEVELS
+=======
+
+###############
+#.............#
+#.i.*.m.r.n...#
+#...s.g.g.g...#
+#.sss.g.g.g...#
+#.s.s.........#
+#.sss.........#
+#.............#
+#.....f.......#
+#.............#
+#.............#
+#.............#
+#.............#
+#.............#
+###############
+

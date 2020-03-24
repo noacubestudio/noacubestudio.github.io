@@ -169,10 +169,11 @@ SC056::
         ; Special characters
         case "0":   Send, {U+00B0} ; degree
         case "e":   Send, {U+20AC} ; euro
-        case "r":   Send, {U+00AE} ; registered
+        case "rr":  Send, {U+00AE} ; registered
         case "tm":  Send, {U+2122} ; trademark
         case "c":   Send, {U+00A9}{Space} ; copyright
-
+        case "y":   Send, {U+2713} ; checkmark
+        
         ; Arrows
         case "l":   Send, {U+2190} ; ← leftwards arrow
         case "up":  Send, {U+2191} ; ↑ upwards arrow
