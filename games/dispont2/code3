@@ -1,26 +1,26 @@
 title dis pontibus II remix
-homepage by noa, date ver. 01-14-a
+homepage by noa, date ver. 03-26-a
 background_color #14182e
 text_color #ff8933
 
 run_rules_on_level_start
 verbose_logging
 
-(
-CURRENT TODO
+(CURRENT TODO
 
-- test for weird bugs, maybe not allow huge shapes?
-- maybe something to switch box color/ switch with box
+• holders that actually work
+• test for weird bugs, maybe not allow huge shapes?
+• more of the new objects
+• sinking animation, same obstacle system for all types? also animate that.
+• single "test" object for raft itself -> check collision -> move everything else directly?
+• show overlay of shape with borders on collision.
 
 FLOOR
-• Shapes
+• Rafts
   • Get color from boxes
-  • fullraft to energy: won't sink
+  • Can sink
   • Players and boxes can't move off them
-• Geysir
-  • Energy source keeping everything fullraft afloat
-  • Swimming players turn into regular players on this
-  • Single floor piece and player spawn, doesn't move
+  • Sunken players can push shapes from the sides, activates their box type
 • Walls?
   • On top of shapes
   • Solid, but move with shapes
@@ -28,7 +28,7 @@ FLOOR
   • ???
 
 BOXES
-• Can move multiple in a row?
+• Can push multiple in a row?
 • Move box
   • whole shape moves
 • Rotate box
@@ -53,18 +53,12 @@ OBJECTS
   • grab boxes, so you can have multiple per shape
   • pushing won't move boxes out, but activate them
   • move into goals to empty holders again
-• Fish powerup
-  • if you were on a sinking platform, you can start swimming
-  • push shapes from the sides, activates their box type
 
 GOALS
-• all box types
-)
+• all box types)
 
 
-========
 OBJECTS
-========
 
 (markers)
 active
@@ -121,7 +115,6 @@ transparent
 testholder
 transparent
 
-(MOVE)
 
 (ROTATE)
 rotate
@@ -172,7 +165,6 @@ ln
 transparent
 dn
 transparent
-
 ruq
 transparent
 luq
@@ -222,7 +214,6 @@ rcheck
 transparent
 lcheck
 transparent
-
 between
 transparent
 
@@ -239,21 +230,13 @@ transparent
 hsneksegment
 transparent
 
-prev
-transparent
-
-
-(bomb)
-vcut
-transparent
-hcut
+snekold
 transparent
 
 (waves)
 tide
 transparent
 
-(HEY!)
 hey
 red
 00000
@@ -262,12 +245,11 @@ red
 0...0
 00000
 
+
 starter
 transparent
-
 pusher
 transparent
-
 snaker
 transparent
 
@@ -1023,10 +1005,7 @@ holder
 .....
 
 
-
-=======
 LEGEND
-=======
 
 (levels)
 . = background
@@ -1135,15 +1114,11 @@ oldstuff = fullraft or part or player
 (snake push)
 sneksegment = vsneksegment or hsneksegment
 
-(bomb)
-cut = hcut or vcut
-
 (get rid of these after each colors' rules)
-removeAfterMove = pusher or test or cut or check or checkhere or overlap or prev or snaker or rotate or center or norotate or canmov or rotdir or quad or line or dia or diaquad
+removeAfterMove = test or pusher or check or checkhere or overlap or snekold or snaker or rotate or center or norotate or canmov or rotdir or quad or line or dia or diaquad
 
-=======
+
 SOUNDS
-=======
 
 sfx0 63417907 (push)
 sfx1 65329507 (nope)
@@ -1156,50 +1131,50 @@ sfx7 94713705 (up hole)
 sfx8 90055904 (into hole)
 sfx9 72788709 (sinking)
 
-================
-COLLISIONLAYERS
-================
 
+COLLISIONLAYERS
+
+(background)
 background
 wave
 levelbarrier
 shadow
 tide
 ripples
+hide
 
-land
-luland
-ldland
-ruland
-rdland
-uland
-dland
-lland
-rland
+(ground)
+   land
+ luland
+ ldland
+ ruland
+ rdland
+  uland
+  dland
+  lland
+  rland
 iluland
 ildland
 iruland
 irdland
 fillland
 
-hide
-
-raft
-luraft
-ldraft
-ruraft
-rdraft
-uraft
-draft
-lraft
-rraft
+   raft
+ luraft
+ ldraft
+ ruraft
+ rdraft
+  uraft
+  draft
+  lraft
+  rraft
 iluraft
 ildraft
 iruraft
 irdraft
 fillraft
+
 rafttype
-sleepysnek
 
  luraftmove
  ldraftmove
@@ -1241,36 +1216,37 @@ iruraftsnek
 irdraftsnek
 
 glueside
+glue
+gluewide
 
 active
 local
 selectedraft, selecteddone
 
-glue
-gluewide
-
+(box, stick, holder)
 box, stick
-holder
-
-lookmarker
-player, lowplayer
-wplayer
-
-boxindiv
-frombox
-
 ubox
 dbox
 rbox
 lbox
-
-lookplayer
-
 dstick
 
+boxindiv
+frombox
+sleepysnek
+
+(target)
+holder
 goal
 goalwin
 
+(player)
+player, lowplayer
+lookmarker
+wplayer
+lookplayer
+
+(raft rules)
 starter
 collided
 testraft, testglue
@@ -1278,10 +1254,10 @@ testplayer
 testbox, teststick, testwall
 testholder
 
-(move)
+(move raft rules)
 pusher
 
-(rotation)
+(rotation raft rules)
 rotate
 norotate
 center
@@ -1315,35 +1291,27 @@ rcheck
 dcheck
 between
 
-(snake)
+(snake raft rules)
+snaker
+
 snekneck
 snekbody
 snekhead
-snaker
 sneksegment
-prev
-
-(bomb)
-cut
+snekold
 
 (show on top of everything)
 nosink, sink
 hey
-
 cross
 
-======
-RULES     
-======     
+
+RULES
 
 [VISUALS] -> []
 
 [ripples no fullraft] -> [] 
 [fullraft] -> [fullraft ripples] 
-
-
-(PLAYER)
-==========================================================================
 
 [goalwin goal] -> []
 
@@ -1351,6 +1319,11 @@ RULES
 (shapes sink)
 [sink] -> [no raft] sfx9
 [onfloor no floor] -> []
+
+
+
+(on player move)
+==========================================================================
 
 (hide collision crosses and get rid of collision markers after next move)
 [> player] [cross]      -> [> player] []
@@ -1472,16 +1445,16 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 
 (moved two tiles)
 [> pusher player  || ] -> [> pusher || testplayer]
-[> pusher boxmove || ] -> [> pusher || testmove]
-[> pusher boxrota || ] -> [> pusher || testrota]
-[> pusher boxsnek || ] -> [> pusher || testsnek]
-[> pusher boxpush || ] -> [> pusher || testpush]
+[> pusher boxmove || ] -> [> pusher || testmove  ]
+[> pusher boxrota || ] -> [> pusher || testrota  ]
+[> pusher boxsnek || ] -> [> pusher || testsnek  ]
+[> pusher boxpush || ] -> [> pusher || testpush  ]
 [> pusher hstick  || ] -> [> pusher || testhstick]
 [> pusher vstick  || ] -> [> pusher || testvstick]
 [> pusher holder  || ] -> [> pusher || testholder]
 
 (player in water)
-[> starter pusher no collided] [player no floor|| ] -> [> starter] [ || testplayer]
+[> starter pusher no collided] [player no floor || ] -> [> starter] [ || testplayer]
 
 (place moved tiles)
 [testraft] -> [raft] sfx3
@@ -1505,7 +1478,7 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 
 (find the center of rotation in the local active area)
 [starter raftrota] [local boxrota no land] -> [starter raftrota] [local boxrota center]
-(stop of the move is useless)
+(stop if the move is useless)
 [parallel starter raftrota | ... | center] -> [raftrota no tide| ... | ] sfx1
 [starter raftrota center] -> [raftrota no tide] sfx1
 
@@ -1530,15 +1503,15 @@ vertical   [ucan no center | ] -> [ucan | ucan]
 vertical   [dcan no center | ] -> [dcan | dcan]
 
 (play direction -> rotation direction)
-right [> starter rcan] [center] -> [> starter rcan] [center clockdir]
-left  [> starter lcan] [center] -> [> starter lcan] [center clockdir]
-up    [> starter ucan] [center] -> [> starter ucan] [center clockdir]
-down  [> starter dcan] [center] -> [> starter dcan] [center clockdir]
+right [ > starter rcan] [center] -> [ > starter rcan] [center clockdir]
+left  [ > starter lcan] [center] -> [ > starter lcan] [center clockdir]
+up    [ > starter ucan] [center] -> [ > starter ucan] [center clockdir]
+down  [ > starter dcan] [center] -> [ > starter dcan] [center clockdir]
 
-right [< starter rcan] [center] -> [< starter rcan] [center counterdir]
-left  [< starter lcan] [center] -> [< starter lcan] [center counterdir]
-up    [< starter ucan] [center] -> [< starter ucan] [center counterdir]
-down  [< starter dcan] [center] -> [< starter dcan] [center counterdir]
+right [ < starter rcan] [center] -> [ < starter rcan] [center counterdir]
+left  [ < starter lcan] [center] -> [ < starter lcan] [center counterdir]
+up    [ < starter ucan] [center] -> [ < starter ucan] [center counterdir]
+down  [ < starter dcan] [center] -> [ < starter dcan] [center counterdir]
 
 [center canmov] -> [center]
 
@@ -1550,7 +1523,7 @@ down  [< starter dcan] [center] -> [< starter dcan] [center counterdir]
 [rcan ucan] -> [luq]
 
 vertical   [ | center | ] -> [newdia | center | newdia]
-horizontal [ | newdia | ] -> [dia | | dia]
+horizontal [ | newdia | ] -> [dia    |        | dia   ]
 
 startloop
 up    [luq dia | ] -> [luq dia | newdia] 
@@ -1576,7 +1549,7 @@ endloop
 [ddia | quad no dia] -> [ddia | quad ddia]
 
 
-(MOVE TILES=========================================================================)
+(MOVE TILES===============================================================)
 [rotate] -> [rotate unpicked]
 
 startloop
@@ -1593,9 +1566,8 @@ random [center newrun] [unpicked] -> [center newrun] [picked]
 [center newrun] [picked hstick ] -> [center newrun testhstick] [picked hstick ]
 [center newrun] [picked vstick ] -> [center newrun testvstick] [picked vstick ]
 [center newrun] [picked holder ] -> [center newrun testholder] [picked holder ]
-(with all the above)
-[center newrun] [picked raft] -> [center newrun testraft] [picked raft]
-[center newrun] [picked glue] -> [center newrun testglue] [picked glue]
+[center newrun] [picked raft   ] -> [center newrun testraft  ] [picked raft   ]
+[center newrun] [picked glue   ] -> [center newrun testglue  ] [picked glue   ]
 
 (mark collision find type on original tile pos)
 [center newrun] [picked vdia      ] -> [center newrun] [picked vdia hfind between] 
@@ -1617,18 +1589,18 @@ right [lline picked | ] -> [lline rn | picked]
 [center newrun picked] -> [center newrun newtile] 
 
 (move to position based on count)
-random [un] [newtile]  -> [once] [newtile]
- left  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
- right [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
-random [dn] [newtile]  -> [once] [newtile] 
- right [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
- left  [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
-random [rn] [newtile]  -> [once] [newtile] 
- up    [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
- down  [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
-random [ln] [newtile]  -> [once] [newtile] 
- down  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [| newtile]
- up    [counterdir] [once] [newtile | ] -> [counterdir] [] [| newtile]
+random [un] [newtile] -> [once] [newtile ]
+      left  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
+      right [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
+random [dn] [newtile] -> [once] [newtile ] 
+      right [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
+      left  [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
+random [rn] [newtile] -> [once] [newtile ] 
+      up    [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
+      down  [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
+random [ln] [newtile] -> [once] [newtile ] 
+      down  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
+      up    [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
 
 (re-add keepgoing only if not done - directions left)
 [center] -> [center newrun]
@@ -1733,7 +1705,7 @@ endloop
 ==========================================================================
 
 (start at snek active box, re-assign that it is the head of the snake)
-[> starter raftsnek] [local boxsnek no sleepysnek] -> [> starter raftsnek] [local boxsnek > snaker snekhead prev]
+[> starter raftsnek] [local boxsnek no sleepysnek] -> [> starter raftsnek] [local boxsnek > snaker snekhead snekold]
 
 (check future head position for collision)
 [> snaker || obstacle] -> [collided || obstacle cross] sfx1
@@ -1744,7 +1716,7 @@ endloop
 (create direction markers every tile 
  building up from head, pointing at previous)
 startloop
-[prev snaker | active no snaker] -> [snaker | active < snaker prev]
+[snekold snaker | active no snaker] -> [snaker | active < snaker snekold]
 endloop 
 
 (add one more in front)
