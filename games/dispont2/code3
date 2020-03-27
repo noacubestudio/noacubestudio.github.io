@@ -1,64 +1,49 @@
 title dis pontibus II remix
-homepage by noa, date ver. 03-26-a
+homepage by noa, date ver. 03-27-a
 background_color #14182e
 text_color #ff8933
 
 run_rules_on_level_start
 verbose_logging
+again_interval 0.1
 
-(CURRENT TODO
-
-• holders that actually work
+(fix
+• face disappears when you moved initially, then stopped
+• holders dont use their own color
+• holders move the player with rota/snek
+• snakes don't need to be one line right now
 • test for weird bugs, maybe not allow huge shapes?
-• more of the new objects
-• sinking animation, same obstacle system for all types? also animate that.
-• single "test" object for raft itself -> check collision -> move everything else directly?
-• show overlay of shape with borders on collision.
-
-FLOOR
-• Rafts
-  • Get color from boxes
-  • Can sink
-  • Players and boxes can't move off them
-  • Sunken players can push shapes from the sides, activates their box type
-• Walls?
-  • On top of shapes
-  • Solid, but move with shapes
-• Glue
-  • ???
-
-BOXES
-• Can push multiple in a row?
-• Move box
-  • whole shape moves
-• Rotate box
-  • rotate around box 
-  • when in holder, gets handle
-  • if handle has to be turned, but can't rotate
-    still turn handle
-• Snake box
-  • if snake shape: move in direction
-• Shift box
-  • moves just a row
-  • useful for disconnecting/ splitting/ sinking as well
-• Mirror box?
-  • mirror in move axis, across box point
-• Mistake box (combination)
-  • after you pushed multiple boxes into same shape,
-  • they all turn into these
-
-OBJECTS
-• Holders
-  • sometimes with objects in them already
-  • grab boxes, so you can have multiple per shape
-  • pushing won't move boxes out, but activate them
-  • move into goals to empty holders again
-
-GOALS
-• all box types)
+• ripples show at future position when collision happened
+add
+• rotate handles for rotate box on holder
+  • appears opposite of player
+  • turns 90 even if the platform cant rotate
+• flec box (mirrors in move axis across box point)
+• shift box?? (that moves just a row. could also split/ sink parts)
+• animate
+  • sinking
+  • ripples
+  • collision overlay (full shape with borders, all one transparent color?)
+• code
+  • obstacle detection that's the same for all raft movements?
+  • ?single "test" object for raft itself -> check collision -> move everything else directly?
+maybe
+• Multi box pushing
+)
 
 
-OBJECTS
+OBJECTS (f1)
+
+(debug and editor)
+chapter
+transparent
+hey
+red
+00000
+0...0
+0...0
+0...0
+00000
 
 (markers)
 active
@@ -237,15 +222,6 @@ transparent
 tide
 transparent
 
-hey
-red
-00000
-0...0
-0...0
-0...0
-00000
-
-
 starter
 transparent
 pusher
@@ -253,7 +229,13 @@ transparent
 snaker
 transparent
 
-(---------------------------------------------)
+animator
+transparent
+
+
+
+(TILES f2)
+==========================================================================
 
 background
 #2c354d
@@ -321,7 +303,7 @@ rraft
 10...
 10...
 
-fillraft
+fraft
 #52333f
 
 ruraft
@@ -691,7 +673,7 @@ rland
 00...
 00...
 
-fillland
+fland
 #404973 #686F99
 10111
 00000
@@ -760,45 +742,48 @@ transparent
 (player, boxes)
 
 player 
-#ff8933 #e64539 #f5ffe8 #3b7d4f
+#ff8933 #e64539
 00000
-22022
-23032
-23132
+10000
+11000
+11100
 11111
-
-ulookplayer
-#ff8933 #e64539 #f5ffe8 #3b7d4f
-23032
-22022
+swimming
+#ff5277 #cc2f7b
+00000
+10000
 11000
 11100
 11111
 
+ulookplayer
+#f5ffe8 #3b7d4f
+01.10
+00.00
+.....
+.....
+.....
 dlookplayer
-#ff8933 #e64539 #f5ffe8 #3b7d4f
-00000
-10000
-22022
-23132
-11111
-
+#f5ffe8 #3b7d4f
+.....
+.....
+00.00
+01.10
+.....
 rlookplayer
-#ff8933 #e64539 #f5ffe8 #3b7d4f
-00000
-10000
-11220
-11230
-11111
-
+#f5ffe8 #3b7d4f
+.....
+.....
+..00.
+..01.
+.....
 llookplayer
-#ff8933 #e64539 #f5ffe8 #3b7d4f
-00000
-10000
-12200
-13200
-11111
-
+#f5ffe8 #3b7d4f
+.....
+.....
+.00..
+.10..
+.....
 rlookeye
 #f5ffe8 #3b7d4f
 .....
@@ -806,7 +791,6 @@ rlookeye
 0....
 1....
 .....
-
 llookeye
 #f5ffe8 #3b7d4f
 .....
@@ -844,17 +828,9 @@ rbox
 0....
 0....
 
-(in water, just visual)
-wplayer 
-#e19e10 #050819
-01001
-01001
-00000
-00000
-00000
 
 (BOXES)
-
+==========================================================================
 boxpush
 #8f4d57 #bd6a62 #52333f
 00000
@@ -923,6 +899,8 @@ dstick
 .....
 .....
 
+==========================================================================
+
 (collision happened! Show the cross to show where exactly.)
 cross
 #f5ffe8
@@ -932,9 +910,6 @@ cross
 00.00
 0...0
 
-sink
-#14182e90
-
 (win)
 goalplayer
 #f5ffe8
@@ -943,6 +918,13 @@ goalplayer
 0.00.
 000..
 .0...
+goalpush
+#8f4d57 #bd6a62
+....0
+...00
+1.00.
+110..
+.1...
 goalmove
 #ab5130 #cf752b
 ....0
@@ -971,6 +953,14 @@ goalwin
 0.00.
 000..
 .0...
+
+(sinking animation)
+sink1
+#14182e40
+sink2
+#14182e95
+
+==========================================================================
 
 glue
 #8f4d57 #bd6a62 #14182e
@@ -1005,120 +995,151 @@ holder
 .....
 
 
-LEGEND
+LEGEND (f3)
 
 (levels)
 . = background
 # = levelbarrier
-g = raft
-s = land
-* = player and land
+
+! = raft
+l = land
+g = glue
+
+p = player  and land and dlookmarker
+
+b = boxpush and land
 m = boxmove and raft
 r = boxrota and raft
-n = boxsnek and raft
-o = boxpush and land
-p = holder and raft
-q = boxpush and holder and raft
-t = boxmove and holder and raft
-u = boxrota and holder and raft
-v = boxsnek and holder and raft
-f = goalplayer
-h = goalmove
-i = goalrota
-j = goalsnek
-a = hstick and land
-b = vstick and land
-c = glue
+s = boxsnek and raft
+(f = boxflec and raft)
 
-(BASICS)
-floor = raft or land
-fullraft = floor or glue
 
-box = boxmove or boxrota or boxsnek or boxpush
-stick = hstick or vstick
+
+↔ = hstick  and land
+↕ = vstick  and land
+
+h = holder  and raft
+
+i = boxpush and holder and raft
+j = boxmove and holder and raft
+k = boxrota and holder and raft
+n = boxsnek and holder and raft
+
+1 = goalplayer
+2 = goalmove
+3 = goalrota
+4 = goalsnek
+5 = goalpush
+
+
+(OBJECTS)
+==========================================================================
+floor    = raft or land
+fullraft = raft or glue
+
 colorbox = boxmove or boxrota or boxsnek
+box      = boxmove or boxrota or boxsnek or boxpush
+stick    = hstick or vstick
+part     = box or stick (new solid items go here)
+onfloor  = part or holder
 
-part = box or stick(ADD NEW ITEMS HERE SO THEY CAN BE SOLID)
-onfloor = part or holder
-goal = goalplayer or goalmove or goalrota or goalsnek
+goal     = goalplayer or goalmove or goalrota or goalsnek or goalpush
 
-(DECO)
-(around raft shapes:)
-braft =   uraft or   draft or   lraft or   rraft (raft shape border)
-craft =  ruraft or  rdraft or  luraft or  ldraft (corner)
-iraft = iruraft or irdraft or iluraft or ildraft (inner)
-likeraft = raft or fillraft                      (looks like raft)
 
-braftmove =   uraftmove or   draftmove or   lraftmove or   rraftmove (raft shape border)
-craftmove =  ruraftmove or  rdraftmove or  luraftmove or  ldraftmove (corner)
-iraftmove = iruraftmove or irdraftmove or iluraftmove or ildraftmove (inner)
+(VISUAL)
+==========================================================================
+(land and rafts)
+bland      =       uland or       dland or       lland or       rland (border)
+cland      =      ruland or      rdland or      luland or      ldland (corner)
+iland      =     iruland or     irdland or     iluland or     ildland (inner)
+vland      =       bland or       cland or       iland or       fland
 
-braftrota =   uraftrota or   draftrota or   lraftrota or   rraftrota (raft shape border)
-craftrota =  ruraftrota or  rdraftrota or  luraftrota or  ldraftrota (corner)
-iraftrota = iruraftrota or irdraftrota or iluraftrota or ildraftrota (inner)
+braft      =       uraft or       draft or       lraft or       rraft (border)
+craft      =      ruraft or      rdraft or      luraft or      ldraft (corner)
+iraft      =     iruraft or     irdraft or     iluraft or     ildraft (inner)
+vraft      =       braft or       craft or       iraft or       fraft
 
-braftsnek =   uraftsnek or   draftsnek or   lraftsnek or   rraftsnek (raft shape border)
-craftsnek =  ruraftsnek or  rdraftsnek or  luraftsnek or  ldraftsnek (corner)
-iraftsnek = iruraftsnek or irdraftsnek or iluraftsnek or ildraftsnek (inner)
+braftmove  =   uraftmove or   draftmove or   lraftmove or   rraftmove (border)
+craftmove  =  ruraftmove or  rdraftmove or  luraftmove or  ldraftmove (corner)
+iraftmove  = iruraftmove or irdraftmove or iluraftmove or ildraftmove (inner)
+vraftmove  =   braftmove or   craftmove or   iraftmove
 
-(around land shapes)
-bland = uland or dland or lland or rland         (land ground border)
-cland = ruland or rdland or luland or ldland     (corner)
-iland = iruland or irdland or iluland or ildland (inner)
-visibles = land or fillland                      (looks land)
+braftrota  =   uraftrota or   draftrota or   lraftrota or   rraftrota (border)
+craftrota  =  ruraftrota or  rdraftrota or  luraftrota or  ldraftrota (corner)
+iraftrota  = iruraftrota or irdraftrota or iluraftrota or ildraftrota (inner)
+vraftrota  =   braftrota or   craftrota or   iraftrota
 
-(face)
-lookmarker = ulookmarker or dlookmarker or rlookmarker or llookmarker
+braftsnek  =   uraftsnek or   draftsnek or   lraftsnek or   rraftsnek (border)
+craftsnek  =  ruraftsnek or  rdraftsnek or  luraftsnek or  ldraftsnek (corner)
+iraftsnek  = iruraftsnek or irdraftsnek or iluraftsnek or ildraftsnek (inner)
+vraftsnek  =   braftsnek or   craftsnek or   iraftsnek
+
+(player/objects)
+bbox       = ubox or rbox or lbox or dbox (also used for player)
+bstick     = dstick
 lookplayer = ulookplayer or dlookplayer or rlookplayer or llookplayer or rlookeye or llookeye
+vobject    = bbox or bstick or lookplayer or swimming
 
-(around objects)
-bbox = ubox or rbox or lbox or dbox (player and boxes)
-face = wplayer
-bstick = dstick (sticks)
-(floor)
-rafttype = raftdead or raftmove or raftrota or raftsnek (shape fill color with boxes)
-(shadow)
-castshadow = braft or craft or iraft or bland or cland or iland or goal
+(next to floor)
+vglue      = glueside or gluewide 
 
-(show this art from current level at the end of turn, also includes sinking etc.)
-VISUALS = braft or bbox or fillraft or craft or iraft or shadow or bland or cland or iland or fillland or hide or bstick or glueside or gluewide or face or lookplayer or braftmove or craftmove or iraftmove or braftrota or craftrota or iraftrota or craftsnek or iraftsnek or braftsnek
+
+VISUALS = vraft or vraftmove or vraftrota or vraftsnek or vland or vobject or vglue or shadow or hide
+(hide before gameplay rules, create new after every turn)
+
 
 (LOGIC)
+==========================================================================
+rafttype   = raftdead or raftmove or raftrota or raftsnek (shape fill color with boxes)
+lookmarker = ulookmarker or dlookmarker or rlookmarker or llookmarker
+likeraft   = raft or fraft (looks like raft)
 
-testbox = testmove or testrota or testsnek or testpush
-teststick = testhstick or testvstick
-test = testbox or testraft or teststick or testglue or testplayer or testwall or testholder
+castshadow = braft or craft or iraft or bland or cland or iland or goal (these cast a shadow)
+makeripples = fullraft or swimming
 
-(rotation push)
-canmov = rcan or ucan or dcan or lcan
-rotdir = clockdir or counterdir
-vcan = ucan or dcan
-hcan = rcan or lcan
-newmove = un or rn or dn or ln
-(quadrant markers)
-quad = ruq or luq or rdq or ldq
-line = uline or dline or rline or lline
-vline = uline or dline
-hline = rline or lline
-
-diaquad = udia or ldia or rdia or ddia
-vdia = udia or ddia
-hdia = ldia or rdia
 (collision)
-check = ucheck or dcheck or lcheck or rcheck
-find = vfind or hfind or bfind
-obstacle = floor or levelbarrier or player
-(old pieces)
-oldstuff = fullraft or part or player
+check      = ucheck or dcheck or lcheck or rcheck
+find       = vfind or hfind or bfind
+obstacle   = floor or levelbarrier or player
 
-(snake push)
+(temporary objects in new position)
+testbox    = testmove or testrota or testsnek or testpush
+teststick  = testhstick or testvstick
+test       = testbox or testraft or teststick or testglue or testplayer or testwall or testholder
+
+(old pieces)
+oldstuff   = fullraft or part or player
+
+sink       = sink1 or sink2
+
+(rotation)
+canmov     = rcan or ucan or dcan or lcan
+vcan       = ucan or dcan
+hcan       = rcan or lcan
+rotdir     = clockdir or counterdir
+
+newmove    = un or rn or dn or ln
+
+quad       = ruq or luq or rdq or ldq (quadrant markers around center)
+line       = uline or dline or rline or lline
+vline      = uline or dline
+hline      = rline or lline
+
+diaquad    = udia or ldia or rdia or ddia (diagonal quadrant markers)
+vdia       = udia or ddia
+hdia       = ldia or rdia
+
+(snake)
 sneksegment = vsneksegment or hsneksegment
 
-(get rid of these after each colors' rules)
-removeAfterMove = test or pusher or check or checkhere or overlap or snekold or snaker or rotate or center or norotate or canmov or rotdir or quad or line or dia or diaquad
+(get rid of these after certain rule sections rules)
+moveremove  = pusher
+rotaremove  = rotate or norotate or center or canmov or rotdir or quad or line or dia or diaquad or overlap or check or checkhere
+snekremove  = snaker or snekbody or snekhead or sleepysnek or snekold
+finalremove = test or starter or active or local or rafttype or boxindiv
 
 
-SOUNDS
+SOUNDS (f4)
 
 sfx0 63417907 (push)
 sfx1 65329507 (nope)
@@ -1132,7 +1153,7 @@ sfx8 90055904 (into hole)
 sfx9 72788709 (sinking)
 
 
-COLLISIONLAYERS
+COLLISIONLAYERS (f5)
 
 (background)
 background
@@ -1157,7 +1178,7 @@ iluland
 ildland
 iruland
 irdland
-fillland
+fland
 
    raft
  luraft
@@ -1172,7 +1193,7 @@ iluraft
 ildraft
 iruraft
 irdraft
-fillraft
+fraft
 
 rafttype
 
@@ -1242,9 +1263,11 @@ goalwin
 
 (player)
 player, lowplayer
+swimming
 lookmarker
-wplayer
 lookplayer
+
+==========================================================================
 
 (raft rules)
 starter
@@ -1253,6 +1276,7 @@ testraft, testglue
 testplayer
 testbox, teststick, testwall
 testholder
+animator
 
 (move raft rules)
 pusher
@@ -1293,7 +1317,6 @@ between
 
 (snake raft rules)
 snaker
-
 snekneck
 snekbody
 snekhead
@@ -1302,25 +1325,32 @@ snekold
 
 (show on top of everything)
 nosink, sink
-hey
 cross
+
+(editor)
+chapter
+hey
 
 
 RULES
 
-[VISUALS] -> []
+(make ripples at current floor before movement and keep them until next turn)
+[animator ripples] -> []
+[makeripples no ripples] -> [makeripples ripples]
 
-[ripples no fullraft] -> [] 
-[fullraft] -> [fullraft ripples] 
+(animation)
+[sink2] -> [no raft] again sfx9
+[sink1] -> [sink2]   again
+
+
+
+[VISUALS] -> []
 
 [goalwin goal] -> []
 
-(wip, move to bottom and make this take realtime)
-(shapes sink)
-[sink] -> [no raft] sfx9
-[onfloor no floor] -> []
 
 
+[chapter] -> message MOVES AND PUSHES (f6)
 
 (on player move)
 ==========================================================================
@@ -1330,11 +1360,11 @@ RULES
 [> player] [collided]   -> [> player] []
 
 (reorient player)
-[up    player] -> [up    player ulookmarker]
-[down  player] -> [down  player dlookmarker]
-[right player] -> [right player rlookmarker]
-[left  player] -> [left  player llookmarker]
-
+[moving player] [lookmarker] -> [moving player] []
+[up     player] -> [up    player ulookmarker]
+[down   player] -> [down  player dlookmarker]
+[right  player] -> [right player rlookmarker]
+[left   player] -> [left  player llookmarker]
 
 
 (MOVES INTO SOLID OR NOTHING)
@@ -1370,6 +1400,10 @@ RULES
 (push stick to floor (no gap))
 [> player floor || stick | floor | floor no part] -> [floor || player | floor | floor stick] sfx0
 
+(push stick over floor to land/ land to floor)
+[> player floor || stick land || floor no part] -> [floor || player land || floor stick] sfx0
+[> player floor || stick      || land  no part] -> [floor || player      || land  stick] sfx0
+
 (push stick to floor (gap))
 horizontal [> player floor || hstick | no floor | floor] -> [floor || player || floor hstick] sfx0
 vertical   [> player floor || vstick | no floor | floor] -> [floor || player || floor vstick] sfx0
@@ -1377,10 +1411,11 @@ horizontal [> player floor || vstick | no floor | floor] -> [floor || player |  
 vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  glue | floor] sfx0 sfx8
 
 (push part to part / empty)
-[> player floor || part no holder || part]     -> [stationary player floor || part || part] sfx1 nosave
-[> player floor || part no holder || no floor] -> [stationary player floor || part ||     ] sfx1 nosave
-[> player floor || stick          || part]     -> [stationary player floor || stick || part] sfx1 nosave
+[> player floor || part no holder || part    ] -> [stationary player floor || part  || part] sfx1 nosave
+[> player floor || part no holder || no floor] -> [stationary player floor || part  ||     ] sfx1 nosave
+[> player floor || stick          || part    ] -> [stationary player floor || stick || part] sfx1 nosave
 [> player floor || stick          || no floor] -> [stationary player floor || stick ||     ] sfx1 nosave
+
 
 
 (MOVES STARTING RAFTS)
@@ -1416,11 +1451,7 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 
 
 
-( ###    ###  #### ##### #### )
-( #  #  #   # #      #   #    )
-( ###   #   # ####   #   #### )
-( #  #  ##### #      #      # )
-( #   # #   # #      #   #### )
+[chapter] -> message RAFTS (f7)
 
 (MOVE EFFECT)
 ==========================================================================
@@ -1429,8 +1460,8 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 [> starter raftmove] [active] -> [> starter raftmove > pusher] [active > pusher]
 
 (raft moved two tiles)
-[> pusher raft || ] -> [> pusher raft || testraft ripples]
-[> pusher glue || ] -> [> pusher glue || testglue ripples]
+[> pusher raft || ] -> [> pusher raft || testraft]
+[> pusher glue || ] -> [> pusher glue || testglue]
 
 (check collision)
 [starter] [test obstacle no active] -> [starter collided] [obstacle] sfx1
@@ -1460,7 +1491,7 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 [testraft] -> [raft] sfx3
 [testglue] -> [glue]
 
-[testplayer] -> [player ]
+[testplayer] -> [player ] 
 [testpush  ] -> [boxpush]
 [testmove  ] -> [boxmove]
 [testrota  ] -> [boxrota]
@@ -1469,7 +1500,7 @@ vertical   [> player floor || hstick | no floor | floor] -> [floor || player |  
 [testvstick] -> [vstick ]
 [testholder] -> [holder ]
 
-[removeAfterMove] -> []
+[moveremove] -> []
 
 
 
@@ -1589,18 +1620,18 @@ right [lline picked | ] -> [lline rn | picked]
 [center newrun picked] -> [center newrun newtile] 
 
 (move to position based on count)
-random [un] [newtile] -> [once] [newtile ]
-      left  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
-      right [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
-random [dn] [newtile] -> [once] [newtile ] 
-      right [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
-      left  [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
-random [rn] [newtile] -> [once] [newtile ] 
-      up    [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
-      down  [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
-random [ln] [newtile] -> [once] [newtile ] 
-      down  [clockdir  ] [once] [newtile | ] -> [clockdir  ] [] [ | newtile]
-      up    [counterdir] [once] [newtile | ] -> [counterdir] [] [ | newtile]
+random [un        ] [       newtile  ] -> [          ] [> newtile]
+ left  [clockdir  ] [moving newtile |] -> [clockdir  ] [| newtile]
+ right [counterdir] [moving newtile |] -> [counterdir] [| newtile]
+random [dn        ] [       newtile  ] -> [          ] [> newtile] 
+ right [clockdir  ] [moving newtile |] -> [clockdir  ] [| newtile]
+ left  [counterdir] [moving newtile |] -> [counterdir] [| newtile]
+random [rn        ] [       newtile  ] -> [          ] [> newtile] 
+ up    [clockdir  ] [moving newtile |] -> [clockdir  ] [| newtile]
+ down  [counterdir] [moving newtile |] -> [counterdir] [| newtile]
+random [ln        ] [       newtile  ] -> [          ] [> newtile] 
+ down  [clockdir  ] [moving newtile |] -> [clockdir  ] [| newtile]
+ up    [counterdir] [moving newtile |] -> [counterdir] [| newtile]
 
 (re-add keepgoing only if not done - directions left)
 [center] -> [center newrun]
@@ -1663,8 +1694,8 @@ endloop
 (stop everything after collision)
 [center collided] [newdone] -> [center collided] []
 [center collided] [starter] -> [center collided] []
-[center collided] [test]    -> [center collided] []
-[center collided] [rotate]  -> [center collided] []
+[center collided] [test   ] -> [center collided] []
+[center collided] [rotate ] -> [center collided] []
 
 (PLACE==================================================================)
 
@@ -1695,8 +1726,8 @@ endloop
 [center no collided] -> [] sfx4
 
 [collided] [tide] -> [collided] []
-[removeAfterMove] -> []
 
+[rotaremove] -> []
 
 
 
@@ -1760,10 +1791,8 @@ endloop
 [testsnek  ] -> [boxsnek] sfx5
 
 [collided] [tide] -> [collided] []
-[removeAfterMove] -> []
-[snekbody       ] -> []
-[snekhead       ] -> []
-[sleepysnek     ] -> []
+
+[snekremove] -> []
 
 
 
@@ -1771,22 +1800,14 @@ endloop
 ==========================================================================
 
 (get rid of unneeded)
-[floor | glue | floor] -> [floor | testglue | floor]
+[raft | glue | raft] -> [raft | testglue | raft]
 [glue] -> []
 [testglue] -> [glue]
+ 
 
 
-
-(MISC)
+(WIN)
 ==========================================================================
-
-[removeAfterMove] -> []
-[starter        ] -> []
-[active         ] -> []
-[local          ] -> []
-[rafttype       ] -> []
-[boxindiv       ] -> []
-[sink           ] -> []
 
 [player  goalplayer] -> [goalwin] sfx2
 [boxmove goalmove  ] -> [goalwin] sfx2
@@ -1795,71 +1816,73 @@ endloop
 
 
 
+(AFTER MOVE)
+==========================================================================
 
-(  ###  ###  ##### )
-( #   # #  #   #   )
-( #   # ###    #   )
-( ##### #  #   #   )
-( #   # #  #   #   )
+[finalremove] -> []
+
+
+
+
+
+[chapter] -> message ART (f8)
 
 (GIVE RAFTS COLOR)
 ==========================================================================
 
 (raft)
-up   [ raft | no raft] -> [ raft |  uraft]
-left [ raft | no raft] -> [ raft |  lraft]
-down [ raft | no raft] -> [ raft |  draft]
-right[ raft | no raft] -> [ raft |  rraft]
-up   [rraft | no raft] -> [rraft | ruraft]
-up   [lraft | no raft] -> [lraft | luraft]
-down [rraft | no raft] -> [rraft | rdraft]
-down [lraft | no raft] -> [lraft | ldraft]
+up    [ raft | no raft] -> [ raft |  uraft]
+left  [ raft | no raft] -> [ raft |  lraft]
+down  [ raft | no raft] -> [ raft |  draft]
+right [ raft | no raft] -> [ raft |  rraft]
+up    [rraft | no raft] -> [rraft | ruraft]
+up    [lraft | no raft] -> [lraft | luraft]
+down  [rraft | no raft] -> [rraft | rdraft]
+down  [lraft | no raft] -> [lraft | ldraft]
 [rraft uraft] -> [rraft uraft iruraft]
 [rraft draft] -> [rraft draft irdraft]
 [lraft uraft] -> [lraft uraft iluraft]
 [lraft draft] -> [lraft draft ildraft]
 
 (inside between four rafts)
-[uraft draft rraft lraft] -> [uraft draft rraft lraft fillraft]
+[uraft draft rraft lraft] -> [uraft draft rraft lraft fraft]
 
 (land)
-up   [ land | no land] -> [ land |  uland]
-left [ land | no land] -> [ land |  lland]
-down [ land | no land] -> [ land |  dland]
-right[ land | no land] -> [ land |  rland]
-up   [rland | no land] -> [rland | ruland]
-up   [lland | no land] -> [lland | luland]
-down [rland | no land] -> [rland | rdland]
-down [lland | no land] -> [lland | ldland]
+up    [ land | no land] -> [ land |  uland]
+left  [ land | no land] -> [ land |  lland]
+down  [ land | no land] -> [ land |  dland]
+right [ land | no land] -> [ land |  rland]
+up    [rland | no land] -> [rland | ruland]
+up    [lland | no land] -> [lland | luland]
+down  [rland | no land] -> [rland | rdland]
+down  [lland | no land] -> [lland | ldland]
 [rland uland] -> [rland uland iruland]
 [rland dland] -> [rland dland irdland]
 [lland uland] -> [lland uland iluland]
 [lland dland] -> [lland dland ildland]
 
 (inside between four land)
-[uland dland rland lland] -> [uland dland rland lland fillland]
+[uland dland rland lland] -> [uland dland rland lland fland]
 
 (player)
-up   [player | ] -> [player | ubox]
-left [player | ] -> [player | lbox]
-down [player | ] -> [player | dbox]
-right[player | ] -> [player | rbox]
-
-[player] [ulookmarker] -> [player ulookplayer] []
-[player] [dlookmarker] -> [player dlookplayer] []
-[player] [rlookmarker] -> [player rlookplayer] []
-[player] [llookmarker] -> [player llookplayer] []
+up    [player | ] -> [player | ubox]
+left  [player | ] -> [player | lbox]
+down  [player | ] -> [player | dbox]
+right [player | ] -> [player | rbox]
+[player] [ulookmarker] -> [player ulookmarker ulookplayer] []
+[player] [dlookmarker] -> [player dlookmarker dlookplayer] []
+[player] [rlookmarker] -> [player rlookmarker rlookplayer] []
+[player] [llookmarker] -> [player llookmarker llookplayer] []
 
 right [rlookplayer | ] -> [rlookplayer | rlookeye]
 left  [llookplayer | ] -> [llookplayer | llookeye]
 
-[player no floor] -> [player wplayer]
 
 (things)
-up   [box | ] -> [box | ubox]
-left [box | ] -> [box | lbox]
-down [box | ] -> [box | dbox]
-right[box | ] -> [box | rbox]
+up    [box | ] -> [box | ubox]
+left  [box | ] -> [box | lbox]
+down  [box | ] -> [box | dbox]
+right [box | ] -> [box | rbox]
 
 down [vstick | ] -> [vstick | dstick]
 
@@ -1875,6 +1898,29 @@ vertical [glue | fullraft] -> [glue gluewide | fullraft]
 [tide | ] -> [tide | tide]
 [wave tide] -> []
 [no wave tide] -> [wave]
+
+
+
+(SINKING)
+==========================================================================
+
+(sinking raft)
+(nosink)
+[land   || raft] -> [land   || raft nosink]
+[nosink || raft] -> [nosink || raft nosink]
+[nosink |  raft] -> [nosink |  raft nosink]
+
+[raft no nosink no sink ] -> [raft sink1] sfx9
+[raft sink1 | castshadow] -> [raft sink1 | castshadow sink1] again
+
+[nosink] -> []
+
+(remove things that were on sinking platforms, this is also at the top of the rules?)
+[onfloor no floor] -> []
+
+(player)
+[player sink    ] -> [player sink swimming]
+[player no floor] -> [player      swimming]
 
 
 
@@ -1942,16 +1988,6 @@ startloop
 [likeraft raftsnek | likeraft boxsnek no snekhead] -> [likeraft raftsnek | likeraft raftsnek boxsnek sleepysnek]
 endloop
 
-(sinking raft)
-(nosink)
-[land   || raft] -> [land   || raft nosink]
-[nosink || raft] -> [nosink || raft nosink]
-[nosink |  raft] -> [nosink |  raft nosink]
-
-[raft no nosink]         -> [raft sink] sfx9
-[raft sink | castshadow] -> [raft sink | castshadow sink]
-[nosink] -> []
-
 
 
 (KILL BOXES)
@@ -1979,71 +2015,134 @@ vertical   [fullraft | hsneksegment]  -> [fullraft | sleepysnek]
 ==========================================================================
 
 (move)
-up   [ raftmove | no raftmove] -> [ raftmove |  uraftmove]
-left [ raftmove | no raftmove] -> [ raftmove |  lraftmove]
-down [ raftmove | no raftmove] -> [ raftmove |  draftmove]
-right[ raftmove | no raftmove] -> [ raftmove |  rraftmove]
-up   [rraftmove | no raftmove] -> [rraftmove | ruraftmove]
-up   [lraftmove | no raftmove] -> [lraftmove | luraftmove]
-down [rraftmove | no raftmove] -> [rraftmove | rdraftmove]
-down [lraftmove | no raftmove] -> [lraftmove | ldraftmove]
+up    [ raftmove | no raftmove] -> [ raftmove |  uraftmove]
+left  [ raftmove | no raftmove] -> [ raftmove |  lraftmove]
+down  [ raftmove | no raftmove] -> [ raftmove |  draftmove]
+right [ raftmove | no raftmove] -> [ raftmove |  rraftmove]
+up    [rraftmove | no raftmove] -> [rraftmove | ruraftmove]
+up    [lraftmove | no raftmove] -> [lraftmove | luraftmove]
+down  [rraftmove | no raftmove] -> [rraftmove | rdraftmove]
+down  [lraftmove | no raftmove] -> [lraftmove | ldraftmove]
 [rraftmove uraftmove] -> [rraftmove uraftmove iruraftmove]
 [rraftmove draftmove] -> [rraftmove draftmove irdraftmove]
 [lraftmove uraftmove] -> [lraftmove uraftmove iluraftmove]
 [lraftmove draftmove] -> [lraftmove draftmove ildraftmove]
 
 (rotate)
-up   [ raftrota | no raftrota] -> [ raftrota |  uraftrota]
-left [ raftrota | no raftrota] -> [ raftrota |  lraftrota]
-down [ raftrota | no raftrota] -> [ raftrota |  draftrota]
-right[ raftrota | no raftrota] -> [ raftrota |  rraftrota]
-up   [rraftrota | no raftrota] -> [rraftrota | ruraftrota]
-up   [lraftrota | no raftrota] -> [lraftrota | luraftrota]
-down [rraftrota | no raftrota] -> [rraftrota | rdraftrota]
-down [lraftrota | no raftrota] -> [lraftrota | ldraftrota]
+up    [ raftrota | no raftrota] -> [ raftrota |  uraftrota]
+left  [ raftrota | no raftrota] -> [ raftrota |  lraftrota]
+down  [ raftrota | no raftrota] -> [ raftrota |  draftrota]
+right [ raftrota | no raftrota] -> [ raftrota |  rraftrota]
+up    [rraftrota | no raftrota] -> [rraftrota | ruraftrota]
+up    [lraftrota | no raftrota] -> [lraftrota | luraftrota]
+down  [rraftrota | no raftrota] -> [rraftrota | rdraftrota]
+down  [lraftrota | no raftrota] -> [lraftrota | ldraftrota]
 [rraftrota uraftrota] -> [rraftrota uraftrota iruraftrota]
 [rraftrota draftrota] -> [rraftrota draftrota irdraftrota]
 [lraftrota uraftrota] -> [lraftrota uraftrota iluraftrota]
 [lraftrota draftrota] -> [lraftrota draftrota ildraftrota]
 
 (snake)
-up   [ raftsnek | no raftsnek] -> [ raftsnek |  uraftsnek]
-left [ raftsnek | no raftsnek] -> [ raftsnek |  lraftsnek]
-down [ raftsnek | no raftsnek] -> [ raftsnek |  draftsnek]
-right[ raftsnek | no raftsnek] -> [ raftsnek |  rraftsnek]
-up   [rraftsnek | no raftsnek] -> [rraftsnek | ruraftsnek]
-up   [lraftsnek | no raftsnek] -> [lraftsnek | luraftsnek]
-down [rraftsnek | no raftsnek] -> [rraftsnek | rdraftsnek]
-down [lraftsnek | no raftsnek] -> [lraftsnek | ldraftsnek]
+up    [ raftsnek | no raftsnek] -> [ raftsnek |  uraftsnek]
+left  [ raftsnek | no raftsnek] -> [ raftsnek |  lraftsnek]
+down  [ raftsnek | no raftsnek] -> [ raftsnek |  draftsnek]
+right [ raftsnek | no raftsnek] -> [ raftsnek |  rraftsnek]
+up    [rraftsnek | no raftsnek] -> [rraftsnek | ruraftsnek]
+up    [lraftsnek | no raftsnek] -> [lraftsnek | luraftsnek]
+down  [rraftsnek | no raftsnek] -> [rraftsnek | rdraftsnek]
+down  [lraftsnek | no raftsnek] -> [lraftsnek | ldraftsnek]
 [rraftsnek uraftsnek] -> [rraftsnek uraftsnek iruraftsnek]
 [rraftsnek draftsnek] -> [rraftsnek draftsnek irdraftsnek]
 [lraftsnek uraftsnek] -> [lraftsnek uraftsnek iluraftsnek]
 [lraftsnek draftsnek] -> [lraftsnek draftsnek ildraftsnek]
 
-[onfloor no floor] -> []
+(start some animations here)
+[ripples no makeripples] -> [animator ripples] again
 
-==============
-WINCONDITIONS
-==============
+
+WINCONDITIONS (f9)
 
 no goal
-no sink
+no sink (in the future, this could be "no animation")
 
-=======     
-LEVELS
-=======
+  
+LEVELS (f0)
+
+...................
+.!!i!i!i!i!i!i!i!!.
+.!...............!.
+.i.pll.m!!.......i.
+.!.l.l.!.!.......!.
+.i.lll.!!!.......i.
+.!...............!.
+.!!i!i!i!i!i.....i.
+.!...............!.
+.i.......!!!.....i.
+.!.......!.!.....!.
+.i.......!!!.....i.
+.!...............!.
+.i.!!!...........i.
+.!...!...........!.
+.i...!.......i.1.i.
+.!...........!...!.
+.!!i!i!i!i!i!!!i!!.
+...................
+
+section
+
+...................
+.!!i!i!i!i!i!i!i!!.
+.!...............!.
+.i.pll.!!!.......i.
+.!.l.l.!.!.......!.
+.i.lll.m!!.......i.
+.!...............!.
+.!!i!i!i!i!i.....i.
+.!...............!.
+.i.......!!!.....i.
+.!.......!.!.....!.
+.i.......!!!.....i.
+.!...............!.
+.i.!!!...........i.
+.!...!...........!.
+.i...!.......i.1.i.
+.!...........!...!.
+.!!i!i!i!i!i!!!i!!.
+...................
+
+(hard version
+...................
+.!!i!i!i!i!i!i!i!!.
+.!...............!.
+.i.pll.m!!.......i.
+.!.l.l.!.!.......!.
+.i.lll.!!!.......i.
+.!...............!.
+.!!i!i!i!i!i.....i.
+.!...............!.
+.i.......!!!.....i.
+.!.......!.!.....!.
+.i.......!!!.....i.
+.!...............!.
+.i.!!!...........i.
+.!...!...........!.
+.i...!.......i.1.i.
+.!...........!...!.
+.!!i!i!i!i!i!!!i!!.
+...................
+)
 
 ###############
 #.............#
-#.sss.tgm.ggg.#
-#.s.s.g.g.g.g.#
-#.*ss.ggg.ggg.#
-#...s.........#
-#...s.........#
-#...s.........#
-#...s.........#
+#.lll.j!m.!!!.#
+#.l.l.!.!.!.!.#
+#.pll.!!!.!!!.#
+#...l.........#
+#...l.........#
+#...l.........#
+#...l.........#
 #.............#
-#.....h.h.....#
+#.....2.2.....#
 #.............#
 #.............#
 #.............#
@@ -2051,17 +2150,16 @@ LEVELS
 
 ###############
 #.............#
-#.i.*.m.r.n...#
+#.i.p.m.r.n...#
 #...s.g.g.g...#
-#.sss.p.gcg...#
+#.sss.p.ggg...#
 #.s.s.........#
 #.ssb.........#
 #.s.s.........#
-#.sss.f.......#
+#.sss.1.......#
 #.s.s.........#
-#.oss.........#
+#.iss.........#
 #.............#
 #.............#
 #.............#
 ###############
-
