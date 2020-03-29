@@ -44,18 +44,27 @@
     .cm-s-midnight .CodeMirror-gutters       {background: #14182E !important; border-right: none !important;}
     .cm-s-midnight .CodeMirror-linenumber    {color: #686F99 !important;}
 
-    .cm-s-midnight span.cm-BOLDCOLOR         {letter-spacing: 0.7em !important;}
-    .cm-s-midnight span.cm-FADECOLOR         {
-        color: #686F99 !important;
-        font-weight:bold !important;
+    .cm-s-midnight span.cm-BOLDCOLOR         {
+        /* all colors in the matrix*/
+        letter-spacing: 0.7em !important;
+    }
+    .cm-s-midnight span.cm-FADECOLOR         { 
+        /* the word transparent & dots */
+        color: #2D324E !important;
+        font-weight: bold !important;
         font-variant-ligatures: none;
         letter-spacing: 0.7em !important;
     }
     .cm-s-midnight span.cm-COLOR-TRANSPARENT {color: #686F99 !important;} /* transparent sprite color */
-    .cm-s-midnight span.cm-EQUALSBIT         {color: #686F99 !important;} /* lines of ===== */
+    .cm-s-midnight span.cm-EQUALSBIT         {color: #686F99 !important; font-weight:bolder !important;} /* lines of ===== */
     
     .cm-s-midnight span.cm-NAME      {color: #f7dcea !important;} /* #F5FFE8 #B8DDFF objects */
-    .cm-s-midnight span.cm-HEADER    {color: #FF8933 !important; font-weight:bold !important; font-size: 14pt !important; font-family: "DM Sans" !important;}
+    .cm-s-midnight span.cm-HEADER    {
+        color: #FF8933 !important; 
+        font-weight:bold !important; 
+        font-size: 14pt !important; 
+        font-family: "DM Sans" !important;
+    }
     .cm-s-midnight span.cm-ERROR     {color: #FFC2A1 !important;}
     .cm-s-midnight span.cm-BRACKET   {color: #9C6DFF !important; font-weight:bold !important;}
     .cm-s-midnight span.cm-LOGICWORD {color: #C95BFD !important; font-weight:bold !important;}

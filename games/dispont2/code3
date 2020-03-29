@@ -5,7 +5,7 @@ text_color #ff8933
 
 run_rules_on_level_start
 verbose_logging
-again_interval 0.1
+again_interval 0.02
 
 (fix
 • face disappears when you moved initially, then stopped
@@ -256,6 +256,7 @@ ripple
 00000
 01100
 00000
+
 
 shadow
 #14182e
@@ -707,28 +708,28 @@ land_cld
 .....
 
 land_iru
-transparent
+#404973
 .....
 .....
 .....
 00...
 00...
 land_ilu
-transparent
+#404973
 .....
 .....
 .....
 ...00
 ...00
 land_ird
-transparent
+#404973
 00...
 00...
 .....
 .....
 .....
 land_ild
-transparent
+#404973
 ...00
 ...00
 .....
@@ -1010,8 +1011,6 @@ r = raft and box_rota
 s = raft and box_snek
 (f = raft and box_flip)
 
-
-
 ↔ = stik_h and land
 ↕ = stik_v and land
 
@@ -1034,13 +1033,13 @@ n = holder and raft and box_snek
 floor     = raft or land
 multiraft = raft or glue
 
-box_color = box_move or box_rota or box_snek
 box       = box_move or box_rota or box_snek or box_none
+box_color = box_move or box_rota or box_snek
 stik      = stik_h or stik_v
 part      = box or stik (new solid items go here)
 onfloor   = part or holder
 
-goal     = goal_player or goal_box_move or goal_box_rota or goal_box_snek or goal_box_none
+goal      = goal_player or goal_box_move or goal_box_rota or goal_box_snek or goal_box_none
 
 
 (VISUAL)
@@ -1340,7 +1339,7 @@ RULES
 [sink_anim_2] -> [no raft]     again sfx9
 [sink_anim_1] -> [sink_anim_2] again
 
-
+==========================================================================
 
 [VISUALS] -> []
 
@@ -1350,7 +1349,6 @@ RULES
 
 [chapter] -> message MOVES AND PUSHES (f6)
 
-(on player move)
 ==========================================================================
 
 (hide collision crosses and get rid of collision markers after next move)
@@ -1358,11 +1356,10 @@ RULES
 [> player] [raft_collided_m] -> [> player] []
 
 (reorient player)
-[moving player] [look_m] -> [moving player] []
-[up     player]          -> [up     player look_mu]
-[down   player]          -> [down   player look_md]
-[right  player]          -> [right  player look_mr]
-[left   player]          -> [left   player look_ml]
+[up    player] [look_m] -> [up    player look_mu] []
+[down  player] [look_m] -> [down  player look_md] []
+[right player] [look_m] -> [right player look_mr] []
+[left  player] [look_m] -> [left  player look_ml] []
 
 
 (MOVES INTO SOLID OR NOTHING)
@@ -1389,45 +1386,47 @@ RULES
 (movement -> teleportation of boxes and player)
 ==========================================================================
 
-(push box to floor)
-[> player floor || box no holder|| floor no part] -> [floor || player || floor box] sfx0
-
-(push box in holder)
-[> player floor || land box holder] -> [stationary player floor || land box holder] sfx1 nosave
-
-(push stik to floor (no gap))
-[> player floor || stik | floor | floor no part] -> [floor || player | floor | floor stik] sfx0
-
-(push stik over floor to land/ land to floor)
-[> player floor || stik land || floor no part] -> [floor || player land || floor stik] sfx0
-[> player floor || stik      || land  no part] -> [floor || player      || land  stik] sfx0
-
-(push stik to floor (gap))
-horizontal [> player floor || stik_h | no floor | floor] -> [floor || player || floor stik_h] sfx0
-vertical   [> player floor || stik_v | no floor | floor] -> [floor || player || floor stik_v] sfx0
-horizontal [> player floor || stik_v | no floor | floor] -> [floor || player |  glue | floor] sfx0 sfx8
-vertical   [> player floor || stik_h | no floor | floor] -> [floor || player |  glue | floor] sfx0 sfx8
-
-(push part to part / empty)
+(push part -> obstacle)
 [> player floor || part no holder || part    ] -> [stationary player floor || part || part] sfx1 nosave
 [> player floor || part no holder || no floor] -> [stationary player floor || part ||     ] sfx1 nosave
-[> player floor || stik           || part    ] -> [stationary player floor || stik || part] sfx1 nosave
-[> player floor || stik           || no floor] -> [stationary player floor || stik ||     ] sfx1 nosave
+
+(push holder box not on raft)
+[> player floor || no raft box holder] -> [stationary player floor || box holder] sfx1 nosave
+
+==========================================================================
+
+(push box  -> floor)
+(push stik -> floor - without gap)
+[> player floor || box  ||      floor] -> [floor || player ||      floor box ] sfx0
+[> player floor || stik |floor|      ] -> [floor || player |floor|       stik] sfx0
+
+(push stik -> floor - one side at least cant glue)
+[> player floor || stik no raft ||        ] -> [floor || player || stik] sfx0
+[> player floor || stik         || no raft] -> [floor || player || stik] sfx0
+
+(push stik to floor - gap is oriented wrong)
+horizontal [> player floor || stik_h || ] -> [floor || player || floor stik_h] sfx0
+vertical   [> player floor || stik_v || ] -> [floor || player || floor stik_v] sfx0
+
+==========================================================================
+
+(push stik into fitting gap)
+horizontal [> player floor || stik_v || ] -> [floor || player |glue| floor ] sfx0 sfx8
+vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx0 sfx8
 
 
 
 (MOVES STARTING RAFTS)
-(movement -> "starter" marker on rafts telling them to move)
-(also works from in the water)
+(player move into holders, borders -> "starter" marker on rafts telling them to do action)
 ==========================================================================
 
 (move raft to empty - convert)
 [> player raft || no floor] -> [stationary player raft > starter || ]
 
-(player_swim into raft, gives raft local_m and active_m markers)
-[> player no floor || raft] -> [stationary player || > starter active_m local_m raft]
+(swimmer -> raft)
+[> player no floor || raft] -> [stationary player || > starter active_m local_m raft] (makes markers)
 
-(moving on inactive raft makes error sound)
+(starting inactive raft makes error sound)
 [starter raft no raft_type] -> [raft] sfx1
 
 (still spread local_m and active_m if player is in water)
@@ -1502,7 +1501,7 @@ vertical   [> player floor || stik_h | no floor | floor] -> [floor || player |  
 
 
 
-(rota_active_m EFFECT)
+(ROTATE EFFECT)
 ================================================================
 
 (check_between_m the rota_center_m of rotation in the local_m active_m area)
@@ -2065,29 +2064,52 @@ WINCONDITIONS (f9)
 
 no goal
 no sink_anim
-
   
 LEVELS (f0)
 
-...................
-.!!i!i!i!i!i!i!i!!.
-.!...............!.
-.i.pll.!!!.......i.
-.!.l.l.!.!.......!.
-.i.lll.m!!.......i.
-.!...............!.
-.!!i!i!i!i!i.....i.
-.!...............!.
-.i.......!!!.....i.
-.!.......!.!.....!.
-.i.......!!!.....i.
-.!...............!.
-.i.!!!...........i.
-.!...!...........!.
-.i...!.......i.1.i.
-.!...........!...!.
-.!!i!i!i!i!i!!!i!!.
-...................
+#####################
+#...................#
+#.m.lll.i!i!i!i!i!!.#
+#.!.l.l...........!.#
+#.!.llp.!!!.......i.#
+#.!.l.l.!.!.......!.#
+#.j.lll.m!!.......i.#
+#...l.l...........!.#
+#...lll...!!!.....i.#
+#...l.l...!.!.....!.#
+#...lll...r!!.....i.#
+#...l.l...........!.#
+#...lll...........i.#
+#...l.l...........!.#
+#...lll...........i.#
+#...l.l.............#
+#...lll.!!!.......1.#
+#.........!.........#
+#.........!!s.......#
+#...................#
+#####################
+
+#####################
+#...................#
+#.!!i!i!i!i!i!i!i!!.#
+#.!...............!.#
+#.i.pll.!!!.......i.#
+#.!.l.l.!.!.......!.#
+#.i.lll.m!!.......i.#
+#.!...............!.#
+#.!!i!i!i!i!i.....i.#
+#.!...............!.#
+#.i.......!!!.....i.#
+#.!.......!.!.....!.#
+#.i.......!!!.....i.#
+#.!...............!.#
+#.i.!!!...........i.#
+#.!...!...........!.#
+#.i...!.......i.1.i.#
+#.!...........!...!.#
+#.!!i!i!i!i!i!!!i!!.#
+#...................#
+#####################
 
 (hard version
 ...................
