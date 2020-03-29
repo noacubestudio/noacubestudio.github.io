@@ -302,34 +302,67 @@ SC055::
     }
 return
 
-#IfWinActive ahk_exe Figma.exe
-SC055::
-    global img
-    if (img = false)
-    {
-        ToolTip, FIGMA
-    }
-
-    ; Use string input
-    Input, typed, C
-    switch typed
-    {
-        default:   cursorMessage(typed, 1200)
-
-        case "s":  
-            Send, +x
-            sleep 50
-            Send, i
-            sleep 200
-            Send, {Click}
-            sleep 50
-            Send, +x
-        case "g": send ^+4
-        case "p":
-            send ^'
-            send ^+'
+#IfWinActive ahk_exe Firefox.exe
+-::
+    WinGetTitle, title
+    if (InStr(title, "PuzzleScript")){
+        Send _
+    } else {
+        Send -
     }
 return
++-::
+    WinGetTitle, title
+    if (InStr(title, "PuzzleScript")){
+        Send -
+    } else {
+        Send _
+    }
+return
+F2::
+    WinGetTitle, title
+if (InStr(title, "PuzzleScript")){
+    Send ^+F
+    Send {Enter}
+} else {
+    Send F2
+}
+return
+
+#IfWinActive, ahk_exe Code.exe
+SC055::
+    Send +^L
+    Send snek_
+return
+
+; #IfWinActive ahk_exe Figma.exe
+; SC055::
+;     global img
+;     if (img = false)
+;     {
+;         ToolTip, FIGMA
+;     }
+; 
+;     ; Use string input
+;     Input, typed, C
+;     switch typed
+;     {
+;         default:   cursorMessage(typed, 1200)
+; 
+;         case "s":  
+;             Send, +x
+;             sleep 50
+;             Send, i
+;             sleep 200
+;             Send, {Click}
+;             sleep 50
+;             Send, +x
+;         case "g": send ^+4
+;         case "p":
+;             send ^'
+;             send ^+'
+;     }
+; return
 
 #If
 *SC055 UP::
@@ -350,6 +383,7 @@ return
 #If MouseIsOver("ahk_class Shell_TrayWnd")
 WheelUp::Send {Volume_Up 2}
 WheelDown::Send {Volume_Down 2}
+return
 
 MouseIsOver(WinTitle) {
     MouseGetPos,,, Win
