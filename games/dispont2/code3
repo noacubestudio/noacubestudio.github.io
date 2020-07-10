@@ -1,19 +1,19 @@
 title dis pontibus II remix
-homepage by noa, date ver. 04-05-a
+homepage by noa, date ver. 03-27-a
 background_color #14182e
 text_color #ff8933
 
 run_rules_on_level_start
-
+verbose_logging
 again_interval 0.05
 
 (fix
-• face disappears when you moved initially, then stopped DONE
-• holders dont use their own color WIP
-• holders move the player with rota/snek WIP
-• snakes don't need to be one lvl_line right now
-• test for weird bugs, maybe not allow huge shapes?
-• ripple show at future position when collision happened
+• D face disappears when you moved initially, then stopped
+• W holders dont use their own color
+• W rota holders dont work at all
+• T snakes don't need to be one line right now
+• + test for weird bugs, maybe not allow huge shapes?
+• D ripple show at future position when collision happened
 add
 • rotate for rotate box on holder
   • appears opposite of player
@@ -97,6 +97,8 @@ transparent
 test_glue
 transparent
 test_holder
+transparent
+test_lever
 transparent
 
 
@@ -231,9 +233,21 @@ transparent
 animator
 transparent
 
+(for holder)
 holding_m
 transparent
+lever_m
+#ff8933 
+00000
+0...0
+0...0
+0...0
+00000
+box_rota_hm
+transparent
 
+NEXTUP
+transparent
 
 (TILES f2)
 ==========================================================================
@@ -859,6 +873,50 @@ box_rota
 10000
 11100
 
+box_rota_hv
+#e64539 #ff8933 #14182e
+.202.
+.202.
+.202.
+.202.
+.202.
+box_rota_hh
+#e64539 #ff8933 #14182e
+.....
+22222
+00000
+22222
+.....
+box_rota_hu
+#e64539 #ff8933 #14182e
+.....
+.222.
+.212.
+.212.
+.212.
+box_rota_hd
+#e64539 #ff8933 #14182e
+.212.
+.212.
+.212.
+.222.
+.....
+box_rota_hl
+#e64539 #ff8933 #14182e
+.....
+.2222
+.2111
+.2222
+.....
+box_rota_hr
+#e64539 #ff8933 #14182e
+.....
+2222.
+1112.
+2222.
+.....
+
+
 (snake boxes will make linear shapes move like a snake, starting from the box)
 box_snek
 #63ab3f #c8d45d
@@ -1063,16 +1121,21 @@ n = holder and raft and box_snek
 
 (OBJECTS)
 ==========================================================================
-floor     = raft or land
-multiraft = raft or glue
+floor      = raft or land
+multiraft  = raft or glue
 
-box       = box_move or box_rota or box_snek or box_none
-box_color = box_move or box_rota or box_snek
-stik      = stik_h or stik_v
-part      = box or stik (new solid items go here)
-onfloor   = part or holder
+box        = box_move or box_rota or box_snek or box_none
+box_color  = box_move or box_rota or box_snek
+box_rota_h = box_rota_hv or box_rota_hh or box_rota_hu or box_rota_hd or box_rota_hl or box_rota_hr
+stik       = stik_h or stik_v
 
-goal      = goal_player or goal_box_move or goal_box_rota or goal_box_snek or goal_box_none
+(new solid items go here)
+part_onfloor = box or stik
+part_inair   = box_rota_h
+part         = part_onfloor or part_inair
+onfloor      = part_onfloor or holder
+
+goal       = goal_player or goal_box_move or goal_box_rota or goal_box_snek or goal_box_none
 
 
 (VISUAL)
@@ -1126,7 +1189,7 @@ look_m    = look_mu or look_md or look_mr or look_ml
 raft_area = raft or raft_fill (looks like raft)
 
 shadow_m      = raft_b or raft_c or raft_i or land_b or land_c or land_i or goal (these cast a shadow)
-ripple_make_m = multiraft or player_swim
+ripple_make_m = multiraft
 
 (collision)
 check_m         = check_mu or check_md or check_ml or check_mr
@@ -1136,10 +1199,10 @@ obstacle        = floor or lvl_wall or player
 (temporary objects in new position)
 test_box   = test_box_move or test_box_rota or test_box_snek or test_box_none
 test_stick = test_stik_h or test_stik_v
-test       = test_box or test_raft or test_stick or test_glue or test_player or test_holder
+test       = test_box or test_raft or test_stick or test_glue or test_player or test_holder or test_lever
 
 (old pieces to remove when after temp objects are converted)
-oldstuff  = multiraft or part or player or holder (ADD HERE)
+oldstuff  = multiraft or part_onfloor or player or holder (ADD HERE)
 
 sink_anim = sink_anim_1 or sink_anim_2
 
@@ -1159,6 +1222,7 @@ lvl_line_h = lvl_line_r or lvl_line_l
 lvl_diaquad    = lvl_diaquad_u or lvl_diaquad_l or lvl_diaquad_r or lvl_diaquad_d (diagonal quadrant markers)
 lvl_diaquad_v  = lvl_diaquad_u or lvl_diaquad_d
 lvl_diaquad_h  = lvl_diaquad_l or lvl_diaquad_r
+
 
 (snake)
 sneksegment = snek_segment_v or snek_segment_h
@@ -1284,6 +1348,8 @@ cube_bu
 cube_bd
 cube_br
 cube_bl
+box_rota_h
+box_rota_hm
 stik_d
 
 box_random_picked
@@ -1310,7 +1376,9 @@ test_raft, test_glue
 test_player
 test_box, test_stick
 test_holder
+test_lever
 animator
+NEXTUP
 
 (move raft rules)
 pusher
@@ -1356,6 +1424,9 @@ snek_body_m
 snek_head_m
 sneksegment
 snek_prev_m
+
+(holder rules)
+lever_m
 
 (show on top of everything)
 nosink, sink_anim
@@ -1413,7 +1484,7 @@ left  [> player] [look_m] -> [> player] [look_ml]
 [> player floor || floor no part] -> [floor || player floor] nosave
 
 (move empty to empty / land)
-[> player no floor || no obstacle] -> [ || player] sfx9 nosave
+[> player no floor || no obstacle] -> [ || player] nosave
 
 [> player no floor || land] -> [stationary player || land] sfx1 nosave
 
@@ -1427,13 +1498,16 @@ left  [> player] [look_m] -> [> player] [look_ml]
 ==========================================================================
 
 (push part -> obstacle)
-[> player floor || part no holder || part    ] -> [stationary player floor || part || part] sfx1 nosave
-[> player floor || part no holder || no floor] -> [stationary player floor || part ||     ] sfx1 nosave
+[> player floor || part         no holder || part    ] -> [stationary player floor || part         || part] sfx1 nosave
+[> player floor || part_onfloor no holder || no floor] -> [stationary player floor || part_onfloor ||     ] sfx1 nosave
 
 (push holder box not on raft)
 [> player floor || no raft box holder] -> [stationary player floor || box holder] sfx1 nosave
 
 ==========================================================================
+
+(push rotabox -> holder)
+[> player floor || box_rota no holder || holder] -> [floor || player || box_rota holder > lever_m] sfx0
 
 (push box  -> floor)
 (push stik -> floor - without gap)
@@ -1461,7 +1535,10 @@ vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx
 ==========================================================================
 
 (raft -> empty)
-[> player raft || no floor] -> [stationary player raft > starter || ]
+[> player raft || no floor no part_inair] -> [stationary player raft > starter || ]
+(raft -> empty with rota handle in air)
+[> player raft || no floor box_rota_h   ] -> [stationary player raft > starter || box_rota_h > NEXTUP] sfx4
+
 (raft -> holder box on same raft)
 [> player raft |raft| raft box holder] -> [stationary player raft |raft| raft box holder > starter] sfx1
 
@@ -1471,6 +1548,38 @@ vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx
 [> player no floor || raft] -> [stationary player outside_m || raft > starter] (makes markers)
 (different floor -> holder box on raft)
 [> player floor |no raft| raft box holder] -> [stationary player floor outside_m || raft box holder > starter] sfx1
+
+==========================================================================
+
+(rota handle -> no part)
+[> player || floor box_rota_h || no part] -> [stationary player || > box_rota_h || ] sfx4
+(mark new direction in box)
+[box_rota |box_rota_h| ^ box_rota_h no NEXTUP] [player] -> [box_rota ^ lever_m ^ starter rotate_cc || player] []
+[box_rota |box_rota_h| v box_rota_h no NEXTUP] [player] -> [box_rota v lever_m v starter rotate_cw || player] []
+
+(give player outside_m if needed)
+[box_rota lever_m starter |no raft| player] -> [box_rota lever_m starter || player outside_m]
+
+(don't show handles if they can't move out)
+[> lever_m || part no box_rota_h] -> [lever_m | box_rota_hm| part   box_rota_hm] sfx1
+(don't move yet if NEXTUP)
+[lever_m   || NEXTUP  box_rota_h] -> [lever_m | box_rota_hm| NEXTUP box_rota_hm] sfx1
+(cross)
+[box_rota_hm part] -> [box_rota_hm part overlap_m cross]
+
+(show handles if they can move out again)
+[lever_m |box_rota_hm| box_rota_hm no part no player] -> [> lever_m ||] sfx2
+
+(show handles on correct side)
+left  [> lever_m || no part] -> [> lever_m |box_rota_hh| box_rota_hl]
+right [> lever_m || no part] -> [> lever_m |box_rota_hh| box_rota_hr]
+up    [> lever_m || no part] -> [> lever_m |box_rota_hv| box_rota_hu]
+down  [> lever_m || no part] -> [> lever_m |box_rota_hv| box_rota_hd]
+
+[lever_m no box_rota] -> []
+
+
+===========================================================================
 
 (no raft type: error sound)
 [starter no holder              raft no raft_type] -> [raft       ] sfx1
@@ -1485,6 +1594,9 @@ vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx
 
 (start wave_m)
 [starter] -> [starter wave_m]
+
+(spread nextup for a future turn)
+[NEXTUP | ] -> [NEXTUP | NEXTUP]
 
 
 
@@ -1514,14 +1626,15 @@ vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx
 [starter no raft_collided_m] [pusher multiraft] -> [starter] [pusher]
 
 (moved two tiles)
-[> pusher player   || ] -> [> pusher || test_player  ]
-[> pusher box_move || ] -> [> pusher || test_box_move]
-[> pusher box_rota || ] -> [> pusher || test_box_rota]
-[> pusher box_snek || ] -> [> pusher || test_box_snek]
-[> pusher box_none || ] -> [> pusher || test_box_none]
-[> pusher stik_h   || ] -> [> pusher || test_stik_h  ]
-[> pusher stik_v   || ] -> [> pusher || test_stik_v  ]
-[> pusher holder   || ] -> [> pusher || test_holder  ]
+[> pusher   player   || ] -> [> pusher ||   test_player  ]
+[> pusher   box_move || ] -> [> pusher ||   test_box_move]
+[> pusher   box_rota || ] -> [> pusher ||   test_box_rota]
+[> pusher   box_snek || ] -> [> pusher ||   test_box_snek]
+[> pusher   box_none || ] -> [> pusher ||   test_box_none]
+[> pusher   stik_h   || ] -> [> pusher ||   test_stik_h  ]
+[> pusher   stik_v   || ] -> [> pusher ||   test_stik_v  ]
+[> pusher   holder   || ] -> [> pusher ||   test_holder  ]
+[> pusher > lever_m  || ] -> [> pusher || > test_lever   ]
 
 (player in water)
 [> starter pusher no raft_collided_m] [player no floor || ] -> [> starter] [ || test_player]
@@ -1546,12 +1659,12 @@ vertical   [> player floor || stik_h || ] -> [floor || player |glue| floor ] sfx
 (ROTATE EFFECT)
 ================================================================
 (find the center of rotation in the local active area)
-[> starter no holding_m raft_rota] [local_m box_rota] -> [> starter raft_rota] [local_m box_rota center_m]
-[> starter    holding_m box_rota ] []                 -> message Add rotation handles in!
+[> starter no holding_m raft_rota         ] [local_m box_rota] -> [> starter raft_rota] [local_m box_rota           center_m]
+[> starter    holding_m box_rota rotate_cw]                    -> [> starter holding_m           box_rota rotate_cw center_m]
 
 (stop if the move is useless)
-[parallel starter raft_rota | ... | center_m] -> [raft_rota no wave_m | ... | ] sfx1
-[starter raft_rota center_m] -> [raft_rota no wave_m] sfx1
+[parallel starter local_m | ... | center_m] -> [local_m no wave_m | ... | ] sfx1
+([starter raft_rota center_m] -> [raft_rota no wave_m] sfx1)
 
 (find every obstacle outside the rotating area)
 [center_m] [obstacle no active_m] -> [center_m] [obstacle obstacle_m]
@@ -1592,8 +1705,8 @@ up    [> starter lvl_half_r] [center_m] -> [> starter lvl_half_r] [center_m rota
 [lvl_half_d lvl_half_l] -> [lvl_quad_ld]
 [lvl_half_u lvl_half_l] -> [lvl_quad_lu]
 
-vertical   [ | center_m | ] -> [lvl_dialine_m | center_m | lvl_dialine_m]
-horizontal [ | lvl_dialine_m | ] -> [lvl_dialine   |               | lvl_dialine  ]
+vertical   [ | center_m | ]      -> [lvl_dialine_m | center_m | lvl_dialine_m]
+horizontal [ | lvl_dialine_m | ] -> [lvl_dialine   |          | lvl_dialine  ]
 
 startloop
 up    [lvl_quad_lu lvl_dialine | ] -> [lvl_quad_lu lvl_dialine | lvl_dialine_m] 
@@ -1731,10 +1844,10 @@ endloop
 [cross no overlap_m] -> []
 
 (stop everything after collision)
-[center_m raft_collided_m] [newdone ]        -> [center_m raft_collided_m] []
-[center_m raft_collided_m] [starter ]        -> [center_m raft_collided_m] []
-[center_m raft_collided_m] [test    ]        -> [center_m raft_collided_m] []
-[center_m raft_collided_m] [active_m]        -> [center_m raft_collided_m] [] (!Does this make sense??)
+[center_m raft_collided_m] [newdone ] -> [center_m raft_collided_m] []
+[center_m raft_collided_m] [starter ] -> [center_m raft_collided_m] []
+[center_m raft_collided_m] [test    ] -> [center_m raft_collided_m] []
+[center_m raft_collided_m] [active_m] -> [center_m raft_collided_m] [] (!Does this make sense??)
 
 (PLACE==================================================================)
 
@@ -1782,7 +1895,7 @@ endloop
 [> snaker || obstacle] -> [raft_collided_m || obstacle cross] sfx1
 
 (remember that the player is in water and show possible spot)
-[> snaker] [player no raft_snek || ] -> [> snaker] [test_player_swim || test_player]
+[> snaker] [player no floor || ] -> [> snaker] [test_player_swim || test_player]
 
 (create direction markers every tile 
  building up from head, pointing at previous)
@@ -1861,9 +1974,11 @@ endloop
 (AFTER MOVE)
 ==========================================================================
 
-[during_mechanics] -> []
 
 
+[during_mechanics no NEXTUP] -> []
+
+[NEXTUP] -> [] again
 
 
 
@@ -2051,26 +2166,38 @@ vertical   [multiraft | snek_segment_h] -> [multiraft | box_snek_zzz]
 [raft_dead | raft_area] -> [raft_dead | raft_area raft_dead]
 [raft_dead box_color]   -> [raft_dead box_none]
 
+
+(HOLDER)
+==========================================================================
+
 (holder has box in it)
 [holder box] -> [holder box holding_m] 
 
-
-(arrows)
-up    [player || holding_m no box_snek_zzz] -> [player |arrow_u| holding_m]
-left  [player || holding_m no box_snek_zzz] -> [player |arrow_l| holding_m]
-down  [player || holding_m no box_snek_zzz] -> [player |arrow_d| holding_m]
-right [player || holding_m no box_snek_zzz] -> [player |arrow_r| holding_m]
-
+(arrows -> held box)
+up    [player || holding_m no box_snek_zzz no box_none] -> [player |arrow_u| holding_m]
+left  [player || holding_m no box_snek_zzz no box_none] -> [player |arrow_l| holding_m]
+down  [player || holding_m no box_snek_zzz no box_none] -> [player |arrow_d| holding_m]
+right [player || holding_m no box_snek_zzz no box_none] -> [player |arrow_r| holding_m]
+(arrows -> rota handle)
+up    [player || floor box_rota_h || no part] -> [player |arrow_u| floor box_rota_h || ]
+left  [player || floor box_rota_h || no part] -> [player |arrow_l| floor box_rota_h || ]
+down  [player || floor box_rota_h || no part] -> [player |arrow_d| floor box_rota_h || ]
+right [player || floor box_rota_h || no part] -> [player |arrow_r| floor box_rota_h || ]
+(arrows -> empty next to raft)
 up    [player raft_type || no obstacle] -> [player raft_type |arrow_u| ]
 left  [player raft_type || no obstacle] -> [player raft_type |arrow_l| ]
 down  [player raft_type || no obstacle] -> [player raft_type |arrow_d| ]
 right [player raft_type || no obstacle] -> [player raft_type |arrow_r| ]
-
+(arrows -> raft from swimming)
 up    [player no floor || raft_type] -> [player |arrow_u| raft_type]
 left  [player no floor || raft_type] -> [player |arrow_l| raft_type]
 down  [player no floor || raft_type] -> [player |arrow_d| raft_type]
 right [player no floor || raft_type] -> [player |arrow_r| raft_type]
 
+(hide if in line of box_rota)
+[active_m box_rota no holder |...| arrow] -> [active_m box_rota |...| ]
+(hide if next to box_rota on holder)
+[box_rota holding_m | arrow] -> [box_rota holding_m | ]
 
 
 
@@ -2130,6 +2257,18 @@ no sink_anim
   
 LEVELS (f0)
 
+#################
+#...............#
+#.............1.#
+#...............#
+#...........lll.#
+#...........l.l.#
+#...p.!!r!h.lll.#
+#...l...!...l.l.#
+#...l...!.lllll.#
+#...............#
+#################
+
 (snake test)
 #####################
 #...................#
@@ -2137,7 +2276,7 @@ LEVELS (f0)
 #...................#
 #.....l.!!!!n.......#
 #.....l.!...........#
-#.....p.!...........#
+#.....p.!.1.........#
 #...................#
 #...................#
 #...................#
@@ -2155,7 +2294,7 @@ LEVELS (f0)
 
 #####################
 #...................#
-#...................#
+#.............1.....#
 #...................#
 #...lll.....lllll...#
 #...l.l.....l.l.l...#
