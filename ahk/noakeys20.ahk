@@ -106,6 +106,90 @@ switch(name)
 }
 
 ; HOTKEYS -----------------------------------------------------------
+; Long Hotstrings will need to go first.
+; no end character, can be in middle of word, case sensitive.
+#Hotstring * ? C 
+
+; characters
+::a;;::{U+00E4} ; ä
+::o;;::{U+00F6} ; ö
+::u;;::{U+00FC} ; ü
+::s;;::{U+00DF} ; ß
+::A;;::{U+00C4} ; Ä
+::O;;::{U+00D6} ; Ö
+::U;;::{U+00DC} ; Ü
+::S;;::{U+1E9E} ; ẞ
+
+::b;;::{U+2022}{Space} ; bullet
+::...;;::{U+2026} ; ellipsis
+::i;;::{U+203D} ; interrobang
+::--;;::{U+2014} ; 1em dash
+::-;;::{U+2013} ; en dash
+::_;;::{U+2E3A} ; 2em dash
+
+::===;;::{U+2007} ; figure space
+::==;;::{U+00A0} ; non breaking space
+::=;;::{U+2011} ; non breaking hyphen
+
+::,;;::{U+201E} ; double low 9 quotation mar
+::.;;::{U+201C} ; left double quotation mark
+
+::..;;::{U+2018} ; left single quotation mark
+:://;;::{U+2019} ; right single quotation mar
+::/;;::{U+201D} ; right double quotation mar
+::,,;;::{U+201A} ; single low 9 quotation mar
+
+::;;;;::{U+203A} ; right single guillemets
+::'';;::{U+2039} ; left single guillemets
+::;;;::{U+00BB} ; right double guillemets
+::';;::{U+00AB} ; left double guillemets
+
+::0;;::{U+00B0} ; degree
+::e;;::{U+20AC} ; euro
+::rr;;::{U+00AE} ; registered
+::tm;;::{U+2122} ; trademark
+::c;;::{U+00A9}{Space} ; copyright
+::y;;::{U+2713} ; checkmark
+
+; Arrows
+::le;;::{U+2190} ; ← leftwards arrow
+::up;;::{U+2191} ; ↑ upwards arrow
+::ri;;::{U+2192} ; rightwards arrow
+::do;;::{U+2193} ; downwards arrow
+::lr;;::{U+2194} ; left right arrow
+::ud;;::{U+2195} ; up down arrow
+::ul;;::{U+2196} ; up left arrow
+::ur;;::{U+2197} ; up right arrow
+::dr;;::{U+2198} ; down left arrow
+::dl;;::{U+2199} ; down right arrow
+; Emoticons
+::idk;;::{U+00AF}{U+005C}_{U+0028}{U+30C4}{U+0029}_/{U+00AF}  ; ¯\_(ツ)_/¯
+::duh;;::{U+0CA0}_{U+0CA0} ; ಠ_ಠ
+::len;;::{U+0028}{U+0361}{U+00B0}{U+0020}{U+035C}{U+0296}{U+0020}{U+0361}{U+00B0}{U+0029} ; (͡° ͜ʖ ͡°)
+
+; Text
+::lp;;::
+    Clipboard := loremText
+    Send ^v
+return
+
+::run;;::browser-sync start --server -f -w
+:C0:cl;;::
+    if GetKeyState("Capslock", "T") = 1
+        SetCapsLockState, Off
+    else
+        SetCapsLockState, On
+return
+::t;;::  
+    time := A_now
+    FormatTime, time,, Time
+    Send {raw}%time%
+return
+::d;;::
+    date := A_now
+    FormatTime, date,, LongDate
+    Send {raw}%date%
+return 
 
 ; While holding SC056 (next to shift)
 SC056::
@@ -226,14 +310,14 @@ SC056::
             img := true
         return
 
-        case "4k":  cursorMessage("3840 x 2160 px", 2500)
-        case "a0":  cursorMessage("841 x 1189 mm`n9933 x 14043 px", 2500)
-        case "a1":  cursorMessage("594 x 841 mm`n7016 x 9933 px", 2500)
-        case "a2":  cursorMessage("420 x 594 mm`n4960 x 7016 px", 2500)
-        case "a3":  cursorMessage("297 x 420 mm`n3508 x 4960 px", 2500)
-        case "a4":  cursorMessage("210 x 297 mm`n2480 x 3508 px", 2500)
-        case "a5":  cursorMessage("148 x 210 mm`n1748 x 2480 px", 2500)
-        case "a6":  cursorMessage("105 x 148 mm`n1240 x 1748 px", 2500)
+        case "4k":  Tooltip, "3840 x 2160 px"
+        case "a0":  Tooltip, "841 x 1189 mm`n9933 x 14043 px"
+        case "a1":  Tooltip, "594 x 841 mm`n7016 x 9933 px"
+        case "a2":  Tooltip, "420 x 594 mm`n4960 x 7016 px"
+        case "a3":  Tooltip, "297 x 420 mm`n3508 x 4960 px"
+        case "a4":  Tooltip, "210 x 297 mm`n2480 x 3508 px"
+        case "a5":  Tooltip, "148 x 210 mm`n1748 x 2480 px"
+        case "a6":  Tooltip, "105 x 148 mm`n1240 x 1748 px"
     }
 return
 
@@ -244,6 +328,14 @@ return
     img := false
     ToolTip,
 return
+
+::...u::Ü
+::...o::Ö
+::...a::Ä
+::..u::ü
+::..o::ö
+::..a::ä
+
 
 ; PROGRAM SPECIFIC ---------------------------------------------------------
 
@@ -262,7 +354,7 @@ SC055::
     if (SubStr(typed, 1, 1) = "n") 
     {
         typed := LTrim(typed, OmitChars := "n")
-        Send, :noa%typed%:
+        Send, :11%typed%:
         return
     }
 
@@ -292,7 +384,7 @@ SC055::
         case "cc": Send, {Home}{Delete 2}:noacancelled:{Space}{End}
 
         ; Emoji
-        case "s":  Send, :noaleftshrug::noarightshrug:{Space}
+        case "s":  Send, :11left::11right:{Space}
 
         ; Cheatsheet
         case "h":
