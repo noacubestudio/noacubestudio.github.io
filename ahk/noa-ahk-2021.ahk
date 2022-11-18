@@ -1,6 +1,8 @@
 ; Autoexecute
     #SingleInstance force
     SetTitleMatchMode(2)
+	SetWorkingDir A_ScriptDir
+    InstallKeybdHook
     ; Long Hotstrings will need to go first.
     ; no end character, can be in middle of word, case sensitive.
     #Hotstring * ? C
@@ -12,7 +14,6 @@ GetCase()
     ; return true if shift is held physically
     return !GetKeyState("Shift","p")
 }
-
 
 ; Characters and symbols
 
@@ -70,7 +71,6 @@ F13 & 9::Send (GetCase() ? "«" : "‹")
 
 
 ; Functions
-
 F14 & l::
 {
     ; Toggle Caps Lock
@@ -98,6 +98,13 @@ F14 & d::
     DateString := FormatTime(, "LongDate")
     Send DateString
 }
+F14 & w::
+{
+    ; WIP
+    Send "^r"
+    Send "{Right}"
+    Send "_"
+}
 ::lp1::
 (
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Egestas egestas fringilla phasellus faucibus.
@@ -110,7 +117,6 @@ F14 & d::
 (
     Sed ullamcorper morbi tincidunt ornare massa eget egestas. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Bibendum at varius vel pharetra. Laoreet id donec ultrices tincidunt arcu non. In fermentum posuere urna nec tincidunt. Dignissim suspendisse in est ante in nibh. Vel pretium lectus quam id leo in vitae. 
 )
-
 
 
 ; Adjust volume by scrolling the mouse wheel over the taskbar.

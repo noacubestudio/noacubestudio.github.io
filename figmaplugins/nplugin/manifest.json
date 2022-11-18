@@ -1,7 +1,0 @@
-{
-  "name": "nplugin",
-  "id": "837785069954901296",
-  "api": "1.0.0",
-  "main": "code.js",
-  "ui": "ui.html"
-}
