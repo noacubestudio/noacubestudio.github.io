@@ -4,6 +4,10 @@ body {
     margin: 3em;
 }
 
+h1 {
+    margin: 0px;
+}
+
 /**
  * @license
  *
