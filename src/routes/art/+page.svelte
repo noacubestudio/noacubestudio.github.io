@@ -21,11 +21,11 @@
 <style>
     .paintingGrid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         grid-gap: 0px;
     }
     .paintingGrid > div {
-        outline: solid #999 1px;
+        outline: solid #333 1px;
         outline-offset: -0.5px;
         aspect-ratio : 1 / 1;
         padding: 1vw;

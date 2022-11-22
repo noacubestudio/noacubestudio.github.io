@@ -26,11 +26,11 @@
     a {
         font-weight: 600;
         text-decoration: none;
-        color: black;
+        color: gray;
         font-size: 1.1em;
     }
     .active {
-        color: gray;
+        color: white;
     }
     a:hover {
         text-decoration: underline;

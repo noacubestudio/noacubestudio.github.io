@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(255, 255, 255);
+    background-color: black;
+    color: white;
     font-family: Satoshi-Variable;
     margin: 3em;
 }
