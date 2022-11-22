@@ -1,2 +1,6 @@
-
-ahk/Gdip_All.ahk
+.DS_Store
+node_modules
+.svelte-kit
+build
+.yarn/*
+OLD_REF
