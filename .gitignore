@@ -2,5 +2,5 @@
 node_modules
 .svelte-kit
 build
+buildTemp
 .yarn
-OLD_REF

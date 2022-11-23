@@ -11,6 +11,12 @@
     import pAmsterdam from '$lib/assets/hpAmsterdam.png?webp'
     import pPark from '$lib/assets/hpPark.png?webp'
     import pSnow from '$lib/assets/hpSnow.png?webp'
+    import pHand from '$lib/assets/hpHand.png?webp'
+    import pLantern from '$lib/assets/hpLantern.png?webp'
+    import pMaps from '$lib/assets/hpMaps1.png?webp'
+    import pRainbow from '$lib/assets/hpRainbow.png?webp'
+    import pSunset from '$lib/assets/hpSunset.png?webp'
+    import pForest from '$lib/assets/hpForest.png?webp'
 </script>
 
 <p class="introText">
@@ -25,12 +31,22 @@
     <div class="format s"><img alt="Painting of my cat" src={pGizmo}/></div>
     <div class="format h"><img alt="Painting of a turtle" src={pTurtle}/></div>
     <div class="format v"><img alt="Painting of a cow" src={pFog}/></div>
+
     <div class="format v"><img alt="Painting of a tea can" src={pTea}/></div>
     <div class="format h"><img alt="Painting of flowers in a vase on a table" src={pFlowers}/></div>
+
     <div class="format v"><img alt="Painting of a small green lake in a forest" src={pAlgae}/></div>
-    <div class="format v"><img alt="Painting of a building in Amsterdam" src={pAmsterdam}/></div>
+    <div class="format h"><img alt="Painting of a landscape from a random Google Streetview" src={pMaps}/></div>
     <div class="format h"><img alt="Painting of a park" src={pPark}/></div>
+    <div class="format v"><img alt="Painting of a forest view from above" src={pForest}/></div>
     <div class="format v"><img alt="Painting of a road surrounded by tall snow" src={pSnow}/></div>
+
+    <div class="format s"><img alt="Painting of a lantern in Italy" src={pLantern}/></div>
+    <div class="format v"><img alt="Painting of a building in Amsterdam" src={pAmsterdam}/></div>
+    <div class="format s"><img alt="Painting of a rainbow above a street" src={pRainbow}/></div>
+    <div class="format v"><img alt="Painting of a sunset above a street" src={pSunset}/></div>
+
+    <div class="format s"><img alt="Painting of my hand" src={pHand}/></div>
 </div>
 
 <style>
