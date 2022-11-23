@@ -23,8 +23,11 @@
         gap: 2em;
         margin-bottom: 3em;
     }
+    img {
+        padding-right: 1em;
+    }
     a {
-        font-weight: 600;
+        font-weight: 500;
         text-decoration: none;
         color: gray;
         font-size: 1.1em;
