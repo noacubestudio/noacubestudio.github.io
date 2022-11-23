@@ -12,6 +12,7 @@
     "@sveltejs/kit": "1.0.0-next.535",
     "gh-pages": "^4.0.0",
     "svelte": "^3.52.0",
-    "vite": "^3.2.2"
+    "vite": "^3.2.2",
+    "vite-imagetools": "^4.0.11"
   }
 }
