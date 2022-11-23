@@ -31,8 +31,23 @@
 <style>
     .paintingGrid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         grid-gap: 0px;
+    }
+    @media only screen and (min-width: 600px) {
+        .paintingGrid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media only screen and (min-width: 900px) {
+        .paintingGrid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media only screen and (min-width: 1400px) {
+        .paintingGrid {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
     .paintingGrid > div {
         outline: solid #333 1px;
@@ -41,9 +56,16 @@
         padding: 2vw;
         display: grid;
         position: relative;
+        transition: padding 0.2s;
     }
     .paintingGrid > div.format.s {
         padding: 3vw;
+    }
+    .paintingGrid > div:hover {
+        padding: 1vw;
+    }
+    .paintingGrid > div.format.s:hover {
+        padding: 2vw;
     }
     .paintingGrid > div::before {
         content: "";
