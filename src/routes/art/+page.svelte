@@ -13,6 +13,11 @@
     import pSnow from '$lib/assets/hpSnow.png?webp'
 </script>
 
+<p class="introText">
+    Selected, mostly recent personal work.
+    I use HeavyPaint on an iPad to paint, and reference online images or take my own.
+</p>
+
 <div class="paintingGrid">
     <div class="format v"><img alt="Painting of a frog" src={pFrog1}/></div>
     <div class="format s"><img alt="Painting of a frog" src={pFrog2}/></div>
@@ -29,6 +34,12 @@
 </div>
 
 <style>
+    .introText {
+        color: #AAA;
+        padding-bottom: 3em;
+        max-width: 40em;
+        line-height: 160%;
+    }
     .paintingGrid {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
@@ -63,9 +74,11 @@
     }
     .paintingGrid > div:hover {
         padding: 1vw;
+        background-color: #111;
     }
     .paintingGrid > div.format.s:hover {
         padding: 2vw;
+        background-color: #111;
     }
     .paintingGrid > div::before {
         content: "";

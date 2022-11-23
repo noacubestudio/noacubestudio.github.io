@@ -15,13 +15,19 @@
 
 <slot></slot>
 
+<footer>
+    <p style="padding-right: 2em;">Noa Hoffmann © 2022</p>
+    <div class="footerbutton"><a href="mailto:noa.cubestudio@gmail.com">Mail</a></div>
+    <div class="footerbutton"><a rel="external" href="https://twitter.com/noa.cubestudio">Twitter</a></div>
+</footer>
+
 <style>
     nav {
         display: flex;
         gap: 0.2em;
         flex-direction: row;
         align-items: center;
-        margin-bottom: 3em;
+        margin-bottom: 3vw;
         height: 40px;
     }
     img {
@@ -30,7 +36,7 @@
     .navbutton {
         display: table;
     }
-    a {
+    .navbutton > a {
         display: table-cell;
         height: 40px;
         padding-inline: 16px;
@@ -44,11 +50,31 @@
         color: gray;
         font-size: 1.1em;
     }
-    .active {
+    a.active {
         color: white;
         background-color: #222;
     }
     a:hover:not(.active){
         background-color: #111;
+    }
+    footer {
+        color: gray;
+        padding-top: 3vw;
+        display: flex;
+        gap: 0em;
+    }
+    .footerbutton {
+        display: table;
+    }
+    .footerbutton > a {
+        display: table-cell;
+        height: 40px;
+        padding-inline: 16px;
+        border-radius: 20px;
+
+        vertical-align: middle;
+        text-align: center;
+        color: gray;
+        text-decoration: none;
     }
 </style>
