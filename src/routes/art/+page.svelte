@@ -6,6 +6,7 @@
     import pTurtle from '$lib/assets/hpTurtle.png?webp'
     import pFog from '$lib/assets/hpFog.png?webp'
     import pTea from '$lib/assets/hpTea.png?webp'
+    import pFlowers from '$lib/assets/hpFlowers.png?webp'
     import pAlgae from '$lib/assets/hpAlgae.png?webp'
     import pAmsterdam from '$lib/assets/hpAmsterdam.png?webp'
     import pPark from '$lib/assets/hpPark.png?webp'
@@ -20,6 +21,7 @@
     <div class="format h"><img alt="Painting of a turtle" src={pTurtle}/></div>
     <div class="format v"><img alt="Painting of a cow" src={pFog}/></div>
     <div class="format v"><img alt="Painting of a tea can" src={pTea}/></div>
+    <div class="format h"><img alt="Painting of flowers in a vase on a table" src={pFlowers}/></div>
     <div class="format v"><img alt="Painting of a small green lake in a forest" src={pAlgae}/></div>
     <div class="format v"><img alt="Painting of a building in Amsterdam" src={pAmsterdam}/></div>
     <div class="format h"><img alt="Painting of a park" src={pPark}/></div>
@@ -38,6 +40,7 @@
         aspect-ratio : 1 / 1;
         padding: 2vw;
         display: grid;
+        position: relative;
     }
     .paintingGrid > div.format.s {
         padding: 3vw;
@@ -55,5 +58,14 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+    .paintingGrid > div > img {
+        position: absolute;
+        max-width: 100%;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
     }
 </style>
