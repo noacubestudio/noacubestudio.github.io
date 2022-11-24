@@ -4,6 +4,7 @@
     import pFrog3 from '$lib/assets/hpFrog3.png?webp'
     import pGizmo from '$lib/assets/hpGizmo.png?webp'
     import pTurtle from '$lib/assets/hpTurtle.png?webp'
+    import pHorse from '$lib/assets/hpHorse.png?webp'
     import pFog from '$lib/assets/hpFog.png?webp'
     import pTea from '$lib/assets/hpTea.png?webp'
     import pFlowers from '$lib/assets/hpFlowers.png?webp'
@@ -25,12 +26,13 @@
 </p>
 
 <div class="paintingGrid">
-    <div class="format v"><img alt="Painting of a frog" src={pFrog1}/></div>
     <div class="format s"><img alt="Painting of a frog" src={pFrog2}/></div>
+    <div class="format v"><img alt="Painting of a frog" src={pFrog1}/></div>
     <div class="format s"><img alt="Painting of a frog" src={pFrog3}/></div>
-    <div class="format s"><img alt="Painting of my cat" src={pGizmo}/></div>
     <div class="format h"><img alt="Painting of a turtle" src={pTurtle}/></div>
+    <div class="format h"><img alt="Painting of a horse" src={pHorse}/></div>
     <div class="format v"><img alt="Painting of a cow" src={pFog}/></div>
+    <div class="format s"><img alt="Painting of my cat" src={pGizmo}/></div>
 
     <div class="format v"><img alt="Painting of a tea can" src={pTea}/></div>
     <div class="format h"><img alt="Painting of flowers in a vase on a table" src={pFlowers}/></div>
@@ -40,13 +42,12 @@
     <div class="format h"><img alt="Painting of a park" src={pPark}/></div>
     <div class="format v"><img alt="Painting of a forest view from above" src={pForest}/></div>
     <div class="format v"><img alt="Painting of a road surrounded by tall snow" src={pSnow}/></div>
-
-    <div class="format s"><img alt="Painting of a lantern in Italy" src={pLantern}/></div>
     <div class="format v"><img alt="Painting of a building in Amsterdam" src={pAmsterdam}/></div>
     <div class="format s"><img alt="Painting of a rainbow above a street" src={pRainbow}/></div>
-    <div class="format v"><img alt="Painting of a sunset above a street" src={pSunset}/></div>
-
     <div class="format s"><img alt="Painting of my hand" src={pHand}/></div>
+
+    <div class="format s"><img alt="Painting of a lantern in Italy" src={pLantern}/></div>
+    <div class="format v"><img alt="Painting of a sunset above a street" src={pSunset}/></div>
 </div>
 
 <style>
