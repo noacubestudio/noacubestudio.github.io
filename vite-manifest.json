@@ -3,85 +3,13 @@
     "file": "_app/immutable/assets/logo-71fcb24e.svg",
     "src": "src/lib/assets/logo.svg"
   },
-  "hpFrog2.webp": {
-    "file": "_app/immutable/assets/hpFrog2-e04c3994.webp",
-    "src": "hpFrog2.webp"
-  },
-  "hpFrog1.webp": {
-    "file": "_app/immutable/assets/hpFrog1-8c7ca2b8.webp",
-    "src": "hpFrog1.webp"
-  },
-  "hpGizmo.webp": {
-    "file": "_app/immutable/assets/hpGizmo-6026f91a.webp",
-    "src": "hpGizmo.webp"
-  },
-  "hpFrog3.webp": {
-    "file": "_app/immutable/assets/hpFrog3-73b3adff.webp",
-    "src": "hpFrog3.webp"
-  },
-  "hpFog.webp": {
-    "file": "_app/immutable/assets/hpFog-3a5b348c.webp",
-    "src": "hpFog.webp"
-  },
-  "hpTurtle.webp": {
-    "file": "_app/immutable/assets/hpTurtle-821787a0.webp",
-    "src": "hpTurtle.webp"
-  },
-  "hpTea.webp": {
-    "file": "_app/immutable/assets/hpTea-08ac006a.webp",
-    "src": "hpTea.webp"
-  },
-  "hpFlowers.webp": {
-    "file": "_app/immutable/assets/hpFlowers-bc742c13.webp",
-    "src": "hpFlowers.webp"
-  },
-  "hpAmsterdam.webp": {
-    "file": "_app/immutable/assets/hpAmsterdam-502eca4c.webp",
-    "src": "hpAmsterdam.webp"
-  },
-  "hpAlgae.webp": {
-    "file": "_app/immutable/assets/hpAlgae-85e65c7b.webp",
-    "src": "hpAlgae.webp"
-  },
-  "hpHand.webp": {
-    "file": "_app/immutable/assets/hpHand-d87c4008.webp",
-    "src": "hpHand.webp"
-  },
-  "hpPark.webp": {
-    "file": "_app/immutable/assets/hpPark-e09c6932.webp",
-    "src": "hpPark.webp"
-  },
-  "hpLantern.webp": {
-    "file": "_app/immutable/assets/hpLantern-b0789ccd.webp",
-    "src": "hpLantern.webp"
-  },
-  "hpSnow.webp": {
-    "file": "_app/immutable/assets/hpSnow-e2c61302.webp",
-    "src": "hpSnow.webp"
-  },
-  "hpSunset.webp": {
-    "file": "_app/immutable/assets/hpSunset-b7320167.webp",
-    "src": "hpSunset.webp"
-  },
-  "hpMaps1.webp": {
-    "file": "_app/immutable/assets/hpMaps1-75a31867.webp",
-    "src": "hpMaps1.webp"
-  },
-  "hpRainbow.webp": {
-    "file": "_app/immutable/assets/hpRainbow-e74c3110.webp",
-    "src": "hpRainbow.webp"
-  },
-  "hpForest.webp": {
-    "file": "_app/immutable/assets/hpForest-822e9389.webp",
-    "src": "hpForest.webp"
-  },
   "node_modules/@sveltejs/kit/src/runtime/client/start.js": {
-    "file": "_app/immutable/start-2e0609f4.js",
+    "file": "_app/immutable/start-d6873483.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js",
-      "_singletons-92e8f22a.js"
+      "_index-af42e0f8.js",
+      "_singletons-06527245.js"
     ],
     "dynamicImports": [
       ".svelte-kit/generated/nodes/0.js",
@@ -92,13 +20,13 @@
     ]
   },
   "src/routes/+layout.svelte": {
-    "file": "_app/immutable/components/pages/_layout.svelte-9c2c7e4d.js",
+    "file": "_app/immutable/components/pages/_layout.svelte-374a9e23.js",
     "src": "src/routes/+layout.svelte",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js",
-      "_singletons-92e8f22a.js",
-      "_stores-6c1ae5de.js"
+      "_index-af42e0f8.js",
+      "_singletons-06527245.js",
+      "_stores-f96264cc.js"
     ],
     "css": [
       "_app/immutable/assets/_layout-1f43cbfd.css"
@@ -108,59 +36,39 @@
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
-    "file": "_app/immutable/components/error.svelte-78e7c661.js",
+    "file": "_app/immutable/components/error.svelte-10bc734b.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js",
-      "_stores-6c1ae5de.js"
+      "_index-af42e0f8.js",
+      "_stores-f96264cc.js"
     ]
   },
   "src/routes/+page.svelte": {
-    "file": "_app/immutable/components/pages/_page.svelte-68c93669.js",
+    "file": "_app/immutable/components/pages/_page.svelte-fc6c0878.js",
     "src": "src/routes/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js"
+      "_index-af42e0f8.js"
     ]
   },
   "src/routes/art/+page.svelte": {
-    "file": "_app/immutable/components/pages/art/_page.svelte-f965d0a2.js",
+    "file": "_app/immutable/components/pages/art/_page.svelte-3f5af6a0.js",
     "src": "src/routes/art/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js"
+      "_index-af42e0f8.js"
     ],
     "css": [
-      "_app/immutable/assets/_page-f24b2f22.css"
-    ],
-    "assets": [
-      "_app/immutable/assets/hpFrog1-8c7ca2b8.webp",
-      "_app/immutable/assets/hpFrog2-e04c3994.webp",
-      "_app/immutable/assets/hpFrog3-73b3adff.webp",
-      "_app/immutable/assets/hpGizmo-6026f91a.webp",
-      "_app/immutable/assets/hpTurtle-821787a0.webp",
-      "_app/immutable/assets/hpFog-3a5b348c.webp",
-      "_app/immutable/assets/hpTea-08ac006a.webp",
-      "_app/immutable/assets/hpFlowers-bc742c13.webp",
-      "_app/immutable/assets/hpAlgae-85e65c7b.webp",
-      "_app/immutable/assets/hpAmsterdam-502eca4c.webp",
-      "_app/immutable/assets/hpPark-e09c6932.webp",
-      "_app/immutable/assets/hpSnow-e2c61302.webp",
-      "_app/immutable/assets/hpHand-d87c4008.webp",
-      "_app/immutable/assets/hpLantern-b0789ccd.webp",
-      "_app/immutable/assets/hpMaps1-75a31867.webp",
-      "_app/immutable/assets/hpRainbow-e74c3110.webp",
-      "_app/immutable/assets/hpSunset-b7320167.webp",
-      "_app/immutable/assets/hpForest-822e9389.webp"
+      "_app/immutable/assets/_page-12b4a0a8.css"
     ]
   },
   "src/routes/music/+page.svelte": {
-    "file": "_app/immutable/components/pages/music/_page.svelte-6c784aa4.js",
+    "file": "_app/immutable/components/pages/music/_page.svelte-7c7786e8.js",
     "src": "src/routes/music/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index-3251a750.js"
+      "_index-af42e0f8.js"
     ]
   },
   "src/routes/+layout.js": {
@@ -171,27 +79,27 @@
       "__layout-8d2a742b.js"
     ]
   },
-  "_singletons-92e8f22a.js": {
-    "file": "_app/immutable/chunks/singletons-92e8f22a.js",
+  "_singletons-06527245.js": {
+    "file": "_app/immutable/chunks/singletons-06527245.js",
     "imports": [
-      "_index-3251a750.js"
+      "_index-af42e0f8.js"
     ]
   },
-  "_index-3251a750.js": {
-    "file": "_app/immutable/chunks/index-3251a750.js"
+  "_index-af42e0f8.js": {
+    "file": "_app/immutable/chunks/index-af42e0f8.js"
   },
-  "_stores-6c1ae5de.js": {
-    "file": "_app/immutable/chunks/stores-6c1ae5de.js",
+  "_stores-f96264cc.js": {
+    "file": "_app/immutable/chunks/stores-f96264cc.js",
     "imports": [
-      "_index-3251a750.js",
-      "_singletons-92e8f22a.js"
+      "_index-af42e0f8.js",
+      "_singletons-06527245.js"
     ]
   },
   "__layout-8d2a742b.js": {
     "file": "_app/immutable/chunks/_layout-8d2a742b.js"
   },
   ".svelte-kit/generated/nodes/0.js": {
-    "file": "_app/immutable/chunks/0-6ee65cb2.js",
+    "file": "_app/immutable/chunks/0-d2cc6da9.js",
     "src": ".svelte-kit/generated/nodes/0.js",
     "isDynamicEntry": true,
     "imports": [
@@ -200,7 +108,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/1.js": {
-    "file": "_app/immutable/chunks/1-b0133502.js",
+    "file": "_app/immutable/chunks/1-338ef6ab.js",
     "src": ".svelte-kit/generated/nodes/1.js",
     "isDynamicEntry": true,
     "imports": [
@@ -208,7 +116,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/2.js": {
-    "file": "_app/immutable/chunks/2-f3a58e2f.js",
+    "file": "_app/immutable/chunks/2-9bf70984.js",
     "src": ".svelte-kit/generated/nodes/2.js",
     "isDynamicEntry": true,
     "imports": [
@@ -216,7 +124,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/3.js": {
-    "file": "_app/immutable/chunks/3-7e0f7535.js",
+    "file": "_app/immutable/chunks/3-86ec26dd.js",
     "src": ".svelte-kit/generated/nodes/3.js",
     "isDynamicEntry": true,
     "imports": [
@@ -224,19 +132,19 @@
     ]
   },
   ".svelte-kit/generated/nodes/4.js": {
-    "file": "_app/immutable/chunks/4-0d873bc8.js",
+    "file": "_app/immutable/chunks/4-60f57515.js",
     "src": ".svelte-kit/generated/nodes/4.js",
     "isDynamicEntry": true,
     "imports": [
       "src/routes/music/+page.svelte"
     ]
   },
-  "src/routes/art/+page.css": {
-    "file": "_app/immutable/assets/_page-f24b2f22.css",
-    "src": "src/routes/art/+page.css"
-  },
   "src/routes/+layout.css": {
     "file": "_app/immutable/assets/_layout-1f43cbfd.css",
     "src": "src/routes/+layout.css"
+  },
+  "src/routes/art/+page.css": {
+    "file": "_app/immutable/assets/_page-12b4a0a8.css",
+    "src": "src/routes/art/+page.css"
   }
 }
