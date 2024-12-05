@@ -18,6 +18,9 @@
         2D rewriting
     </h2>
     <p>
+        <a href="https://github.com/noacubestudio/2d-rewriting/">download prototype/ view source</a> <code>2024</code>
+    </p>
+    <p>
         I have spent years prototyping puzzle game ideas with <a href="http://puzzlescript.com">PuzzleScript</a>, a browser-based game engine for making small, grid-based puzzle games. The game logic is implemented through rewrite rules, which are fairly unusual when coming from most programming languages. Here's an example of a simple rule:
     </p>
     <p><code>
@@ -27,11 +30,11 @@
 
 
     <p>
-        Rules are applied anywhere in the grid and by default duplicated to all four directions. They look for a pattern on the left side and replace it with the pattern on the right side. There are no variables, no math operators. Surprisingly complex behavior can be achieved with just a few rules. I was wondering about ways to expand and simultaniously simplify this system - how expressive and general can rewrite rules get? This prototype is an attempt to create such a system.
+        Rules are applied anywhere in the grid and by default duplicated to all four directions. They look for a pattern on the left side and replace it with the pattern on the right side. There are no variables, no math operators. Surprisingly complex behavior can be achieved with just a few rules. I was wondering about ways to expand and simultaneously simplify this system - how expressive and general can rewrite rules get? This prototype is an attempt to create such a system.
     </p>
 
     <p>
-        The <a href="https://github.com/noacubestudio/2d-rewriting/">prototype on Github</a> is implemented in Lua using LÖVE. Unlike PuzzleScript, there are no cells, no  objects and sprites, no special syntax for drawing. Instead of a grid of cells with objects, an image is directly rewritten by rules that look for certain patters of white and black pixels. The system is turing-complete and can be used for turn based or realtime games with multiple levels, generative art and so on. More detail would currently be out of date very quickly, but I'm happy to answer questions about the project. Feel free to join me on the Nova Discord at <a href="https://discord.nova-lang.net">discord.nova-lang.net</a>.
+        The 2d rewriting prototype is implemented in Lua using LÖVE. Unlike PuzzleScript, there are no cells, no  objects and sprites, no special syntax for drawing. Instead of a grid of cells with objects, an image is directly rewritten by rules that look for certain patters of white and black pixels. The system is Turing-complete and can be used for turn based or real-time games with multiple levels, generative art and so on. More detail would currently be out of date very quickly, but I'm happy to answer questions about the project. Feel free to join me on the Nova Discord at <a href="https://discord.nova-lang.net">discord.nova-lang.net</a>.
     </p>
 
     <footer>
