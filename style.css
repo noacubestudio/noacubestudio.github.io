@@ -13,6 +13,21 @@ footer {
     margin-top: 3.5em;
 }
 
+::selection {
+    background-color: rgb(145, 60, 255);
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    display: none; /* Hidden by default */
+    pointer-events: none;
+}
+
 h2 {
     margin: 0;
     padding-top: 1em;
@@ -92,6 +107,10 @@ td {
     max-width: 40em;
     height: auto;
 }
+div.images > .type-example {
+    margin-bottom: 0;
+}
+
 @media screen and (max-width: 44em) {
     .type-example {
         max-width: 100%;
@@ -107,4 +126,9 @@ td {
     .image {
         width: 100%;
     }
+}
+div.images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
 }

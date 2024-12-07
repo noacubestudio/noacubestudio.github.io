@@ -11,9 +11,15 @@
 
 </head>
 <body>
+    <canvas id="background-canvas"></canvas>
     <header>
         <a href="index.html"><img class="svg" src="images/logo.svg" alt="My wordmark 'noa'"></a>
     </header>
+
+    <div class="images">
+        <img class="type-example" src="images/tritype.svg" alt="a custom typeface experiment." width="354" height="148">
+        <img class="type-example" src="images/eventype-pellets.svg" alt="a custom typeface experiment based on rounded straight line segments" width="408" height="96">    
+    </div>
 
     <h2>
         Generating glyphs
@@ -21,8 +27,7 @@
     <p>
         I like making modular and geometric typography and just draw glyphs in general. Particularly grid-based systems can be played with quickly, either by hand or with code. While there are many interesting approaches to generative typography out there, they often distort existing vector outlines rather than assemble letters from predesigned modules and purely generative elements. So I made some! You can try these in the browser, ideally on a desktop computer.
     </p>
-    <img class="type-example" src="images/tritype.svg" alt="a custom typeface experiment." width="354" height="148">
-
+    
     <h2>
         Spine Sans
     </h2>
@@ -55,5 +60,6 @@
         </ul>
         <p>noa hoffmann © 2024</p>
     </footer>
+    <script src="background.js"></script>
 </body>
 </html>
