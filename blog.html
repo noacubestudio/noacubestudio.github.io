@@ -27,14 +27,13 @@
         december 24th
     </h2>
     <p>
-        After time with family, I explored a bit of an idea for a line drawing paper puzzle genre that is intended to be nicely extendable through variants, adding extra restrictions or symbols. No actual puzzles yet, but the core idea features a grid you can trace lines on, that clearly have to belong to certain creatures indicated by symbols on the grid, which in turn have certain behaviors. Like not wanting to be next to empty vertices or not including branching segments. I should not have stayed up until, like, 6 AM, but it was fun.
+        After time with family, I spent a decent amount of time making things! I should not have stayed up until, like, 6 AM, but it was fun.
     </p>
-
-    <h2>
-        december 23rd
-    </h2>
     <p>
-        Saw <a href="https://www.todepond.com/lab/splash/">todepond.com/lab/splash</a>, a color format where each digit of a number between 000-999 maps to an RGB component. With only that many colors they can easily go in a lookup table. I thought this would be more convenient to me in HSL or HSV, or the perceptually uniform okhsl in particular, Copyright (c) 2021 Björn Ottosson. It would otherwise involve a decent bit of math that has to be converted to each programming language it's used in. Also added a bit of hue shifting so that lighter colors are warmer and darker colors are cooler, and made the lightness follow an S-curve. Since full black, white, and even complete gray would discard some channels and be repeated, I excluded them and lowered the range, so 0 saturation for example is not quite pure gray.
+        Firstly, I explored a bit of an idea for a line drawing paper puzzle genre that is intended to be nicely extendable through variants, adding extra restrictions or symbols. No actual puzzles yet, but the core idea features a grid you can trace lines on, that clearly have to belong to certain creatures indicated by symbols on the grid, which in turn have certain behaviors. Like not wanting to be next to empty vertices or not including branching segments. 
+    </p>
+    <p>
+        And second, I saw <a href="https://www.todepond.com/lab/splash/">todepond.com/lab/splash</a>, a color format where each digit of a number between 000-999 maps to an RGB component. With only that many colors they can easily go in a lookup table. I thought this would be more convenient to me in HSL or HSV, or the perceptually uniform okhsl in particular, Copyright (c) 2021 Björn Ottosson. It would otherwise involve a decent bit of math that has to be converted to each programming language it's used in. Also added a bit of hue shifting so that lighter colors are warmer and darker colors are cooler, and made the lightness follow an S-curve. Since full black, white, and even complete gray would discard some channels and be repeated, I excluded them and lowered the range, so 0 saturation for example is not quite pure gray.
     </p>
     <p>
         Here are all the 1000 colors as hex strings, comma separated:
@@ -47,7 +46,23 @@
     </p>
 
     <h2>
-        december 11th to 22rd
+        december 22nd and 23rd
+    </h2>
+    <p>
+        I managed to get some fresh 2D rewriting related ideas.
+    </p>
+    <p>
+        The first step was the idea that I could pay a lot more attention to the regions rules run in and the regions the actual patterns showed up in that get replaced. In fact, this kind of boundary can be considered a core element that shows up even nested in itself - while the actual pixel data is still flat, and be used to limit the range of searches and also keep track of patterns like tiles or bigger cells to perhaps dramatically speed up searching.
+    </p>
+    <p>
+        Then I went kind of wild with the idea that each individual cell/ pixel could actually be a bag of contents, like vector graphics, words, whatever. Wondering how to make rules that can look into and replace contents of multiple adjacent bags in some 1-3D pattern, I ended up with the realization that graphs could represent both rules themselves and this data pretty well. The rewriting convention of "previous items -> new items" can itself be used to represent an edge in a (hyper)graph, and each item is a node.
+    </p>
+    <p>
+        Rules like <code>| x0 y1, go right | x1 y1</code> can in sum represent a 2D grid with all relevant adjacencies (for something like rule 110, relevant adjacencies could be chosen). And <code>| x0 y1, contains | player, button</code> can list all the contents of a cell. So what is usually code can also be the data structure, which implies the gameplay rules modify (and the IO interacts with) rules themselves. To express this more clearly, a structural editor could show actual graphs. If this seems at all confusing, it is to me as well - but also kind of exciting.
+    </p>
+
+    <h2>
+        december 11th to 21st
     </h2>
     <p>
         ...oops.
