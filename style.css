@@ -59,6 +59,14 @@ code {
     border-radius: 0.2em;
     user-select: all;
 }
+code.noWrap {
+    display: inline-block;
+    white-space: nowrap;
+    overflow-x: auto;
+    width: calc(100% - 1em);
+    max-width: 45em;
+    padding: 0.4em;
+}
 
 a:not(:has(img)) {
     color: white;
