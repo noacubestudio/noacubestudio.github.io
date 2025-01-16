@@ -3,8 +3,13 @@ body {
     color: rgba(255, 255, 255, 0.8);
     font-size: large;
     line-height: 1.7;
-    margin: 1.2em;
+    margin: 3em;
     font-family: 'Times New Roman', Times, serif;
+}
+@media screen and (max-width: 600px) {
+    body {
+        margin: 1em;
+    }
 }
 header {
     margin-bottom: 4em;
