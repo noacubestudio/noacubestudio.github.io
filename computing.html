@@ -16,7 +16,25 @@
         <a href="index.html"><img class="svg" src="images/logo.svg" alt="My wordmark 'noa'"></a>
     </header>
     <h2>
-        2D rewriting
+        2D rewriting - web editor
+    </h2>
+    <p>
+        <a href="https://noacubestudio.github.io/2d-rewriting-web/">try online</a> <a href="https://github.com/noacubestudio/2d-rewriting-web">view source</a> <code>2025</code>
+    </p>
+    <p>
+        This is my second attempt at a 2D rewriting system, this time with an entire web editor for arranging and drawing rules. Making an editor with decent UX is a big task and there is a lot of work left, including initial documentation, but it feels promising. I've made multiple small games with it, including a remake of my '>' game.
+    </p>
+    <p>
+        Here are a few similar projects that are worth checking out, some of which I discovered while working on this project: 
+        <a href="https://www.puzzlescript.net/">PuzzleScript</a>
+        <a href="https://github.com/TodePond/CellPond">CellPond</a>
+        <a href="https://github.com/mxgmn/MarkovJunior">MarkovJunior</a>
+        <a href="https://zaratustra.itch.io/imagegram">imagegram</a>
+        <a href="https://zappedcow.itch.io/pix64">pix64</a>
+    </p>
+
+    <h2>
+        2D rewriting - LÖVE prototype
     </h2>
     <p>
         <a href="https://github.com/noacubestudio/2d-rewriting/">download prototype/ view source</a> <code>2024</code>
@@ -27,8 +45,6 @@
     <p><code>
         [ > Player | Crate ] -> [ > Player | > Crate ]
     </code></p>
-
-
 
     <p>
         Rules are applied anywhere in the grid and by default duplicated to all four directions. They look for a pattern on the left side and replace it with the pattern on the right side. There are no variables, no math operators. Surprisingly complex behavior can be achieved with just a few rules. I was wondering about ways to expand and simultaneously simplify this system - how expressive and general can rewrite rules get? This prototype is an attempt to create such a system.
