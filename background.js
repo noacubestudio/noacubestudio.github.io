@@ -10,14 +10,17 @@ function resizeCanvas() {
 }
 
 let prevX, prevY;
+let alternating = false;
 function draw(e) {
   if (e && e.buttons === 1) {
     if (!prevX) {
       prevX = e.clientX;
       prevY = e.clientY;
     }
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 2;
+    alternating = !alternating;
+    // const randomColor = Math.floor(Math.random() * 16777215 / 2).toString(16);
+    ctx.strokeStyle = alternating ? '#82d' : '#027';
+    ctx.lineWidth = 20;
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
