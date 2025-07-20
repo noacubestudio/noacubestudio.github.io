@@ -187,6 +187,14 @@ div.images > .type-example {
     margin-bottom: 0.5em;
     margin-top: 1em;
 }
+#gradient-png {
+    background: radial-gradient(#71ecc3 2px, transparent 2px),
+                radial-gradient(rgb(215, 81, 44) 2px, transparent 2px),
+                radial-gradient(rgb(152, 216, 48) 2px, transparent 2px),
+                radial-gradient(#4634e9 2px, transparent 2px);
+    background-position: 0 0, 0.25em 0.25em, 0 .25em, 0.25em 0;
+    background-size: .5em .5em;
+}
 @media screen and (max-width: 24em) {
     .image {
         width: 100%;
